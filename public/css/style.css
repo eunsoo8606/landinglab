@@ -1,0 +1,354 @@
+/* 전역 스타일 */
+:root {
+  --main-dark: hsl(203.48deg 51.11% 8.82%);
+  --accent-blue: hsl(203.94deg 90.61% 41.76%);
+  --text-white: #FFFFFF;
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --dark-color: #212529;
+  --light-color: #f8f9fa;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+  line-height: 1.6;
+  background-color: var(--main-dark);
+  color: var(--text-white);
+}
+
+/* 네비게이션 */
+.navbar-custom {
+  background-color: var(--main-dark) !important;
+  transition: all 0.3s ease;
+}
+
+/* 스크롤 시 네비게이션 효과 */
+.navbar-custom.scrolled {
+  background-color: rgba(14, 29, 52, 0.95) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.navbar-logo {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.navbar-custom.scrolled .navbar-logo {
+  transform: scale(0.9);
+}
+
+.nav-item {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.nav-link {
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--accent-blue) !important;
+  transform: translateY(-2px);
+}
+
+/* 활성 메뉴 항목 */
+.nav-link.active {
+  color: var(--accent-blue) !important;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-blue);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   Hero Section - 비디오 배경 랜딩페이지
+   ======================================== */
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 비디오 배경 */
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* 오버레이 */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--main-dark);
+  opacity: 0.65;
+  z-index: 2;
+}
+
+/* 콘텐츠 컨테이너 */
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: var(--text-white);
+  padding: 0 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* 텍스트 영역 (위로 이동) */
+.hero-text-area {
+  transform: translateY(-100px);
+  margin-bottom: 100px;
+}
+
+/* 헤드라인 */
+.hero-headline {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  color: var(--text-white);
+  animation: fadeInUp 1s ease;
+}
+
+.hero-highlight {
+  color: var(--accent-blue);
+  display: inline-block;
+}
+
+/* 서브텍스트 */
+.hero-subtext {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 1.2s ease;
+}
+
+/* 버튼 컨테이너 */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  animation: fadeInUp 1.4s ease;
+}
+
+/* Primary Solid 버튼 */
+.btn-primary-solid {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-white);
+  background-color: var(--accent-blue);
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.btn-primary-solid:hover {
+  background-color: hsl(203.94deg 90.61% 35%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+  color: var(--text-white);
+}
+
+.btn-primary-solid:active {
+  transform: translateY(0);
+}
+
+/* Outline Ghost 버튼 */
+.btn-outline-ghost {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-white);
+  background-color: transparent;
+  border: 2px solid var(--text-white);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-ghost:hover {
+  background-color: var(--text-white);
+  color: var(--main-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline-ghost:active {
+  transform: translateY(0);
+}
+
+/* 반응형 - 태블릿 */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 500px;
+  }
+  
+  .hero-headline {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    margin-bottom: 1.25rem;
+  }
+  
+  .hero-subtext {
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    margin-bottom: 2rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .btn-primary-solid,
+  .btn-outline-ghost {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* 반응형 - 모바일 */
+@media (max-width: 480px) {
+  .hero-section {
+    min-height: 450px;
+  }
+  
+  .hero-content {
+    padding: 0 15px;
+  }
+  
+  .hero-headline {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtext {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-primary-solid,
+  .btn-outline-ghost {
+    padding: 0.85rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* ========================================
+   기타 섹션 스타일
+   ======================================== */
+
+/* 카드 스타일 */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Features Section */
+.features-section {
+  background-color: #fff;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.cta-section h2,
+.cta-section p {
+  color: white;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+}
+
+footer a:hover {
+  color: var(--primary-color) !important;
+}
+
+.social-links a {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.social-links a:hover {
+  transform: scale(1.2);
+}
+
+/* 폼 스타일 */
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* 애니메이션 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,15 @@
+<%- include('layout/head') %>
+<%- include('layout/header') %>
+
+<main>
+  <section class="error-section py-5">
+    <div class="container text-center">
+      <h1 class="display-1 text-primary"><%= error.status || 500 %></h1>
+      <h2 class="mb-4"><%= message %></h2>
+      <p class="lead text-muted mb-4">죄송합니다. 요청하신 페이지를 찾을 수 없습니다.</p>
+      <a href="/" class="btn btn-primary">홈으로 돌아가기</a>
+    </div>
+  </section>
+</main>
+
+<%- include('layout/footer') %>

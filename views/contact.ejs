@@ -1,0 +1,68 @@
+<%- include('layout/head') %>
+<%- include('layout/header') %>
+
+<main>
+  <section class="contact-section py-5">
+    <div class="container">
+      <h1 class="text-center mb-5">연락처</h1>
+      
+      <div class="row">
+        <div class="col-lg-6 mb-4">
+          <h3>문의하기</h3>
+          <p class="text-muted mb-4">궁금하신 사항이 있으시면 언제든지 연락주세요.</p>
+          
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">이름</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">이메일</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="subject" class="form-label">제목</label>
+              <input type="text" class="form-control" id="subject" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">메시지</label>
+              <textarea class="form-control" id="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">전송하기</button>
+          </form>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+          <h3>연락 정보</h3>
+          <div class="contact-info mt-4">
+            <div class="mb-4">
+              <i class="fas fa-map-marker-alt fa-2x text-primary mb-2"></i>
+              <h5>주소</h5>
+              <p class="text-muted">서울특별시 강남구 테헤란로 123</p>
+            </div>
+            
+            <div class="mb-4">
+              <i class="fas fa-phone fa-2x text-primary mb-2"></i>
+              <h5>전화</h5>
+              <p class="text-muted">02-1234-5678</p>
+            </div>
+            
+            <div class="mb-4">
+              <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
+              <h5>이메일</h5>
+              <p class="text-muted">contact@landinglab.com</p>
+            </div>
+            
+            <div class="mb-4">
+              <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+              <h5>운영 시간</h5>
+              <p class="text-muted">평일 09:00 - 18:00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('layout/footer') %>
