@@ -1,9 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <img src="/images/logo.png" alt="LandingLab Logo" class="navbar-logo">
+      <img src="/images/logo-1x.webp" 
+           srcset="/images/logo-1x.webp 1x, /images/logo-2x.webp 2x" 
+           alt="LandingLab Logo" 
+           class="navbar-logo"
+           width="240" height="58"
+           fetchpriority="high">
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">

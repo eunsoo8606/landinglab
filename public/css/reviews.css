@@ -1,0 +1,124 @@
+/* ========================================
+   Reviews Section
+   ======================================== */
+
+.reviews-section {
+  position: relative;
+  padding: 100px 0;
+  background-color: var(--main-dark);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 장식 텍스트 (REVIEW) */
+.review-deco-text {
+  font-size: clamp(4rem, 15vw, 12rem);
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05);
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.review-deco-text.top {
+  top: -20px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  -webkit-background-clip: text;
+  opacity: 0.5;
+}
+
+.review-deco-text.bottom {
+  bottom: -20px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.1), transparent);
+  -webkit-background-clip: text;
+  opacity: 0.5;
+}
+
+/* 리뷰 컨테이너 */
+.reviews-container {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  padding: 40px 0;
+  /* 양옆 페이드 효과 */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.reviews-track {
+  display: flex;
+  gap: 30px;
+  width: max-content;
+  /* 왼쪽에서 오른쪽으로 이동 */
+  animation: scrollRight 40s linear infinite;
+}
+
+/* 마우스 올리면 멈춤 */
+.reviews-track:hover {
+  animation-play-state: paused;
+}
+
+.review-item {
+  width: 300px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(13, 110, 253, 0.2);
+  border-color: var(--accent-blue);
+}
+
+.review-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* 애니메이션 키프레임 */
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .reviews-section {
+    padding: 60px 0;
+  }
+  
+  .review-item {
+    width: 240px;
+  }
+  
+  .reviews-track {
+    gap: 20px;
+  }
+  
+  .review-deco-text {
+    font-size: 6rem;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+  }
+}

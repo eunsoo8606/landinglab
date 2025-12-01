@@ -5,10 +5,10 @@
   <!-- Hero Section -->
   <section id="home" class="hero-section">
     <!-- 비디오 배경 -->
-    <video class="hero-video" autoplay muted loop playsinline>
+    <video class="hero-video" autoplay muted loop playsinline poster="/images/hero-image.svg">
       <source src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4" type="video/mp4">
       <!-- 비디오를 지원하지 않는 브라우저를 위한 대체 이미지 -->
-      <img src="/images/hero-fallback.jpg" alt="Hero Background">
+      <img src="/images/hero-image.svg" alt="Hero Background" fetchpriority="high">
     </video>
     
     <!-- 오버레이 -->
@@ -36,12 +36,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Company Story Section -->
-  <div id="about">
-    <%- include('sections/company-story') %>
-  </div>
-
   <!-- Services Section -->
   <section id="services" class="services-section">
     <!-- 다이나믹 배경 요소들 -->
@@ -110,36 +104,72 @@
         </div>
       </div>
 
-      <!-- 통계 -->
-      <div class="about-stats fade-in-up" data-delay="500">
-        <div class="stat-item">
-          <div class="stat-number" data-target="100">0</div>
-          <div class="stat-label">구글 페이지스피드 점수</div>
+      <!-- 통계 섹션 (리디자인) -->
+      <div class="stats-container fade-in-up" data-delay="500">
+        <!-- 메인 통계: 구글 페이지 스피드 -->
+        <div class="stat-card main-stat">
+          <div class="circular-progress" data-value="100">
+            <svg viewBox="0 0 100 100">
+              <circle class="bg" cx="50" cy="50" r="45"></circle>
+              <circle class="fg" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div class="value-container">
+              <span class="stat-number" data-target="100">0</span>
+              <span class="unit">점</span>
+            </div>
+          </div>
+          <div class="stat-info">
+            <h4>Google PageSpeed</h4>
+            <p>압도적인 성능 최적화</p>
+          </div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="2">0</div>
-          <div class="stat-label">개월 무상 유지보수</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="2">0</div>
-          <div class="stat-label">년 도메인 무료</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="24">0</div>
-          <div class="stat-label">시간 평균 응답</div>
+
+        <!-- 서브 통계들 -->
+        <div class="sub-stats-grid">
+          <div class="stat-card sub-stat">
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-tools"></i>
+            </div>
+            <div class="stat-text">
+              <span class="stat-number" data-target="2">0</span>
+              <span class="unit">개월</span>
+              <p>무상 유지보수</p>
+            </div>
+          </div>
+
+          <div class="stat-card sub-stat">
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-globe"></i>
+            </div>
+            <div class="stat-text">
+              <span class="stat-number" data-target="2">0</span>
+              <span class="unit">년</span>
+              <p>도메인 무료</p>
+            </div>
+          </div>
+
+          <div class="stat-card sub-stat">
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div class="stat-text">
+              <span class="stat-number" data-target="24">0</span>
+              <span class="unit">시간</span>
+              <p>평균 응답</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section id="contact" class="cta-section bg-light py-5">
-    <div class="container text-center">
-      <h2 class="mb-4">지금 바로 시작하세요</h2>
-      <p class="lead mb-4">LandingLab과 함께 성공적인 비즈니스를 만들어가세요.</p>
-      <a href="#contact" class="btn btn-primary btn-lg">문의하기</a>
-    </div>
-  </section>
+  <!-- Reviews Section -->
+  <%- include('sections/reviews') %>
+
+  <!-- Company Story Section -->
+  <div id="about">
+    <%- include('sections/company-story') %>
+  </div>
 </main>
 
 <%- include('layout/footer') %>
