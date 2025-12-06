@@ -256,17 +256,6 @@
   transform: scale(1.1);
 }
 
-.auto-rotate-btn {
-  position: absolute;
-  bottom: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.auto-rotate-btn.active {
-  background: rgba(99, 102, 241, 0.3);
-  border-color: rgba(99, 102, 241, 0.5);
-}
 
 /* ============================================
    인디케이터

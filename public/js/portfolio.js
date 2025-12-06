@@ -10,7 +10,6 @@
   const items = document.querySelectorAll('.portfolio-item');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
-  const autoRotateBtn = document.getElementById('autoRotateBtn');
   const indicators = document.querySelectorAll('.indicator');
   const detailsPanel = document.getElementById('detailsPanel');
   const closeDetailsBtn = document.getElementById('closeDetailsBtn');
@@ -129,8 +128,6 @@
     if (isAutoRotating) return;
     
     isAutoRotating = true;
-    autoRotateBtn.classList.add('active');
-    autoRotateBtn.innerHTML = '<i class="fas fa-pause"></i>';
 
     autoRotateInterval = setInterval(() => {
       rotateTo(currentIndex + 1);
@@ -141,8 +138,6 @@
     if (!isAutoRotating) return;
 
     isAutoRotating = false;
-    autoRotateBtn.classList.remove('active');
-    autoRotateBtn.innerHTML = '<i class="fas fa-play"></i>';
 
     if (autoRotateInterval) {
       clearInterval(autoRotateInterval);
@@ -241,18 +236,57 @@
   // 버튼 이벤트
   if (prevBtn) prevBtn.addEventListener('click', goToPrev);
   if (nextBtn) nextBtn.addEventListener('click', goToNext);
-  if (autoRotateBtn) autoRotateBtn.addEventListener('click', toggleAutoRotate);
 
-  // 드래그 이벤트 (마우스)
+  // 갤러리 클릭/터치로 자동 회전 토글
   if (gallery) {
-    gallery.addEventListener('mousedown', handleDragStart);
+    let clickStartTime = 0;
+    let clickStartPos = { x: 0, y: 0 };
+    
+    gallery.addEventListener('mousedown', (e) => {
+      clickStartTime = Date.now();
+      clickStartPos = { x: e.clientX, y: e.clientY };
+      handleDragStart(e);
+    });
+    
+    gallery.addEventListener('touchstart', (e) => {
+      clickStartTime = Date.now();
+      clickStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      handleDragStart(e);
+    }, { passive: true });
+    
     document.addEventListener('mousemove', handleDragMove);
-    document.addEventListener('mouseup', handleDragEnd);
-
-    // 드래그 이벤트 (터치)
-    gallery.addEventListener('touchstart', handleDragStart, { passive: true });
     document.addEventListener('touchmove', handleDragMove, { passive: true });
-    document.addEventListener('touchend', handleDragEnd);
+    
+    document.addEventListener('mouseup', (e) => {
+      const clickDuration = Date.now() - clickStartTime;
+      const distance = Math.sqrt(
+        Math.pow(e.clientX - clickStartPos.x, 2) + 
+        Math.pow(e.clientY - clickStartPos.y, 2)
+      );
+      
+      // 클릭으로 판단 (300ms 이내, 10px 이내 이동)
+      if (clickDuration < 300 && distance < 10) {
+        toggleAutoRotate();
+      }
+      
+      handleDragEnd();
+    });
+    
+    document.addEventListener('touchend', (e) => {
+      const clickDuration = Date.now() - clickStartTime;
+      const touch = e.changedTouches[0];
+      const distance = Math.sqrt(
+        Math.pow(touch.clientX - clickStartPos.x, 2) + 
+        Math.pow(touch.clientY - clickStartPos.y, 2)
+      );
+      
+      // 탭으로 판단 (300ms 이내, 10px 이내 이동)
+      if (clickDuration < 300 && distance < 10) {
+        toggleAutoRotate();
+      }
+      
+      handleDragEnd();
+    });
   }
 
   // 인디케이터 클릭
@@ -270,6 +304,21 @@
       const portfolioId = parseInt(btn.dataset.id);
       showDetails(portfolioId);
     });
+  });
+
+  // 포트폴리오 카드 클릭으로 상세보기
+  document.querySelectorAll('.portfolio-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      // 상세보기 버튼 클릭은 이미 처리되므로 제외
+      if (e.target.closest('.view-details-btn')) return;
+      
+      const portfolioItem = card.closest('.portfolio-item');
+      const portfolioId = parseInt(portfolioItem.dataset.id);
+      showDetails(portfolioId);
+    });
+    
+    // 카드에 포인터 커서 추가
+    card.style.cursor = 'pointer';
   });
 
   // 상세정보 닫기

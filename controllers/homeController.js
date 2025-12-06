@@ -36,12 +36,12 @@ exports.getPortfolio = (req, res) => {
   const portfolios = [
     {
       id: 1,
-      title: '프리미엄 레스토랑',
-      category: '음식점',
-      description: '고급 레스토랑을 위한 세련된 랜딩페이지. 예약 시스템과 메뉴 소개를 통합했습니다.',
-      tech: ['Node.js', 'EJS', 'CSS3'],
+      title: '동진담 (DongJinDam)',
+      category: '웰니스/뷰티',
+      description: '동양의 진귀함과 현대 과학이 만나는 머스크 기반 프리미엄 웰니스 브랜드. 브랜드 포지셔닝, 인테리어 공간, 웰니스 철학을 담은 하이엔드 랜딩페이지.',
+      tech: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
       image: '/images/portfolio/portfolio-1.jpg',
-      url: '#'
+      url: 'https://cmong-portfolio1.netlify.app/'
     },
     {
       id: 2,
