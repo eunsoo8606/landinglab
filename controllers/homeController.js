@@ -1,7 +1,7 @@
 // 메인 페이지 컨트롤러
 exports.getHome = (req, res) => {
   res.render('index', {
-    title: 'LandingLab - 홈',
+    title: 'LandingLab | 앞도적인 랜딩페이지 제작',
     page: 'home'
   });
 };
