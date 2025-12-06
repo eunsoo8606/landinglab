@@ -14,4 +14,7 @@ router.get('/services', homeController.getServices);
 // 연락처 페이지
 router.get('/contact', homeController.getContact);
 
+// 포트폴리오 페이지
+router.get('/portfolio', homeController.getPortfolio);
+
 module.exports = router;

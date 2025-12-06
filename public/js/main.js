@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 페이지 전환 애니메이션
   initPageTransition();
+  
+  // 반응형 비디오
+  initResponsiveVideo();
 });
 
 // 스무스 스크롤 초기화
@@ -223,5 +226,39 @@ function initPageTransition() {
         window.location.href = targetUrl;
       }, 500);
     });
+  });
+}
+
+// 반응형 비디오
+function initResponsiveVideo() {
+  const video = document.querySelector('.hero-video');
+  if (!video) return;
+  
+  const desktopSrc = video.dataset.desktopSrc;
+  const mobileSrc = video.dataset.mobileSrc;
+  
+  function updateVideoSource() {
+    const isMobile = window.innerWidth <= 768;
+    const newSrc = isMobile ? mobileSrc : desktopSrc;
+    const currentSrc = video.querySelector('source').src;
+    
+    // 현재 소스와 다를 때만 변경
+    if (!currentSrc.includes(newSrc)) {
+      const currentTime = video.currentTime;
+      video.querySelector('source').src = newSrc;
+      video.load();
+      video.currentTime = currentTime;
+      video.play();
+    }
+  }
+  
+  // 초기 로드
+  updateVideoSource();
+  
+  // 화면 크기 변경 시
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(updateVideoSource, 250);
   });
 }
