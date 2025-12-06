@@ -9,12 +9,30 @@
   --light-color: #f8f9fa;
 }
 
-body {
+html, body {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
   line-height: 1.6;
   background-color: var(--main-dark);
   color: var(--text-white);
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+  width: 100%;
+  max-width: 100%;
 }
+
+/* 페이지 전환 애니메이션 */
+body {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+body.page-loaded {
+  opacity: 1;
+}
+
+body.page-transitioning {
+  opacity: 0;
+}
+
 
 /* 네비게이션 */
 .navbar-custom {
@@ -78,6 +96,41 @@ body {
   }
   to {
     width: 100%;
+  }
+}
+
+/* 문의하기 버튼 스타일 */
+.nav-cta-btn {
+  background: linear-gradient(135deg, var(--accent-blue), #667eea) !important;
+  color: white !important;
+  padding: 0.6rem 1.5rem !important;
+  border-radius: 50px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-cta-btn:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 6px 20px rgba(13, 110, 253, 0.5);
+  background: linear-gradient(135deg, #667eea, var(--accent-blue)) !important;
+  color: white !important;
+}
+
+.nav-cta-btn i {
+  font-size: 0.9rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
 }
 
@@ -351,4 +404,63 @@ footer a:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* 모바일 네비게이션 여백 조정 및 로고 크기 최적화 */
+@media (max-width: 991px) {
+  .navbar-custom .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .navbar-logo {
+    height: 40px; /* 모바일에서 로고 크기 축소 */
+    max-width: 180px; /* 로고가 너무 커서 버튼을 밀어내는 것 방지 */
+  }
+}
+
+/* 푸터 스타일 */
+.footer-custom {
+  background-color: #0a1628; /* --main-dark보다 약간 더 어둡게 */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-links li a:hover {
+  color: var(--accent-blue) !important;
+  transform: translateX(5px);
+}
+
+.transition-link {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.social-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.social-btn i {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1.2rem;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.social-btn:hover {
+  background-color: var(--accent-blue);
+  color: #fff;
+  transform: translateY(-3px);
 }

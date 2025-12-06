@@ -1,0 +1,525 @@
+/* ========================================
+   Contact Page - Split Layout
+   ======================================== */
+
+.contact-page {
+  min-height: 100vh;
+  display: flex;
+  padding-top: 80px; /* 네비게이션 높이만큼 */
+}
+
+/* 왼쪽 섹션 - 문의 폼 */
+.contact-left {
+  flex: 1;
+  background: #ffffff;
+  padding: 60px 40px;
+  overflow-y: auto;
+  max-height: calc(100vh - 80px);
+}
+
+.contact-left::-webkit-scrollbar {
+  width: 8px;
+}
+
+.contact-left::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.contact-left::-webkit-scrollbar-thumb {
+  background: var(--accent-blue);
+  border-radius: 4px;
+}
+
+/* 오른쪽 섹션 - 사이트맵 */
+.contact-right {
+  flex: 0 0 400px;
+  background: var(--main-dark);
+  padding: 60px 40px;
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* 폼 컨테이너 */
+.contact-form-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contact-form-container h1 {
+  color: var(--main-dark);
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  margin-bottom: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.contact-form-container .subtitle {
+  color: #6c757d;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  margin-bottom: 5rem;
+  line-height: 1.8;
+}
+
+/* 폼 스텝 */
+.form-step {
+  margin-bottom: 0;
+  padding: 3rem 0;
+  background: transparent;
+  border-bottom: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.form-step:last-of-type {
+  border-bottom: none;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--accent-blue), #667eea);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+
+.step-title {
+  color: var(--main-dark);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 버튼 그룹 */
+.button-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.option-btn {
+  padding: 1.5rem 2rem;
+  border: 2px solid #d1d5db;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: #495057;
+  text-align: center;
+}
+
+.option-btn:hover {
+  border-color: var(--accent-blue);
+  background: rgba(13, 110, 253, 0.05);
+  transform: translateY(-2px);
+}
+
+.option-btn.active {
+  border-color: var(--accent-blue);
+  background: var(--accent-blue);
+  color: white;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.option-btn i {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 패키지 카드 */
+.package-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.package-card {
+  padding: 2rem 1.5rem;
+  border: 2px solid #d1d5db;
+  border-radius: 16px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.package-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-blue), #667eea);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.package-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(13, 110, 253, 0.2);
+}
+
+.package-card:hover::before {
+  transform: scaleX(1);
+}
+
+.package-card.active {
+  border-color: var(--accent-blue);
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.05), rgba(102, 126, 234, 0.05));
+  box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+}
+
+.package-card.active::before {
+  transform: scaleX(1);
+}
+
+.package-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--main-dark);
+  margin-bottom: 0.5rem;
+}
+
+.package-sections {
+  font-size: 0.9rem;
+  color: var(--accent-blue);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.package-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.package-features li {
+  padding: 0.5rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.package-features li i {
+  color: var(--accent-blue);
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* 폼 입력 */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--main-dark);
+  font-weight: 500;
+}
+
+.form-label.required::after {
+  content: '*';
+  color: #dc3545;
+  margin-left: 0.25rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: var(--main-dark);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* 개인정보 동의 */
+.privacy-consent {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.privacy-consent input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.privacy-consent label {
+  flex: 1;
+  cursor: pointer;
+  color: #495057;
+  line-height: 1.6;
+}
+
+.privacy-link {
+  color: var(--accent-blue);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.privacy-link:hover {
+  color: #667eea;
+}
+
+/* 제출 버튼 */
+.submit-btn {
+  width: 100%;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--accent-blue), #667eea);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  margin-top: 2rem;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 사이트맵 */
+.sitemap-container h2 {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.sitemap-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sitemap-item {
+  padding: 1rem 0;
+  border-left: 3px solid transparent;
+  padding-left: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.sitemap-item:hover {
+  border-left-color: rgba(255, 255, 255, 0.3);
+}
+
+.sitemap-item.active {
+  border-left-color: var(--accent-blue);
+  background: rgba(13, 110, 253, 0.1);
+  margin-left: -1.5rem;
+  padding-left: 3rem;
+}
+
+.sitemap-number {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-size: 0.85rem;
+  margin-right: 0.75rem;
+  font-weight: 600;
+}
+
+.sitemap-item.active .sitemap-number {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.sitemap-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+}
+
+.sitemap-item.active .sitemap-text {
+  color: white;
+  font-weight: 500;
+}
+
+/* 개인정보 모달 */
+.privacy-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.privacy-modal.active {
+  display: flex;
+}
+
+.privacy-modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+}
+
+.privacy-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.privacy-modal-header h3 {
+  color: var(--main-dark);
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.privacy-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6c757d;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.privacy-modal-close:hover {
+  background: #f8f9fa;
+  color: var(--main-dark);
+}
+
+.privacy-modal-body {
+  color: #495057;
+  line-height: 1.8;
+}
+
+.privacy-modal-body h4 {
+  color: var(--main-dark);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.privacy-modal-body p {
+  margin-bottom: 1rem;
+}
+
+/* 반응형 */
+@media (max-width: 991px) {
+  .contact-page {
+    flex-direction: column;
+    padding-top: 70px;
+  }
+
+  .contact-left {
+    max-height: none;
+    padding: 40px 20px;
+  }
+
+  .contact-right {
+    flex: 1;
+    position: static;
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .package-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-left,
+  .contact-right {
+    padding: 30px 15px;
+  }
+
+  .form-step {
+    padding: 1.5rem;
+  }
+
+  .contact-form-container h1 {
+    font-size: 1.75rem;
+  }
+
+  .step-title {
+    font-size: 1.1rem;
+  }
+
+  .package-card {
+    padding: 1.5rem 1rem;
+  }
+}

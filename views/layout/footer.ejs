@@ -1,32 +1,58 @@
-<footer class="bg-dark text-white py-4 mt-5">
+<footer class="footer-custom text-white py-5 mt-5">
   <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h3><i class="fas fa-rocket"></i> LandingLab</h3>
-        <p class="text-muted">혁신적인 랜딩 페이지 솔루션을 제공합니다.</p>
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-6">
+        <div class="mb-4">
+          <img src="/images/logo-1x.webp" alt="LandingLab" height="50">
+        </div>
+        <p class="text-white-50 mb-4">
+          고객의 마음을 움직이는<br>
+          고효율 랜딩페이지를 제작합니다.
+        </p>
+        <div class="footer-info text-white-50">
+          <div class="d-flex align-items-center mb-2">
+            <i class="fas fa-envelope me-3 text-primary"></i>
+            <span>landing.lab0@gmail.com</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="fas fa-map-marker-alt me-3 text-primary"></i>
+            <span>주소 업데이트 예정</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="fas fa-building me-3 text-primary"></i>
+            <span>사업자등록번호: 업데이트 예정</span>
+          </div>
+        </div>
       </div>
-      <div class="col-md-3">
-        <h4>링크</h4>
-        <ul class="list-unstyled">
-          <li><a href="/" class="text-muted text-decoration-none">홈</a></li>
-          <li><a href="/about" class="text-muted text-decoration-none">회사 소개</a></li>
-          <li><a href="/services" class="text-muted text-decoration-none">서비스</a></li>
-          <li><a href="/contact" class="text-muted text-decoration-none">연락처</a></li>
+      
+      <div class="col-lg-3 col-md-6 offset-lg-1">
+        <h5 class="mb-3 text-white">바로가기</h5>
+        <ul class="list-unstyled footer-links">
+          <li class="mb-2"><a href="#home" class="text-white-50 text-decoration-none transition-link">홈</a></li>
+          <li class="mb-2"><a href="#about" class="text-white-50 text-decoration-none transition-link">회사 소개</a></li>
+          <li class="mb-2"><a href="#services" class="text-white-50 text-decoration-none transition-link">서비스</a></li>
+          <li class="mb-2"><a href="#contact" class="text-white-50 text-decoration-none transition-link">견적 문의</a></li>
         </ul>
       </div>
-      <div class="col-md-3">
-        <h4>소셜 미디어</h4>
+      
+      <div class="col-lg-3 col-md-6">
+        <h5 class="mb-3 text-white">소셜 미디어</h5>
+        <p class="text-white-50 small mb-3">랜딩랩의 최신 소식을 받아보세요.</p>
         <div class="social-links">
-          <a href="#" class="text-muted me-3" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
-          <a href="#" class="text-muted me-3" aria-label="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
-          <a href="#" class="text-muted me-3" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-          <a href="#" class="text-muted" aria-label="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61584938990677" target="_blank" class="social-btn me-2" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com/landing__lab/" target="_blank" class="social-btn" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
         </div>
       </div>
     </div>
-    <hr class="bg-secondary">
-    <div class="text-center text-muted">
-      <p>&copy; 2025 LandingLab. All rights reserved.</p>
+    
+    <hr class="my-4 border-secondary opacity-25">
+    
+    <div class="text-center text-white-50 small">
+      <p class="mb-0">&copy; 2025 LandingLab. All rights reserved.</p>
     </div>
   </div>
 </footer>
@@ -36,6 +62,11 @@
 
 <!-- Custom JS -->
 <script src="/js/main.js" defer></script>
+
+<!-- Contact Page JS -->
+<% if (page === 'contact') { %>
+  <script src="/js/contact.js" defer></script>
+<% } %>
 
 </body>
 </html>

@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 섹션 활성화 감지
   initSectionObserver();
+  
+  // 페이지 전환 애니메이션
+  initPageTransition();
 });
 
 // 스무스 스크롤 초기화
@@ -196,5 +199,29 @@ function initSectionObserver() {
       observer.observe(section);
       console.log('관찰 시작:', section.id);
     }
+  });
+}
+
+// 페이지 전환 애니메이션
+function initPageTransition() {
+  // 페이지 로드 시 fade-in
+  document.body.classList.add('page-loaded');
+  
+  // 페이지 전환 링크 처리
+  const transitionLinks = document.querySelectorAll('.page-transition');
+  
+  transitionLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetUrl = this.getAttribute('href');
+      
+      // 페이드 아웃 애니메이션
+      document.body.classList.add('page-transitioning');
+      
+      // 애니메이션 완료 후 페이지 이동
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 500);
+    });
   });
 }

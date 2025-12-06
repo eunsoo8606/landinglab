@@ -1,68 +1,223 @@
 <%- include('layout/head') %>
 <%- include('layout/header') %>
 
-<main>
-  <section class="contact-section py-5">
-    <div class="container">
-      <h1 class="text-center mb-5">연락처</h1>
-      
-      <div class="row">
-        <div class="col-lg-6 mb-4">
-          <h3>문의하기</h3>
-          <p class="text-muted mb-4">궁금하신 사항이 있으시면 언제든지 연락주세요.</p>
-          
-          <form>
-            <div class="mb-3">
-              <label for="name" class="form-label">이름</label>
-              <input type="text" class="form-control" id="name" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">이메일</label>
-              <input type="email" class="form-control" id="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="subject" class="form-label">제목</label>
-              <input type="text" class="form-control" id="subject" required>
-            </div>
-            <div class="mb-3">
-              <label for="message" class="form-label">메시지</label>
-              <textarea class="form-control" id="message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">전송하기</button>
-          </form>
+<div class="contact-page">
+  <!-- 왼쪽 섹션: 문의 폼 -->
+  <div class="contact-left">
+    <div class="contact-form-container">
+      <h1>프로젝트 문의하기</h1>
+      <p class="subtitle">성공적인 프로젝트를 위한 첫 걸음, 지금 시작하세요.</p>
+
+      <form id="contactForm">
+        <!-- Step 1: 프로젝트 유형 -->
+        <div class="form-step" data-step="1">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <h3 class="step-title">프로젝트 유형</h3>
+          </div>
+          <div class="button-group">
+            <button type="button" class="option-btn" data-value="new">
+              <i class="fas fa-plus-circle"></i>
+              신규 제작
+            </button>
+            <button type="button" class="option-btn" data-value="renewal">
+              <i class="fas fa-sync-alt"></i>
+              리뉴얼
+            </button>
+          </div>
+          <input type="hidden" name="projectType" required>
         </div>
-        
-        <div class="col-lg-6 mb-4">
-          <h3>연락 정보</h3>
-          <div class="contact-info mt-4">
-            <div class="mb-4">
-              <i class="fas fa-map-marker-alt fa-2x text-primary mb-2"></i>
-              <h5>주소</h5>
-              <p class="text-muted">서울특별시 강남구 테헤란로 123</p>
+
+        <!-- Step 2: 필요 서비스 -->
+        <div class="form-step" data-step="2">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <h3 class="step-title">필요 서비스</h3>
+          </div>
+          <div class="button-group">
+            <button type="button" class="option-btn multi-select" data-value="website">
+              <i class="fas fa-globe"></i>
+              웹사이트
+            </button>
+            <button type="button" class="option-btn multi-select" data-value="app">
+              <i class="fas fa-mobile-alt"></i>
+              어플리케이션
+            </button>
+            <button type="button" class="option-btn multi-select" data-value="seo">
+              <i class="fas fa-search"></i>
+              SEO 최적화
+            </button>
+            <button type="button" class="option-btn multi-select" data-value="maintenance">
+              <i class="fas fa-tools"></i>
+              유지보수
+            </button>
+          </div>
+          <input type="hidden" name="services" required>
+        </div>
+
+        <!-- Step 3: 패키지 선택 -->
+        <div class="form-step" data-step="3">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <h3 class="step-title">프로젝트 패키지 선택</h3>
+          </div>
+          <div class="package-cards">
+            <!-- Standard Package -->
+            <div class="package-card" data-package="standard">
+              <div class="package-name">Standard</div>
+              <div class="package-sections">3 섹션</div>
+              <ul class="package-features">
+                <li><i class="fas fa-check"></i> 기본 SEO 작업</li>
+                <li><i class="fas fa-check"></i> SSL 및 도메인 작업</li>
+                <li><i class="fas fa-check"></i> 반응형 디자인</li>
+              </ul>
             </div>
-            
-            <div class="mb-4">
-              <i class="fas fa-phone fa-2x text-primary mb-2"></i>
-              <h5>전화</h5>
-              <p class="text-muted">02-1234-5678</p>
+
+            <!-- Deluxe Package -->
+            <div class="package-card" data-package="deluxe">
+              <div class="package-name">Deluxe</div>
+              <div class="package-sections">6 섹션</div>
+              <ul class="package-features">
+                <li><i class="fas fa-check"></i> SEO 최적화</li>
+                <li><i class="fas fa-check"></i> SSL 및 도메인</li>
+                <li><i class="fas fa-check"></i> 검색엔진 등록</li>
+                <li><i class="fas fa-check"></i> 서버 구축 및 작업</li>
+                <li><i class="fas fa-check"></i> DB수집/관리자페이지</li>
+              </ul>
             </div>
-            
-            <div class="mb-4">
-              <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
-              <h5>이메일</h5>
-              <p class="text-muted">contact@landinglab.com</p>
-            </div>
-            
-            <div class="mb-4">
-              <i class="fas fa-clock fa-2x text-primary mb-2"></i>
-              <h5>운영 시간</h5>
-              <p class="text-muted">평일 09:00 - 18:00</p>
+
+            <!-- Premium Package -->
+            <div class="package-card" data-package="premium">
+              <div class="package-name">Premium</div>
+              <div class="package-sections">8 섹션</div>
+              <ul class="package-features">
+                <li><i class="fas fa-check"></i> SEO 최적화</li>
+                <li><i class="fas fa-check"></i> SSL 및 도메인</li>
+                <li><i class="fas fa-check"></i> 검색엔진 등록</li>
+                <li><i class="fas fa-check"></i> 서버 구축 및 작업</li>
+                <li><i class="fas fa-check"></i> DB수집/관리자페이지</li>
+                <li><i class="fas fa-check"></i> 디자인 맞춤 제공</li>
+              </ul>
             </div>
           </div>
+          <input type="hidden" name="package" required>
         </div>
-      </div>
+
+        <!-- Step 4: 레퍼런스 사이트 -->
+        <div class="form-step" data-step="4">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <h3 class="step-title">레퍼런스 사이트</h3>
+          </div>
+          <div class="form-group">
+            <label for="reference" class="form-label">참고하고 싶은 웹사이트 URL</label>
+            <input type="url" class="form-control" id="reference" name="reference" placeholder="https://example.com">
+          </div>
+        </div>
+
+        <!-- Step 5: 고객 정보 -->
+        <div class="form-step" data-step="5">
+          <div class="step-header">
+            <div class="step-number">5</div>
+            <h3 class="step-title">고객 정보</h3>
+          </div>
+          <div class="form-group">
+            <label for="companyName" class="form-label">회사명</label>
+            <input type="text" class="form-control" id="companyName" name="companyName" placeholder="회사명을 입력하세요">
+          </div>
+          <div class="form-group">
+            <label for="name" class="form-label required">이름</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요" required>
+          </div>
+          <div class="form-group">
+            <label for="phone" class="form-label required">연락처</label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="010-1234-5678" required>
+          </div>
+          <div class="form-group">
+            <label for="email" class="form-label required">이메일</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="website" class="form-label">홈페이지 주소</label>
+            <input type="url" class="form-control" id="website" name="website" placeholder="https://yourwebsite.com">
+          </div>
+        </div>
+
+        <!-- Step 6: 프로젝트 설명 -->
+        <div class="form-step" data-step="6">
+          <div class="step-header">
+            <div class="step-number">6</div>
+            <h3 class="step-title">프로젝트 설명 및 문의</h3>
+          </div>
+          <div class="form-group">
+            <label for="description" class="form-label required">프로젝트에 대해 자세히 설명해주세요</label>
+            <textarea class="form-control" id="description" name="description" rows="6" placeholder="프로젝트의 목적, 원하시는 기능, 예산, 일정 등을 자유롭게 작성해주세요." required></textarea>
+          </div>
+        </div>
+
+        <!-- Step 7: 개인정보 동의 -->
+        <div class="form-step" data-step="7">
+          <div class="step-header">
+            <div class="step-number">7</div>
+            <h3 class="step-title">개인정보 수집 및 이용 동의</h3>
+          </div>
+          <div class="privacy-consent">
+            <input type="checkbox" id="privacyAgree" name="privacyAgree" required>
+            <label for="privacyAgree">
+              개인정보 수집 및 이용에 동의합니다. 
+              <span class="privacy-link" id="privacyDetailBtn">(자세히 보기)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Step 8: 제출 -->
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-paper-plane me-2"></i>
+          문의 제출하기
+        </button>
+      </form>
     </div>
-  </section>
-</main>
+  </div>
+
+  <!-- 오른쪽 섹션: 사이트맵 -->
+  <div class="contact-right">
+    <div class="sitemap-container">
+      <h2>문의 진행 단계</h2>
+      <ul class="sitemap-list">
+        <li class="sitemap-item active" data-target="1">
+          <span class="sitemap-number">1</span>
+          <span class="sitemap-text">프로젝트 유형</span>
+        </li>
+        <li class="sitemap-item" data-target="2">
+          <span class="sitemap-number">2</span>
+          <span class="sitemap-text">필요 서비스</span>
+        </li>
+        <li class="sitemap-item" data-target="3">
+          <span class="sitemap-number">3</span>
+          <span class="sitemap-text">패키지 선택</span>
+        </li>
+        <li class="sitemap-item" data-target="4">
+          <span class="sitemap-number">4</span>
+          <span class="sitemap-text">레퍼런스 사이트</span>
+        </li>
+        <li class="sitemap-item" data-target="5">
+          <span class="sitemap-number">5</span>
+          <span class="sitemap-text">고객 정보</span>
+        </li>
+        <li class="sitemap-item" data-target="6">
+          <span class="sitemap-number">6</span>
+          <span class="sitemap-text">프로젝트 설명</span>
+        </li>
+        <li class="sitemap-item" data-target="7">
+          <span class="sitemap-number">7</span>
+          <span class="sitemap-text">개인정보 동의</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 개인정보 처리방침 모달 -->
+<%- include('sections/privacy-policy') %>
 
 <%- include('layout/footer') %>

@@ -55,16 +55,7 @@
   flex: 1;
 }
 
-/* 04번 섹션만 중앙 정렬 */
-.story-block:nth-child(4) .story-content {
-  text-align: center;
-}
-
-.story-block:nth-child(4) .story-text {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* 04번 섹션 중앙 정렬 스타일 제거 (왼쪽 정렬로 통일) */
 
 .story-title {
   font-size: clamp(2rem, 4vw, 3rem);
