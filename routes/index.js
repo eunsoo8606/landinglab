@@ -17,4 +17,10 @@ router.get('/contact', homeController.getContact);
 // 포트폴리오 페이지
 router.get('/portfolio', homeController.getPortfolio);
 
+// 포스트 게시판 페이지
+router.get('/posts', homeController.getPosts);
+
+// 포스트 상세 페이지
+router.get('/posts/:id', homeController.getPostDetail);
+
 module.exports = router;

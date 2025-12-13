@@ -1,0 +1,77 @@
+<%- include('layout/head') %>
+<%- include('layout/header') %>
+
+<main class="posts-page">
+  <!-- 포스트 헤더 섹션 -->
+  <section class="posts-header">
+    <div class="container">
+      <div class="header-content">
+        <span class="posts-badge">Blog & Insights</span>
+        <h1 class="posts-title">
+          웹 개발의 <span class="gradient-text">모든 것</span>
+        </h1>
+        <p class="posts-subtitle">
+          최신 웹 개발 트렌드와 실무 노하우를 공유합니다
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 포스트 그리드 섹션 -->
+  <section class="posts-grid-section">
+    <div class="container">
+      <div class="posts-grid">
+        <% posts.forEach((post, index) => { %>
+          <article class="post-card" data-index="<%= index %>" style="background: <%= post.gradient %>;">
+            <div class="post-card-inner">
+              <!-- 이미지 영역 -->
+              <div class="post-image">
+                <img src="<%= post.image %>" alt="<%= post.title %>" loading="lazy">
+              </div>
+              
+              <!-- 콘텐츠 영역 -->
+              <div class="post-content">
+                <span class="post-category"><%= post.category %></span>
+                <h2 class="post-title"><%= post.title %></h2>
+                <p class="post-description"><%= post.description %></p>
+                
+                <!-- 해시태그 -->
+                <div class="post-tags">
+                  <% post.tags.forEach(tag => { %>
+                    <span class="tag"><%= tag %></span>
+                  <% }); %>
+                </div>
+              </div>
+              
+              <!-- 호버 오버레이 -->
+              <div class="post-overlay">
+                <button class="read-more-btn" data-id="<%= post.id %>">
+                  <i class="fas fa-arrow-right"></i> 자세히 보기
+                </button>
+              </div>
+            </div>
+          </article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA 섹션 -->
+  <section class="posts-cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2>프로젝트를 시작할 준비가 되셨나요?</h2>
+        <p>전문가와 함께 성공적인 웹사이트를 만들어보세요</p>
+        <a href="/contact" class="btn-primary-solid page-transition">무료 상담 신청하기</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 포스트 전용 스타일 -->
+<link rel="stylesheet" href="/css/posts.css">
+
+<!-- 포스트 전용 스크립트 -->
+<script src="/js/posts.js"></script>
+
+<%- include('layout/footer') %>
