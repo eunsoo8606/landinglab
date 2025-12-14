@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const homeController = require('../controllers/homeController');
+const adminController = require('../controllers/adminController');
 
 // 메인 페이지
 router.get('/', homeController.getHome);
@@ -22,5 +23,8 @@ router.get('/posts', homeController.getPosts);
 
 // 포스트 상세 페이지
 router.get('/posts/:id', homeController.getPostDetail);
+
+// 관리자 로그인 페이지
+router.get('/console', adminController.getLogin);
 
 module.exports = router;

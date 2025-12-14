@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title><%= title %></title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" href="/css/pretendard.css">
+  
+  <!-- 메인 스타일 (색상 변수용) -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- 관리자 로그인 전용 스타일 -->
+  <link rel="stylesheet" href="/css/admin-login.css">
+</head>
+<body>
+  <div class="admin-login-container">
+    <div class="login-card">
+      <!-- 로고 영역 -->
+      <div class="login-logo">
+        <i class="fas fa-shield-halved"></i>
+        <h1>관리자 로그인</h1>
+        <p>LandingLab Console</p>
+      </div>
+
+      <!-- 로그인 폼 -->
+      <form id="loginForm" action="/console/login" method="POST">
+        <!-- 아이디 입력 -->
+        <div class="form-group">
+          <label for="username">아이디</label>
+          <div class="input-wrapper">
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-control-admin" 
+              placeholder="아이디를 입력하세요"
+              required
+              autocomplete="username"
+            >
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+
+        <!-- 비밀번호 입력 -->
+        <div class="form-group">
+          <label for="password">비밀번호</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-control-admin" 
+              placeholder="비밀번호를 입력하세요"
+              required
+              autocomplete="current-password"
+            >
+            <i class="fas fa-lock"></i>
+          </div>
+        </div>
+
+        <!-- 기억하기 & 비밀번호 찾기 -->
+        <div class="form-options">
+          <div class="remember-me">
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">로그인 상태 유지</label>
+          </div>
+          <a href="#" class="forgot-password">비밀번호 찾기</a>
+        </div>
+
+        <!-- 로그인 버튼 -->
+        <button type="submit" class="btn-login">
+          <span>로그인</span>
+        </button>
+      </form>
+
+      <!-- 푸터 -->
+      <div class="login-footer">
+        <p>&copy; 2024 LandingLab. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- 로그인 페이지 스크립트 -->
+  <script>
+    // 페이지 로드 애니메이션
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('page-loaded');
+    });
+
+    // 폼 제출 처리 (추후 실제 로그인 로직 구현 시 사용)
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const btn = this.querySelector('.btn-login');
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      // 로딩 상태 추가
+      btn.classList.add('loading');
+      btn.querySelector('span').textContent = '로그인 중...';
+      
+      // TODO: 실제 로그인 API 호출
+      // 현재는 데모용으로 2초 후 알림만 표시
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        btn.querySelector('span').textContent = '로그인';
+        alert('로그인 기능은 아직 구현되지 않았습니다.\n아이디: ' + username);
+      }, 2000);
+    });
+
+    // 입력 필드 포커스 애니메이션 강화
+    const inputs = document.querySelectorAll('.form-control-admin');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+      });
+    });
+  </script>
+</body>
+</html>
