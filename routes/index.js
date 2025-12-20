@@ -24,7 +24,11 @@ router.get('/posts', homeController.getPosts);
 // 포스트 상세 페이지
 router.get('/posts/:id', homeController.getPostDetail);
 
-// 관리자 로그인 페이지
+// 관리자 로그인 페이지 (기존 경로 유지)
 router.get('/console', adminController.getLogin);
+
+// 관리자 라우터 연결
+const adminRouter = require('./admin');
+router.use('/admin', adminRouter);
 
 module.exports = router;

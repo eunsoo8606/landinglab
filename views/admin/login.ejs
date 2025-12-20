@@ -32,7 +32,21 @@
       </div>
 
       <!-- 로그인 폼 -->
-      <form id="loginForm" action="/console/login" method="POST">
+      <form id="loginForm" action="/admin/login" method="POST">
+        <% if (error) { %>
+          <div class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= error %>
+          </div>
+        <% } %>
+        
+        <% if (message) { %>
+          <div class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle"></i>
+            <%= message %>
+          </div>
+        <% } %>
+        
         <!-- 아이디 입력 -->
         <div class="form-group">
           <label for="username">아이디</label>
@@ -67,15 +81,6 @@
           </div>
         </div>
 
-        <!-- 기억하기 & 비밀번호 찾기 -->
-        <div class="form-options">
-          <div class="remember-me">
-            <input type="checkbox" id="remember" name="remember">
-            <label for="remember">로그인 상태 유지</label>
-          </div>
-          <a href="#" class="forgot-password">비밀번호 찾기</a>
-        </div>
-
         <!-- 로그인 버튼 -->
         <button type="submit" class="btn-login">
           <span>로그인</span>
@@ -99,25 +104,14 @@
       document.body.classList.add('page-loaded');
     });
 
-    // 폼 제출 처리 (추후 실제 로그인 로직 구현 시 사용)
+    // 폼 제출 시 로딩 상태 표시
     document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
       const btn = this.querySelector('.btn-login');
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
       
       // 로딩 상태 추가
       btn.classList.add('loading');
       btn.querySelector('span').textContent = '로그인 중...';
-      
-      // TODO: 실제 로그인 API 호출
-      // 현재는 데모용으로 2초 후 알림만 표시
-      setTimeout(() => {
-        btn.classList.remove('loading');
-        btn.querySelector('span').textContent = '로그인';
-        alert('로그인 기능은 아직 구현되지 않았습니다.\n아이디: ' + username);
-      }, 2000);
+      btn.disabled = true;
     });
 
     // 입력 필드 포커스 애니메이션 강화

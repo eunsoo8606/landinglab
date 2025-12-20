@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "test:db": "node scripts/test-db-connection.js"
   },
   "keywords": [
     "landinglab",
@@ -16,9 +17,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "express-session": "^1.18.2",
+    "mysql2": "^3.16.0",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
