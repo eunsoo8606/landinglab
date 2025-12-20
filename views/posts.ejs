@@ -2,76 +2,406 @@
 <%- include('layout/header') %>
 
 <main class="posts-page">
-  <!-- 포스트 헤더 섹션 -->
+  <!-- 공지사항 헤더 섹션 -->
   <section class="posts-header">
     <div class="container">
       <div class="header-content">
-        <span class="posts-badge">Blog & Insights</span>
+        <span class="posts-badge">공지사항</span>
         <h1 class="posts-title">
-          웹 개발의 <span class="gradient-text">모든 것</span>
+          LandingLab <span class="gradient-text">공지사항</span>
         </h1>
         <p class="posts-subtitle">
-          최신 웹 개발 트렌드와 실무 노하우를 공유합니다
+          최신 소식과 업데이트를 확인하세요
         </p>
       </div>
     </div>
   </section>
 
-  <!-- 포스트 그리드 섹션 -->
-  <section class="posts-grid-section">
+  <!-- 검색 섹션 -->
+  <section class="search-section">
     <div class="container">
-      <div class="posts-grid">
-        <% posts.forEach((post, index) => { %>
-          <article class="post-card" data-index="<%= index %>" style="background: <%= post.gradient %>;">
-            <div class="post-card-inner">
-              <!-- 이미지 영역 -->
-              <div class="post-image">
-                <img src="<%= post.image %>" alt="<%= post.title %>" loading="lazy">
-              </div>
-              
-              <!-- 콘텐츠 영역 -->
-              <div class="post-content">
-                <span class="post-category"><%= post.category %></span>
-                <h2 class="post-title"><%= post.title %></h2>
-                <p class="post-description"><%= post.description %></p>
-                
-                <!-- 해시태그 -->
-                <div class="post-tags">
-                  <% post.tags.forEach(tag => { %>
-                    <span class="tag"><%= tag %></span>
-                  <% }); %>
-                </div>
-              </div>
-              
-              <!-- 호버 오버레이 -->
-              <div class="post-overlay">
-                <button class="read-more-btn" data-id="<%= post.id %>">
-                  <i class="fas fa-arrow-right"></i> 자세히 보기
-                </button>
-              </div>
-            </div>
-          </article>
-        <% }); %>
-      </div>
+      <form action="/posts" method="GET" class="search-form">
+        <div class="search-wrapper">
+          <input 
+            type="text" 
+            name="search" 
+            class="search-input" 
+            placeholder="제목으로 검색하세요..." 
+            value="<%= searchQuery %>"
+          >
+          <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i> 검색
+          </button>
+        </div>
+        <% if (searchQuery) { %>
+          <div class="search-result-info">
+            "<%= searchQuery %>" 검색 결과: <strong><%= totalCount %></strong>개의 게시글
+            <a href="/posts" class="clear-search">전체 보기</a>
+          </div>
+        <% } %>
+      </form>
     </div>
   </section>
 
-  <!-- CTA 섹션 -->
-  <section class="posts-cta">
+  <!-- 공지사항 목록 섹션 -->
+  <section class="posts-list-section">
     <div class="container">
-      <div class="cta-content">
-        <h2>프로젝트를 시작할 준비가 되셨나요?</h2>
-        <p>전문가와 함께 성공적인 웹사이트를 만들어보세요</p>
-        <a href="/contact" class="btn-primary-solid page-transition">무료 상담 신청하기</a>
-      </div>
+      <% if (boards && boards.length > 0) { %>
+        <div class="posts-table">
+          <div class="table-header">
+            <div class="col-num">번호</div>
+            <div class="col-title">제목</div>
+            <div class="col-author">작성자</div>
+            <div class="col-date">작성일</div>
+            <div class="col-views">조회수</div>
+          </div>
+          
+          <% boards.forEach((board, index) => { %>
+            <a href="/posts/<%= board.id %>" class="table-row">
+              <div class="col-num"><%= totalCount - (currentPage - 1) * 10 - index %></div>
+              <div class="col-title">
+                <span class="title-text"><%= board.title %></span>
+                <% if (board.category === 'notice') { %>
+                  <span class="badge-notice">공지</span>
+                <% } %>
+              </div>
+              <div class="col-author"><%= board.author %></div>
+              <div class="col-date"><%= new Date(board.created_at).toLocaleDateString('ko-KR') %></div>
+              <div class="col-views"><%= board.views %></div>
+            </a>
+          <% }) %>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+          <% if (currentPage > 1) { %>
+            <a href="/posts?page=<%= currentPage - 1 %><%= searchQuery ? '&search=' + searchQuery : '' %>" class="page-btn">
+              <i class="fas fa-chevron-left"></i>
+            </a>
+          <% } %>
+          
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <% if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) { %>
+              <a 
+                href="/posts?page=<%= i %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
+                class="page-btn <%= i === currentPage ? 'active' : '' %>"
+              >
+                <%= i %>
+              </a>
+            <% } else if (i === currentPage - 3 || i === currentPage + 3) { %>
+              <span class="page-dots">...</span>
+            <% } %>
+          <% } %>
+          
+          <% if (currentPage < totalPages) { %>
+            <a href="/posts?page=<%= currentPage + 1 %><%= searchQuery ? '&search=' + searchQuery : '' %>" class="page-btn">
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          <% } %>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <h3>게시글이 없습니다</h3>
+          <% if (searchQuery) { %>
+            <p>"<%= searchQuery %>" 검색 결과가 없습니다.</p>
+            <a href="/posts" class="btn-primary-solid">전체 게시글 보기</a>
+          <% } else { %>
+            <p>아직 등록된 게시글이 없습니다.</p>
+          <% } %>
+        </div>
+      <% } %>
     </div>
   </section>
 </main>
 
-<!-- 포스트 전용 스타일 -->
-<link rel="stylesheet" href="/css/posts.css">
-
-<!-- 포스트 전용 스크립트 -->
-<script src="/js/posts.js"></script>
+<style>
+  .posts-page {
+    background: var(--main-dark);
+    min-height: 100vh;
+    padding-top: 80px;
+  }
+  
+  .posts-header {
+    padding: 60px 0 40px;
+    text-align: center;
+  }
+  
+  .posts-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(13, 110, 253, 0.15);
+    border: 1px solid rgba(13, 110, 253, 0.3);
+    border-radius: 20px;
+    color: var(--accent-blue);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  .posts-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-white);
+    margin-bottom: 16px;
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent-blue), #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .posts-subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* 검색 섹션 */
+  .search-section {
+    padding: 30px 0;
+  }
+  
+  .search-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .search-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid rgba(13, 110, 253, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-white);
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .search-btn {
+    padding: 14px 30px;
+    background: linear-gradient(135deg, var(--accent-blue), #667eea);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  }
+  
+  .search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.5);
+  }
+  
+  .search-result-info {
+    margin-top: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+  }
+  
+  .clear-search {
+    color: var(--accent-blue);
+    text-decoration: none;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .clear-search:hover {
+    text-decoration: underline;
+  }
+  
+  /* 게시글 목록 */
+  .posts-list-section {
+    padding: 40px 0 80px;
+  }
+  
+  .posts-table {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+  
+  .table-header {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px 120px 80px;
+    padding: 20px;
+    background: rgba(13, 110, 253, 0.1);
+    border-bottom: 1px solid rgba(13, 110, 253, 0.3);
+    font-weight: 600;
+    color: var(--text-white);
+  }
+  
+  .table-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px 120px 80px;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+  }
+  
+  .table-row:hover {
+    background: rgba(13, 110, 253, 0.1);
+    border-left: 3px solid var(--accent-blue);
+    padding-left: 17px;
+  }
+  
+  .col-num {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .col-title {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .title-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .badge-notice {
+    display: inline-block;
+    padding: 4px 8px;
+    background: linear-gradient(135deg, var(--accent-blue), #667eea);
+    color: white;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  
+  .col-author, .col-date, .col-views {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* 페이지네이션 */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+  }
+  
+  .page-btn {
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .page-btn:hover {
+    background: rgba(13, 110, 253, 0.2);
+    border-color: var(--accent-blue);
+    color: white;
+  }
+  
+  .page-btn.active {
+    background: linear-gradient(135deg, var(--accent-blue), #667eea);
+    border-color: var(--accent-blue);
+    color: white;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  }
+  
+  .page-dots {
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0 8px;
+  }
+  
+  /* 빈 상태 */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .empty-state i {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.3;
+    color: var(--accent-blue);
+  }
+  
+  .empty-state h3 {
+    font-size: 24px;
+    color: var(--text-white);
+    margin-bottom: 12px;
+  }
+  
+  .empty-state p {
+    margin-bottom: 24px;
+  }
+  
+  .btn-primary-solid {
+    display: inline-block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, var(--accent-blue), #667eea);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  }
+  
+  .btn-primary-solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.5);
+  }
+  
+  /* 반응형 */
+  @media (max-width: 768px) {
+    .table-header, .table-row {
+      grid-template-columns: 60px 1fr 80px;
+    }
+    
+    .col-author, .col-date {
+      display: none;
+    }
+    
+    .posts-title {
+      font-size: 32px;
+    }
+    
+    .search-wrapper {
+      flex-direction: column;
+    }
+    
+    .search-btn {
+      width: 100%;
+    }
+  }
+</style>
 
 <%- include('layout/footer') %>
