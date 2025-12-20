@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 반응형 비디오
   initResponsiveVideo();
+
+  // 내비바 스크롤 초기화
+  initNavbarScroll();
 });
 
 // 스무스 스크롤 초기화
@@ -150,17 +153,28 @@ function animateCounter(element) {
   updateCounter();
 }
 
-// 스크롤 애니메이션
-window.addEventListener('scroll', function() {
+// 내비바 스크롤 효과
+function initNavbarScroll() {
   const navbar = document.querySelector('.navbar');
-  
-  // 스크롤 위치에 따라 scrolled 클래스 추가/제거
-  if (window.scrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
+  if (!navbar) return;
+
+  let ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+}
+
+// 스크롤 리스너 호출부 수정 (DOMContentLoaded 내부에 추가되어 있다고 가정하거나 함수 정의만 교체)
 
 // 섹션 활성화 감지
 function initSectionObserver() {
@@ -232,23 +246,39 @@ function initPageTransition() {
 // 반응형 비디오
 function initResponsiveVideo() {
   const video = document.querySelector('.hero-video');
-  if (!video) return;
+  if (!video) {
+    console.log('hero-video 요소를 찾을 수 없습니다.');
+    return;
+  }
   
   const desktopSrc = video.dataset.desktopSrc;
   const mobileSrc = video.dataset.mobileSrc;
   
+  // 데이터 속성이 없으면 종료
+  if (!desktopSrc || !mobileSrc) {
+    console.log('비디오 소스 데이터가 없습니다.');
+    return;
+  }
+  
   function updateVideoSource() {
     const isMobile = window.innerWidth <= 768;
     const newSrc = isMobile ? mobileSrc : desktopSrc;
-    const currentSrc = video.querySelector('source').src;
+    const sourceElement = video.querySelector('source');
+    
+    if (!sourceElement) {
+      console.log('video source 요소를 찾을 수 없습니다.');
+      return;
+    }
+    
+    const currentSrc = sourceElement.src;
     
     // 현재 소스와 다를 때만 변경
     if (!currentSrc.includes(newSrc)) {
       const currentTime = video.currentTime;
-      video.querySelector('source').src = newSrc;
+      sourceElement.src = newSrc;
       video.load();
       video.currentTime = currentTime;
-      video.play();
+      video.play().catch(err => console.log('비디오 재생 실패:', err));
     }
   }
   

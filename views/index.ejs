@@ -5,10 +5,11 @@
   <!-- Hero Section -->
   <section id="home" class="hero-section">
     <!-- 비디오 배경 -->
-    <video class="hero-video" autoplay muted loop playsinline poster="/images/hero-image.svg" 
+    <video class="hero-video" autoplay muted loop playsinline fetchpriority="high" poster="/images/hero-image.svg" 
            data-desktop-src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4"
            data-mobile-src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4">
       <source src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4" type="video/mp4">
+      <track kind="captions" srclang="ko" label="한국어" default>
       <!-- 비디오를 지원하지 않는 브라우저를 위한 대체 이미지 -->
       <img src="/images/hero-image.svg" alt="Hero Background" fetchpriority="high">
     </video>

@@ -1,0 +1,53 @@
+<%- include('layout/head') %>
+<%- include('layout/header') %>
+
+<main class="post-detail-page">
+  <!-- 공지사항 상세 -->
+  <section class="post-detail-section">
+    <div class="container">
+      <div class="post-detail-wrapper">
+        <!-- 뒤로 가기 버튼 -->
+        <a href="/boards" class="back-btn">
+          <i class="fas fa-arrow-left"></i> 목록으로
+        </a>
+        
+        <!-- 공지사항 헤더 -->
+        <div class="post-header">
+          <% if (board.category === 'notice') { %>
+            <span class="badge-notice">공지</span>
+          <% } %>
+          <h1 class="post-title"><%= board.title %></h1>
+          
+          <div class="post-meta">
+            <span class="meta-item">
+              <i class="fas fa-user"></i> <%= board.author %>
+            </span>
+            <span class="meta-item">
+              <i class="fas fa-calendar"></i> <%= new Date(board.created_at).toLocaleDateString('ko-KR') %>
+            </span>
+            <span class="meta-item">
+              <i class="fas fa-eye"></i> <%= board.views %>
+            </span>
+          </div>
+        </div>
+        
+        <!-- 공지사항 본문 -->
+        <div class="post-content">
+          <%= board.content %>
+        </div>
+        
+        <!-- 하단 버튼 -->
+        <div class="post-actions">
+          <a href="/boards" class="btn-list">
+            <i class="fas fa-list"></i> 목록으로
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 공지사항 상세 페이지 전용 스타일 -->
+<link rel="stylesheet" href="/css/board-detail.css">
+
+<%- include('layout/footer') %>

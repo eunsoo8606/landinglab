@@ -8,23 +8,24 @@
     <%= title %>
   </title>
 
+
   <!-- SEO & Social Media Meta Tags -->
-  <meta name="description" content="고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다. LandingLab과 함께 성공적인 프로젝트를 시작하세요.">
-  <meta name="keywords" content="랜딩페이지, 웹사이트 제작, SEO 최적화, 반응형 웹, LandingLab">
+  <meta name="description" content="<%= locals.description || '고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다. LandingLab과 함께 성공적인 프로젝트를 시작하세요.' %>">
+  <meta name="keywords" content="<%= locals.keywords || '랜딩페이지, 웹사이트 제작, SEO 최적화, 반응형 웹, LandingLab' %>">
 
   <!-- Open Graph (Facebook, KakaoTalk) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="<%= title %>">
-  <meta property="og:description" content="고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다.">
-  <meta property="og:image" content="/images/logo-2.png">
+  <meta property="og:description" content="<%= locals.description || '고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다.' %>">
+  <meta property="og:image" content="<%= locals.ogImage || '/images/logo-2.png' %>">
   <meta property="og:url" content="https://landinglab.com">
   <meta property="og:site_name" content="LandingLab">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<%= title %>">
-  <meta name="twitter:description" content="고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다.">
-  <meta name="twitter:image" content="/images/logo-2.png">
+  <meta name="twitter:description" content="<%= locals.description || '고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다.' %>">
+  <meta name="twitter:image" content="<%= locals.ogImage || '/images/logo-2.png' %>">
 
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
@@ -39,6 +40,9 @@
   <!-- Custom CSS (Preload Critical) -->
   <link rel="preload" href="/css/style.css" as="style">
   <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Preload Critical Images (LCP) -->
+  <link rel="preload" href="/images/hero-image.svg" as="image">
 
   <!-- Defer Loading for Below-the-fold Sections -->
   <link rel="stylesheet" href="/css/about-section.css" media="print" onload="this.media='all'">
@@ -55,6 +59,9 @@
   <% if (page==='contact' ) { %>
     <link rel="stylesheet" href="/css/contact.css">
     <% } %>
+
+      <!-- Font Awesome Override (font-display fix) -->
+      <link rel="stylesheet" href="/css/font-awesome-override.css">
 
       <!-- Font Awesome (Defer Loading) -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"

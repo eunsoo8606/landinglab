@@ -20,14 +20,28 @@ document.addEventListener('DOMContentLoaded', function() {
 // 스크롤 진행 바
 function initScrollProgress() {
   const progressBar = document.getElementById('scrollProgress');
-  
+  if (!progressBar) return;
+
+  let ticking = false;
+  let windowHeight = window.innerHeight;
+  let documentHeight = document.documentElement.scrollHeight - windowHeight;
+
+  // 리사이즈 시 높이 재계산
+  window.addEventListener('resize', () => {
+    windowHeight = window.innerHeight;
+    documentHeight = document.documentElement.scrollHeight - windowHeight;
+  });
+
   window.addEventListener('scroll', () => {
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight - windowHeight;
-    const scrolled = window.scrollY;
-    const progress = (scrolled / documentHeight) * 100;
-    
-    progressBar.style.width = progress + '%';
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        const progress = (scrolled / documentHeight) * 100;
+        progressBar.style.width = progress + '%';
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
 }
 
@@ -63,29 +77,47 @@ function generateTableOfContents() {
 // 목차 활성화 (스크롤 시)
 function initTOCActivation() {
   const tocLinks = document.querySelectorAll('.table-of-contents a');
+  const headings = document.querySelectorAll('.content-body h2, .content-body h3');
   
-  if (tocLinks.length === 0) return;
+  if (tocLinks.length === 0 || headings.length === 0) return;
+
+  // 헤딩 위치 캐싱 (Forced Reflow 방지)
+  let headingPositions = [];
+  function cachePositions() {
+    headingPositions = Array.from(headings).map(h => ({
+      id: h.id,
+      top: h.offsetTop
+    }));
+  }
   
+  cachePositions();
+  window.addEventListener('resize', cachePositions);
+
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    let current = '';
-    
-    const headings = document.querySelectorAll('.content-body h2, .content-body h3');
-    
-    headings.forEach(heading => {
-      const sectionTop = heading.offsetTop;
-      const scrollPosition = window.scrollY + 150;
-      
-      if (scrollPosition >= sectionTop) {
-        current = heading.id;
-      }
-    });
-    
-    tocLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
-      }
-    });
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        let current = '';
+        const scrollPosition = window.scrollY + 150;
+        
+        for (const heading of headingPositions) {
+          if (scrollPosition >= heading.top) {
+            current = heading.id;
+          } else {
+            break;
+          }
+        }
+        
+        tocLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
 }
 
@@ -100,6 +132,7 @@ function initSmoothScroll() {
       const targetElement = document.querySelector(targetId);
       
       if (targetElement) {
+        // offsetTop은 클릭 시 1회만 호출하므로 리플로우 영향 적음
         const offsetTop = targetElement.offsetTop - 100;
         window.scrollTo({
           top: offsetTop,

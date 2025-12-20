@@ -28,22 +28,40 @@ function initContactForm() {
     });
   });
   
-  // 다중 선택 버튼 (필요 서비스)
-  const multiSelectButtons = document.querySelectorAll('.option-btn.multi-select');
-  multiSelectButtons.forEach(btn => {
+  // 필요 서비스 선택 (단일 선택)
+  const serviceButtons = document.querySelectorAll('.option-btn.service-btn');
+  const packageStep = document.querySelector('[data-step="3"]');
+  
+  serviceButtons.forEach(btn => {
     btn.addEventListener('click', function() {
-      this.classList.toggle('active');
-      
-      // 선택된 값들 수집
       const group = this.closest('.button-group');
       const hiddenInput = group.nextElementSibling;
-      const selectedValues = [];
       
-      group.querySelectorAll('.option-btn.active').forEach(activeBtn => {
-        selectedValues.push(activeBtn.dataset.value);
-      });
+      // 같은 그룹의 다른 버튼 비활성화 (단일 선택)
+      group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
       
-      hiddenInput.value = selectedValues.join(',');
+      // 현재 버튼 활성화
+      this.classList.add('active');
+      
+      // hidden input에 값 저장
+      hiddenInput.value = this.dataset.value;
+      
+      // 랜딩페이지/SEO최적화가 선택되었는지 확인
+      const hasLandingSeo = this.dataset.value === 'landing-seo';
+      
+      // 패키지 선택 단계 표시/숨김
+      if (hasLandingSeo) {
+        packageStep.style.display = 'block';
+        // 패키지 선택 단계로 스크롤
+        setTimeout(() => scrollToStep(3), 300);
+      } else {
+        packageStep.style.display = 'none';
+        // 패키지 선택 초기화
+        document.querySelectorAll('.package-card').forEach(card => card.classList.remove('active'));
+        document.querySelector('input[name="package"]').value = '';
+        // 다음 단계(레퍼런스)로 스크롤
+        setTimeout(() => scrollToStep(4), 300);
+      }
     });
   });
   
@@ -65,7 +83,7 @@ function initContactForm() {
   });
   
   // 폼 제출
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     // 유효성 검사
@@ -76,7 +94,7 @@ function initContactForm() {
     // 폼 데이터 수집
     const formData = {
       projectType: form.projectType.value,
-      services: form.services.value.split(','),
+      services: form.services.value,
       package: form.package.value,
       reference: form.reference.value,
       companyName: form.companyName.value,
@@ -90,14 +108,46 @@ function initContactForm() {
     
     console.log('문의 데이터:', formData);
     
-    // 여기에 실제 폼 제출 로직 추가 (AJAX 등)
-    alert('문의가 성공적으로 접수되었습니다!\n빠른 시일 내에 연락드리겠습니다.');
+    // 제출 버튼 비활성화
+    const submitBtn = form.querySelector('.submit-btn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>제출 중...';
     
-    // 폼 초기화
-    form.reset();
-    document.querySelectorAll('.option-btn, .package-card').forEach(el => {
-      el.classList.remove('active');
-    });
+    try {
+      // 서버로 데이터 전송
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        alert('문의가 성공적으로 접수되었습니다!\\n빠른 시일 내에 연락드리겠습니다.');
+        
+        // 폼 초기화
+        form.reset();
+        document.querySelectorAll('.option-btn, .package-card').forEach(el => {
+          el.classList.remove('active');
+        });
+        
+        // 첫 번째 스텝으로 스크롤
+        scrollToStep(1);
+      } else {
+        alert(result.message || '문의 제출 중 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      console.error('문의 제출 오류:', error);
+      alert('문의 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      // 제출 버튼 복원
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    }
   });
 }
 
@@ -119,8 +169,8 @@ function validateForm() {
     return false;
   }
   
-  // 패키지 확인
-  if (!form.package.value) {
+  // 패키지 확인 (랜딩페이지/SEO최적화 선택 시에만)
+  if (form.services.value === 'landing-seo' && !form.package.value) {
     alert('프로젝트 패키지를 선택해주세요.');
     scrollToStep(3);
     return false;

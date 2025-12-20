@@ -1,0 +1,121 @@
+<%- include('layout/head') %>
+<%- include('layout/header') %>
+
+<main class="posts-page">
+  <!-- 공지사항 헤더 섹션 -->
+  <section class="posts-header">
+    <div class="container">
+      <div class="header-content">
+        <span class="posts-badge">공지사항</span>
+        <h1 class="posts-title">
+          LandingLab <span class="gradient-text">공지사항</span>
+        </h1>
+        <p class="posts-subtitle">
+          최신 소식과 업데이트를 확인하세요
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 검색 섹션 -->
+  <section class="search-section">
+    <div class="container">
+      <form action="/boards" method="GET" class="search-form">
+        <div class="search-wrapper">
+          <input 
+            type="text" 
+            name="search" 
+            class="search-input" 
+            placeholder="제목으로 검색하세요..." 
+            value="<%= searchQuery %>"
+          >
+          <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i> 검색
+          </button>
+        </div>
+        <% if (searchQuery) { %>
+          <div class="search-result-info">
+            "<%= searchQuery %>" 검색 결과: <strong><%= totalCount %></strong>개의 게시글
+            <a href="/boards" class="clear-search">전체 보기</a>
+          </div>
+        <% } %>
+      </form>
+    </div>
+  </section>
+
+  <!-- 공지사항 목록 섹션 -->
+  <section class="posts-list-section">
+    <div class="container">
+      <% if (boards && boards.length > 0) { %>
+        <div class="posts-table">
+          <div class="table-header">
+            <div class="col-num">번호</div>
+            <div class="col-title">제목</div>
+            <div class="col-author">작성자</div>
+            <div class="col-date">작성일</div>
+            <div class="col-views">조회수</div>
+          </div>
+          
+          <% boards.forEach((board, index) => { %>
+            <a href="/boards/<%= board.id %>" class="table-row">
+              <div class="col-num"><%= totalCount - (currentPage - 1) * 10 - index %></div>
+              <div class="col-title">
+                <span class="title-text"><%= board.title %></span>
+                <% if (board.category === 'notice') { %>
+                  <span class="badge-notice">공지</span>
+                <% } %>
+              </div>
+              <div class="col-author"><%= board.author %></div>
+              <div class="col-date"><%= new Date(board.created_at).toLocaleDateString('ko-KR') %></div>
+              <div class="col-views"><%= board.views %></div>
+            </a>
+          <% }) %>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+          <% if (currentPage > 1) { %>
+            <a href="/boards?page=<%= currentPage - 1 %><%= searchQuery ? '&search=' + searchQuery : '' %>" class="page-btn">
+              <i class="fas fa-chevron-left"></i>
+            </a>
+          <% } %>
+          
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <% if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) { %>
+              <a 
+                href="/boards?page=<%= i %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
+                class="page-btn <%= i === currentPage ? 'active' : '' %>"
+              >
+                <%= i %>
+              </a>
+            <% } else if (i === currentPage - 3 || i === currentPage + 3) { %>
+              <span class="page-dots">...</span>
+            <% } %>
+          <% } %>
+          
+          <% if (currentPage < totalPages) { %>
+            <a href="/boards?page=<%= currentPage + 1 %><%= searchQuery ? '&search=' + searchQuery : '' %>" class="page-btn">
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          <% } %>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <h3>게시글이 없습니다</h3>
+          <% if (searchQuery) { %>
+            <p>"<%= searchQuery %>" 검색 결과가 없습니다.</p>
+            <a href="/boards" class="btn-primary-solid">전체 게시글 보기</a>
+          <% } else { %>
+            <p>아직 등록된 게시글이 없습니다.</p>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+</main>
+
+<!-- 공지사항 목록 페이지 전용 스타일 -->
+<link rel="stylesheet" href="/css/boards.css">
+
+<%- include('layout/footer') %>

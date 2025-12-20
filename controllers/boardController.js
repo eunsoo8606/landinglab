@@ -43,9 +43,9 @@ exports.getBoards = async (req, res) => {
       [...params, limit, offset]
     );
     
-    res.render('posts', {
+    res.render('boards', {
       title: '공지사항 - LandingLab',
-      page: 'posts',
+      page: 'boards',
       boards,
       currentPage: page,
       totalPages,
@@ -95,9 +95,9 @@ exports.getBoardDetail = async (req, res) => {
     
     const board = boards[0];
     
-    res.render('post-detail', {
+    res.render('board-detail', {
       title: `${board.title} - LandingLab`,
-      page: 'post-detail',
+      page: 'board-detail',
       board
     });
     

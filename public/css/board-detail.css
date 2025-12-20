@@ -1,0 +1,129 @@
+/* 공지사항 상세 페이지 스타일 */
+
+.post-detail-page {
+  background: var(--main-dark);
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.post-detail-section {
+  padding: 60px 0 80px;
+}
+
+.post-detail-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 50px;
+  backdrop-filter: blur(10px);
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  color: var(--accent-blue);
+  transform: translateX(-4px);
+}
+
+.post-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+
+.badge-notice {
+  display: inline-block;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, var(--accent-blue), #667eea);
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.post-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.post-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.meta-item i {
+  color: var(--accent-blue);
+}
+
+.post-content {
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 40px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.post-actions {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 30px;
+  text-align: center;
+}
+
+.btn-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--accent-blue), #667eea);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.btn-list:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13, 110, 253, 0.5);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .post-detail-wrapper {
+    padding: 30px 20px;
+  }
+  
+  .post-title {
+    font-size: 24px;
+  }
+  
+  .post-content {
+    font-size: 15px;
+  }
+}

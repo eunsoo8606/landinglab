@@ -1,153 +1,8 @@
-// 메인 페이지 컨트롤러
-exports.getHome = (req, res) => {
-  res.render('index', {
-    title: '랜딩랩 | 압도적인 랜딩페이지 제작',
-    page: 'home',
-    description: '단순한 페이지가 아닙니다. 매출을 바꾸는 전략입니다. 기획부터 디자인, 퍼블리싱까지 고객의 마음을 움직이는 고효율 랜딩페이지를 경험하세요.',
-    keywords: '랜딩페이지 제작, 웹사이트 제작, SEO 최적화, 반응형 웹, 퍼포먼스 마케팅, LandingLab',
-    ogImage: '/images/hero-image.svg'
-  });
-};
-
-// 회사 소개 페이지 컨트롤러
-exports.getAbout = (req, res) => {
-  res.render('about', {
-    title: '랜딩랩 | 회사 소개',
-    page: 'about',
-    description: '백엔드부터 프론트엔드까지, 전체 사이클을 대표가 직접 책임집니다. 검색엔진 최적화와 극한의 성능으로 실질적인 비즈니스 성과를 만들어드립니다.',
-    keywords: '웹 개발 회사, 풀스택 개발, 맞춤형 웹사이트, 성능 최적화, LandingLab'
-  });
-};
-
-// 서비스 페이지 컨트롤러
-exports.getServices = (req, res) => {
-  res.render('services', {
-    title: '랜딩랩 | 서비스',
-    page: 'services',
-    description: '웹빌더 NO! 맞춤형 개발로 극한의 성능 최적화를 제공합니다. SSL 평생 무료, 도메인 2년 무료 제공, 완벽한 반응형 디자인까지.',
-    keywords: '맞춤형 웹 개발, 성능 최적화, SSL 인증서, 도메인 제공, 반응형 디자인'
-  });
-};
-
-// 연락처 페이지 컨트롤러
-exports.getContact = (req, res) => {
-  res.render('contact', {
-    title: '랜딩랩 | 연락처',
-    page: 'contact',
-    description: '프로젝트 문의 및 무료 견적 상담을 받아보세요. 랜딩랩이 귀사의 성공적인 웹 프로젝트를 함께 만들어갑니다.',
-    keywords: '웹사이트 견적, 랜딩페이지 문의, 프로젝트 상담, 무료 견적'
-  });
-};
-
-// 포트폴리오 페이지 컨트롤러
-exports.getPortfolio = (req, res) => {
-  // 샘플 포트폴리오 데이터 (10개)
-  const portfolios = [
-    {
-      id: 1,
-      title: '동진담 (DongJinDam)',
-      category: '웰니스/뷰티',
-      description: '동양의 진귀함과 현대 과학이 만나는 머스크 기반 프리미엄 웰니스 브랜드. 브랜드 포지셔닝, 인테리어 공간, 웰니스 철학을 담은 하이엔드 랜딩페이지.',
-      tech: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
-      image: '/images/portfolio/portfolio-1.jpg',
-      url: 'https://cmong-portfolio1.netlify.app/'
-    },
-    {
-      id: 2,
-      title: '피트니스 센터',
-      category: '헬스/피트니스',
-      description: '현대적인 피트니스 센터 웹사이트. 회원 등록 및 PT 예약 기능 포함.',
-      tech: ['Express', 'Bootstrap', 'JavaScript'],
-      image: '/images/portfolio/portfolio-2.jpg',
-      url: '#'
-    },
-    {
-      id: 3,
-      title: '부동산 중개',
-      category: '부동산',
-      description: '부동산 매물 검색 및 상담 신청이 가능한 전문 랜딩페이지.',
-      tech: ['React', 'Node.js', 'MongoDB'],
-      image: '/images/portfolio/portfolio-3.jpg',
-      url: '#'
-    },
-    {
-      id: 4,
-      title: '뷰티 살롱',
-      category: '뷰티/미용',
-      description: '뷰티 살롱을 위한 우아한 디자인. 온라인 예약 시스템 통합.',
-      tech: ['Vue.js', 'Tailwind CSS', 'Firebase'],
-      image: '/images/portfolio/portfolio-4.jpg',
-      url: '#'
-    },
-    {
-      id: 5,
-      title: '법률 사무소',
-      category: '법률/컨설팅',
-      description: '전문적이고 신뢰감 있는 법률 사무소 웹사이트. 상담 예약 기능 제공.',
-      tech: ['Next.js', 'TypeScript', 'Prisma'],
-      image: '/images/portfolio/portfolio-5.jpg',
-      url: '#'
-    },
-    {
-      id: 6,
-      title: '카페 브랜드',
-      category: '카페/베이커리',
-      description: '감성적인 카페 브랜드 소개 페이지. 메뉴와 매장 위치 안내 포함.',
-      tech: ['HTML5', 'SCSS', 'jQuery'],
-      image: '/images/portfolio/portfolio-6.jpg',
-      url: '#'
-    },
-    {
-      id: 7,
-      title: '의료 클리닉',
-      category: '의료/건강',
-      description: '의료 클리닉을 위한 깔끔하고 전문적인 웹사이트. 진료 예약 시스템.',
-      tech: ['Angular', 'Node.js', 'PostgreSQL'],
-      image: '/images/portfolio/portfolio-7.jpg',
-      url: '#'
-    },
-    {
-      id: 8,
-      title: '교육 학원',
-      category: '교육',
-      description: '학원 소개 및 수강 신청이 가능한 교육 플랫폼 랜딩페이지.',
-      tech: ['Django', 'Python', 'Bootstrap'],
-      image: '/images/portfolio/portfolio-8.jpg',
-      url: '#'
-    },
-    {
-      id: 9,
-      title: '인테리어 디자인',
-      category: '인테리어',
-      description: '인테리어 디자인 포트폴리오 및 견적 문의 페이지.',
-      tech: ['Gatsby', 'GraphQL', 'Styled Components'],
-      image: '/images/portfolio/portfolio-9.jpg',
-      url: '#'
-    },
-    {
-      id: 10,
-      title: '자동차 정비',
-      category: '자동차',
-      description: '자동차 정비소 소개 및 예약 시스템. 서비스 안내 포함.',
-      tech: ['Laravel', 'PHP', 'MySQL'],
-      image: '/images/portfolio/portfolio-10.jpg',
-      url: '#'
-    }
-  ];
-
-  res.render('portfolio', {
-    title: 'LandingLab - 포트폴리오',
-    page: 'portfolio',
-    portfolios: portfolios
-  });
-};
-
-// 포스트 데이터 (공통 사용)
 const getPostsData = () => {
   return [
     {
       id: 1,
-      title: 'GA4 사용법 가이드: 2025년 데이터 분석을 위한 필수 설정 및 활용법',
+      title: 'GA4 사용법 가이드',
       description: '데이터 분석의 표준이 된 GA4(Google Analytics 4), 아직도 어렵게만 느껴지시나요? 2023년 기존 UA(Universal Analytics)가 종료된 이후, GA4는 선택이 아닌 필수 도구가 되었습니다.',
       category: '분석',
       tags: ['#GA4', '#구글애널리틱스', '#데이터분석', '#전환추적'],
@@ -289,10 +144,10 @@ const getPostsData = () => {
         <p>행동 유도 버튼(CTA)은 랜딩페이지의 가장 중요한 요소입니다. 눈에 띄는 색상, 명확한 문구, 적절한 위치 배치가 전환율을 크게 향상시킵니다.</p>
         
         <h3>신뢰 구축 요소</h3>
-        <p>고객 후기, 사례 연구, 인증 마크, 보안 배지 등을 활용하여 신뢰를 구축합니다. 사회적 증거는 방문자의 의사결정에 큰 영향을 미칩니다.</p>
+        <p>고객 후기, 사용 사례, 인증 마크, 보안 배지 등을 활용하여 방문자의 신뢰를 얻습니다. 사회적 증거는 전환율 향상에 매우 효과적입니다.</p>
         
-        <h3>A/B 테스팅</h3>
-        <p>지속적인 A/B 테스팅을 통해 랜딩페이지를 최적화합니다. 헤드라인, CTA 문구, 이미지, 레이아웃 등 다양한 요소를 테스트하여 최고의 성과를 달성합니다.</p>
+        <h3>A/B 테스트와 최적화</h3>
+        <p>지속적인 A/B 테스트를 통해 랜딩페이지를 개선합니다. 헤드라인, CTA 문구, 이미지, 레이아웃 등 다양한 요소를 테스트하여 최적의 조합을 찾습니다.</p>
       `
     },
     {
@@ -331,9 +186,11 @@ exports.getPosts = (req, res) => {
   const posts = getPostsData();
   
   res.render('posts', {
-    title: '랜딩랩 | 포스트',
+    title: '블로그 | 랜딩랩',
     page: 'posts',
-    posts: posts
+    description: 'GA4 사용법, SEO 최적화, 반응형 웹 디자인, 랜딩페이지 제작 전략 등 웹 개발과 마케팅에 대한 유용한 정보를 공유합니다.',
+    keywords: 'GA4 가이드, SEO 최적화, 반응형 웹, 랜딩페이지 전략, UI/UX 디자인, 웹 개발 블로그',
+    posts
   });
 };
 
@@ -343,24 +200,26 @@ exports.getPostDetail = (req, res) => {
   const posts = getPostsData();
   const post = posts.find(p => p.id === postId);
   
-  // 포스트가 없으면 404 에러
   if (!post) {
     return res.status(404).render('error', {
-      title: '페이지를 찾을 수 없습니다 | 랜딩랩',
+      title: '404 - 페이지를 찾을 수 없습니다',
       page: 'error',
       message: '요청하신 포스트를 찾을 수 없습니다.'
     });
   }
   
-  // 관련 포스트 (같은 카테고리, 현재 포스트 제외, 최대 3개)
+  // 관련 포스트 찾기 (같은 카테고리, 최대 3개)
   const relatedPosts = posts
-    .filter(p => p.category === post.category && p.id !== post.id)
+    .filter(p => p.id !== postId && p.category === post.category)
     .slice(0, 3);
   
   res.render('post-detail', {
     title: `${post.title} | 랜딩랩`,
     page: 'post-detail',
-    post: post,
-    relatedPosts: relatedPosts
+    description: post.description,
+    keywords: post.tags.join(', '),
+    ogImage: post.image,
+    post,
+    relatedPosts
   });
 };
