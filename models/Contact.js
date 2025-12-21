@@ -24,8 +24,8 @@ class Contact {
           phone: item.phone ? decrypt(item.phone) : item.phone
         };
       } catch (error) {
-        console.error('복호화 오류:', error);
         // 복호화 실패 시 원본 데이터 반환 (마이그레이션 전 평문 데이터 대응)
+        // 평문 데이터는 조용히 그대로 사용
         return item;
       }
     };
@@ -95,13 +95,14 @@ class Contact {
       name, 
       email, 
       phone, 
-      company = null,
-      message,
+      company_name = null,
+      description,
       project_type = null,
       services = null,
       package: packageType = null,
       reference = null,
       website = null,
+      budget = null,
       privacyAgree = false
     } = data;
     
@@ -111,21 +112,22 @@ class Contact {
     
     const sql = `
       INSERT INTO contacts 
-      (name, email, phone, company_name, description, project_type, services, package, reference, website, agree_yn, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+      (name, email, phone, company_name, description, project_type, services, package, reference, website, budget, agree_yn, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
     `;
     
     const result = await query(sql, [
       name, 
       encryptedEmail, 
       encryptedPhone, 
-      company, 
-      message, 
+      company_name, 
+      description, 
       project_type,
       services,
       packageType,
       reference,
       website,
+      budget,
       privacyAgree ? 'Y' : 'N'
     ]);
     

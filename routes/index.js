@@ -5,6 +5,12 @@ const adminController = require('../controllers/adminController');
 const boardController = require('../controllers/boardController');
 const postController = require('../controllers/postController');
 const contactController = require('../controllers/contactController');
+const sitemapController = require('../controllers/sitemapController');
+
+// SEO - Sitemap & Robots.txt & RSS Feed
+router.get('/sitemap.xml', sitemapController.getSitemap);
+router.get('/robots.txt', sitemapController.getRobots);
+router.get('/rss.xml', sitemapController.getRssFeed);
 
 // 메인 페이지
 router.get('/', homeController.getHome);

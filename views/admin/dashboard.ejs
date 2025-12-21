@@ -538,8 +538,8 @@
               <div class="contact-header">
                 <div>
                   <span class="contact-name"><%= contact.name %></span>
-                  <% if (contact.company) { %>
-                    <span class="contact-company">(<%= contact.company %>)</span>
+                  <% if (contact.company_name) { %>
+                    <span class="contact-company">(<%= contact.company_name %>)</span>
                   <% } %>
                 </div>
                 <span class="status-badge status-<%= contact.status %>">
@@ -550,7 +550,7 @@
               </div>
               <div class="contact-email"><%= contact.email %></div>
               <div class="contact-message">
-                <%= contact.message.length > 120 ? contact.message.substring(0, 120) + '...' : contact.message %>
+                <%= contact.description && contact.description.length > 120 ? contact.description.substring(0, 120) + '...' : contact.description || '내용 없음' %>
               </div>
               <div class="contact-footer">
                 <div class="contact-date">

@@ -17,6 +17,7 @@ exports.submitContact = async (req, res) => {
       email,
       website,
       description,
+      budget,
       privacyAgree
     } = req.body;
 
@@ -36,13 +37,14 @@ exports.submitContact = async (req, res) => {
       name,
       email,
       phone,
-      company: companyName || null,
-      message: description,
+      company_name: companyName || null,
+      description: description,
       project_type: projectType || null,
       services: servicesStr || null,
       package: packageType || null,
       reference: reference || null,
       website: website || null,
+      budget: budget || null,
       privacyAgree: privacyAgree || false
     };
 

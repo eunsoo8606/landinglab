@@ -1,4 +1,5 @@
 const Admin = require('../models/Admin');
+const Contact = require('../models/Contact');
 
 /**
  * 관리자 컨트롤러
@@ -118,13 +119,16 @@ exports.showDashboard = async (req, res) => {
     
     // 최근 문의 조회 (최근 5개)
     console.log('최근 문의 조회 중...');
-    const [recentContacts] = await pool.execute(
-      `SELECT id, name, email, company, message, status, created_at 
+    const [recentContactsRaw] = await pool.execute(
+      `SELECT id, name, email, phone, company_name, description, status, created_at 
        FROM contacts 
        ORDER BY created_at DESC 
        LIMIT 5`
     );
-    console.log('최근 문의 수:', recentContacts.length);
+    console.log('최근 문의 수:', recentContactsRaw.length);
+    
+    // 암호화된 데이터 복호화
+    const recentContacts = Contact.decryptSensitiveData(recentContactsRaw);
     
     console.log('대시보드 렌더링 시작...');
     res.render('admin/dashboard', {

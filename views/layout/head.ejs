@@ -17,7 +17,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="<%= title %>">
   <meta property="og:description" content="<%= locals.description || '고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다.' %>">
-  <meta property="og:image" content="<%= locals.ogImage || '/images/logo-2.png' %>">
+  <meta property="og:image" content="<%= locals.ogImage || 'https://landinglab.com/images/logo-2.png' %>">
   <meta property="og:url" content="https://landinglab.com">
   <meta property="og:site_name" content="LandingLab">
 
@@ -25,7 +25,16 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<%= title %>">
   <meta name="twitter:description" content="<%= locals.description || '고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다.' %>">
-  <meta name="twitter:image" content="<%= locals.ogImage || '/images/logo-2.png' %>">
+  <meta name="twitter:image" content="<%= locals.ogImage || 'https://landinglab.com/images/logo-2.png' %>">
+
+  <!-- JSON-LD Structured Data -->
+  <% if (locals.jsonLdSchemas && jsonLdSchemas.length > 0) { %>
+    <% jsonLdSchemas.forEach(schema => { %>
+  <script type="application/ld+json">
+<%- JSON.stringify(schema, null, 2) %>
+  </script>
+    <% }); %>
+  <% } %>
 
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 

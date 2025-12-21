@@ -1,11 +1,60 @@
+// JSON-LD 스키마 생성 함수 import
+const {
+  createOrganizationSchema,
+  createWebSiteSchema,
+  createBreadcrumbSchema,
+  createImageGallerySchema
+} = require('../utils/jsonld');
+
 // 메인 페이지 컨트롤러
 exports.getHome = (req, res) => {
+  const baseUrl = 'https://landinglab.com';
+  
+  // JSON-LD 스키마 생성
+  const jsonLdSchemas = [];
+  
+  // 1. Organization 스키마
+  jsonLdSchemas.push(createOrganizationSchema({
+    name: '랜딩랩',
+    url: baseUrl,
+    logo: `${baseUrl}/images/logo-2.png`,
+    description: '압도적인 랜딩페이지 제작 전문 업체'
+  }));
+  
+  // 2. WebSite 스키마
+  jsonLdSchemas.push(createWebSiteSchema({
+    name: '랜딩랩',
+    url: baseUrl,
+    description: '단순한 페이지가 아닙니다. 매출을 바꾸는 전략입니다.'
+  }));
+  
+  // 3. BreadcrumbList 스키마
+  jsonLdSchemas.push(createBreadcrumbSchema([
+    { name: '홈', url: baseUrl }
+  ]));
+  
+  // 4. ImageGallery 스키마 (리뷰 이미지 10개)
+  const reviewImages = [];
+  for (let i = 1; i <= 10; i++) {
+    reviewImages.push({
+      url: `${baseUrl}/images/review${i}.webp`,
+      name: `고객 리뷰 ${i}`,
+      description: `랜딩랩 고객 리뷰 이미지 ${i}`
+    });
+  }
+  jsonLdSchemas.push(createImageGallerySchema({
+    name: '고객 리뷰',
+    description: '랜딩랩 고객 리뷰 갤러리',
+    images: reviewImages
+  }));
+  
   res.render('index', {
     title: '랜딩랩 | 압도적인 랜딩페이지 제작',
     page: 'home',
     description: '단순한 페이지가 아닙니다. 매출을 바꾸는 전략입니다. 기획부터 디자인, 퍼블리싱까지 고객의 마음을 움직이는 고효율 랜딩페이지를 경험하세요.',
     keywords: '랜딩페이지 제작, 웹사이트 제작, SEO 최적화, 반응형 웹, 퍼포먼스 마케팅, LandingLab',
-    ogImage: '/images/hero-image.svg'
+    ogImage: `${baseUrl}/images/hero-image.svg`,
+    jsonLdSchemas // JSON-LD 스키마 배열 전달
   });
 };
 
@@ -143,7 +192,7 @@ exports.getPortfolio = (req, res) => {
 };
 
 // 포스트 데이터 (공통 사용)
-const getPostsData = () => {
+exports.getPostsData = () => {
   return [
     {
       id: 1,
