@@ -25,7 +25,8 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 24시간
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production' // HTTPS에서만 쿠키 전송 (프로덕션)
+    secure: process.env.NODE_ENV === 'production', // HTTPS에서만 쿠키 전송 (프로덕션)
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax' // CSRF 방어
   }
 }));
 
