@@ -18,14 +18,14 @@ exports.getHome = (req, res) => {
     name: '랜딩랩',
     url: baseUrl,
     logo: `${baseUrl}/images/logo-2.png`,
-    description: '압도적인 랜딩페이지 제작 전문 업체'
+    description: '압도적인 랜딩페이지 및 홈페이지 제작 전문 업체'
   }));
   
   // 2. WebSite 스키마
   jsonLdSchemas.push(createWebSiteSchema({
     name: '랜딩랩',
     url: baseUrl,
-    description: '단순한 페이지가 아닙니다. 매출을 바꾸는 전략입니다.'
+    description: '단순한 홈페이지가 아닙니다. 매출을 바꾸는 전략입니다.'
   }));
   
   // 3. BreadcrumbList 스키마
@@ -49,10 +49,10 @@ exports.getHome = (req, res) => {
   }));
   
   res.render('index', {
-    title: '랜딩랩 | 압도적인 랜딩페이지 제작',
+    title: '랜딩랩 | 압도적인 랜딩페이지 및 홈페이지 제작',
     page: 'home',
-    description: '단순한 페이지가 아닙니다. 매출을 바꾸는 전략입니다. 기획부터 디자인, 퍼블리싱까지 고객의 마음을 움직이는 고효율 랜딩페이지를 경험하세요.',
-    keywords: '랜딩페이지 제작, 웹사이트 제작, SEO 최적화, 반응형 웹, 퍼포먼스 마케팅, LandingLab',
+    description: '단순한 홈페이지가 아닙니다. 매출을 바꾸는 전략입니다. 기획부터 디자인, 퍼블리싱까지 고객의 마음을 움직이는 고효율 랜딩페이지를 경험하세요.',
+    keywords: '랜딩페이지 제작, 홈페이지 제작, SEO 최적화, 반응형 웹, 퍼포먼스 마케팅, LandingLab',
     ogImage: `${baseUrl}/images/hero-image.svg`,
     jsonLdSchemas // JSON-LD 스키마 배열 전달
   });
@@ -64,7 +64,7 @@ exports.getAbout = (req, res) => {
     title: '랜딩랩 | 회사 소개',
     page: 'about',
     description: '백엔드부터 프론트엔드까지, 전체 사이클을 대표가 직접 책임집니다. 검색엔진 최적화와 극한의 성능으로 실질적인 비즈니스 성과를 만들어드립니다.',
-    keywords: '웹 개발 회사, 풀스택 개발, 맞춤형 웹사이트, 성능 최적화, LandingLab'
+    keywords: '홈페이지 제작, 풀스택 개발, 맞춤형 웹사이트, 성능 최적화, LandingLab'
   });
 };
 
@@ -83,8 +83,8 @@ exports.getContact = (req, res) => {
   res.render('contact', {
     title: '랜딩랩 | 연락처',
     page: 'contact',
-    description: '프로젝트 문의 및 무료 견적 상담을 받아보세요. 랜딩랩이 귀사의 성공적인 웹 프로젝트를 함께 만들어갑니다.',
-    keywords: '웹사이트 견적, 랜딩페이지 문의, 프로젝트 상담, 무료 견적'
+    description: '홈페이지 제작 및 무료 견적 상담을 받아보세요. 랜딩랩이 귀사의 성공적인 웹 프로젝트를 함께 만들어갑니다.',
+    keywords: '홈페이지 제작, 랜딩페이지 문의, 프로젝트 상담, 무료 견적'
   });
 };
 
