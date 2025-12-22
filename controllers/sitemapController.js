@@ -74,62 +74,65 @@ Disallow: /api/
 };
 
 /**
- * RSS Feed 생성 (Atom 형식)
+ * RSS Feed 생성 (RSS 2.0 형식)
  */
 exports.getRssFeed = (req, res) => {
   const baseUrl = 'https://landinglab.com';
   const posts = getPostsData();
-  const currentDate = new Date().toISOString();
+  const currentDate = new Date();
   
-  // Atom Feed XML 생성
+  // RFC 822 날짜 형식으로 변환하는 헬퍼 함수
+  const toRFC822 = (date) => {
+    const d = date ? new Date(date) : currentDate;
+    return d.toUTCString();
+  };
+  
+  // RSS 2.0 Feed XML 생성
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<feed xmlns="http://www.w3.org/2005/Atom">\n';
-  xml += '  <title>랜딩랩 블로그</title>\n';
-  xml += `  <link href="${baseUrl}/rss.xml" rel="self" type="application/atom+xml"/>\n`;
-  xml += `  <link href="${baseUrl}/posts" rel="alternate" type="text/html"/>\n`;
-  xml += `  <updated>${currentDate}</updated>\n`;
-  xml += `  <id>${baseUrl}/</id>\n`;
-  xml += '  <author>\n';
-  xml += '    <name>랜딩랩</name>\n';
-  xml += '    <email>landing.lab0@gmail.com</email>\n';
-  xml += '  </author>\n';
-  xml += '  <subtitle>GA4, SEO 최적화, 반응형 웹 디자인, 랜딩페이지 제작 전략 등 웹 개발과 마케팅 정보</subtitle>\n';
+  xml += '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n';
+  xml += '  <channel>\n';
+  xml += '    <title>랜딩랩 블로그</title>\n';
+  xml += `    <link>${baseUrl}/posts</link>\n`;
+  xml += '    <description>GA4, SEO 최적화, 반응형 웹 디자인, 랜딩페이지 제작 전략 등 웹 개발과 마케팅 정보</description>\n';
+  xml += '    <language>ko</language>\n';
+  xml += `    <lastBuildDate>${toRFC822(currentDate)}</lastBuildDate>\n`;
+  xml += `    <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>\n`;
+  xml += '    <managingEditor>landing.lab0@gmail.com (랜딩랩)</managingEditor>\n';
+  xml += '    <webMaster>landing.lab0@gmail.com (랜딩랩)</webMaster>\n';
   
-  // 각 포스트를 entry로 추가
+  // 각 포스트를 item으로 추가
   posts.forEach(post => {
     const postUrl = `${baseUrl}/posts/${post.id}`;
-    const postDate = post.date ? new Date(post.date).toISOString() : currentDate;
+    const postDate = toRFC822(post.date);
     
-    xml += '  <entry>\n';
-    xml += `    <title>${escapeXml(post.title)}</title>\n`;
-    xml += `    <link href="${postUrl}" rel="alternate" type="text/html"/>\n`;
-    xml += `    <id>${postUrl}</id>\n`;
-    xml += `    <published>${postDate}</published>\n`;
-    xml += `    <updated>${postDate}</updated>\n`;
-    xml += '    <author>\n';
-    xml += `      <name>${escapeXml(post.author)}</name>\n`;
-    xml += '    </author>\n';
-    xml += `    <summary type="html">${escapeXml(post.description)}</summary>\n`;
+    xml += '    <item>\n';
+    xml += `      <title>${escapeXml(post.title)}</title>\n`;
+    xml += `      <link>${postUrl}</link>\n`;
+    xml += `      <guid isPermaLink="true">${postUrl}</guid>\n`;
+    xml += `      <description>${escapeXml(post.description)}</description>\n`;
+    xml += `      <pubDate>${postDate}</pubDate>\n`;
+    xml += `      <author>landing.lab0@gmail.com (${escapeXml(post.author)})</author>\n`;
     
     // 카테고리 추가
     if (post.category) {
-      xml += `    <category term="${escapeXml(post.category)}"/>\n`;
+      xml += `      <category>${escapeXml(post.category)}</category>\n`;
     }
     
     // 태그 추가
     if (post.tags && post.tags.length > 0) {
       post.tags.forEach(tag => {
-        xml += `    <category term="${escapeXml(tag)}"/>\n`;
+        xml += `      <category>${escapeXml(tag)}</category>\n`;
       });
     }
     
-    xml += '  </entry>\n';
+    xml += '    </item>\n';
   });
   
-  xml += '</feed>';
+  xml += '  </channel>\n';
+  xml += '</rss>';
   
   // XML 응답
-  res.header('Content-Type', 'application/atom+xml; charset=utf-8');
+  res.header('Content-Type', 'application/rss+xml; charset=utf-8');
   res.send(xml);
 };
 

@@ -105,9 +105,9 @@ exports.showDashboard = async (req, res) => {
     console.log('데이터베이스 쿼리 시작...');
     
     // 통계 정보 조회
-    console.log('게시글 수 조회 중...');
+    console.log('공지사항 수 조회 중...');
     const [boardStats] = await pool.execute('SELECT COUNT(*) as count FROM boards');
-    console.log('게시글 수:', boardStats[0].count);
+    console.log('공지사항 수:', boardStats[0].count);
     
     console.log('문의 수 조회 중...');
     const [contactStats] = await pool.execute('SELECT COUNT(*) as count FROM contacts');
