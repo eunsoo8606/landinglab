@@ -1,0 +1,113 @@
+/**
+ * 로켓 마우스 커서 스타일
+ */
+
+/* 기본 커서 숨기기 */
+body,
+body * {
+  cursor: none !important;
+}
+
+/* 커스텀 로켓 커서 */
+#rocket-cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  will-change: transform;
+}
+
+/* 로켓 본체 */
+.rocket-body {
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  border-radius: 50% 50% 0 0;
+  top: 0;
+  left: 10px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.2),
+    0 0 10px rgba(255,255,255,0.5);
+}
+
+/* 로켓 창문 */
+.rocket-window {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #4fc3f7 0%, #0277bd 100%);
+  border-radius: 50%;
+  top: 8px;
+  left: 16px;
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+}
+
+/* 로켓 날개 (왼쪽) */
+.rocket-wing-left {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid #ff6b6b;
+  border-bottom: 12px solid transparent;
+  top: 18px;
+  left: 2px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+}
+
+/* 로켓 날개 (오른쪽) */
+.rocket-wing-right {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid #ff6b6b;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid transparent;
+  top: 18px;
+  left: 22px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+}
+
+/* 로켓 엔진 */
+.rocket-engine {
+  position: absolute;
+  width: 12px;
+  height: 6px;
+  background: linear-gradient(180deg, #757575 0%, #424242 100%);
+  border-radius: 0 0 4px 4px;
+  top: 30px;
+  left: 14px;
+}
+
+/* 파티클 애니메이션 */
+.rocket-particle {
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+  will-change: transform, opacity;
+}
+
+/* 성능 최적화를 위한 GPU 가속 */
+#rocket-particles-container {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 모바일에서는 커서 효과 비활성화 (터치 디바이스) */
+@media (hover: none) and (pointer: coarse) {
+  body,
+  body * {
+    cursor: auto !important;
+  }
+  
+  #rocket-particles-container {
+    display: none !important;
+  }
+}
+
+/* 파티클 블러 효과 (선택적) */
+.rocket-particle {
+  filter: blur(1px);
+}
