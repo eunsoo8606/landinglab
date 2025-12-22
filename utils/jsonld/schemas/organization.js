@@ -6,8 +6,8 @@
 function createOrganizationSchema(options = {}) {
   const {
     name = '랜딩랩',
-    url = 'https://landinglab.com',
-    logo = 'https://landinglab.com/images/logo-2.png',
+    url = 'https://langdinglab.com',
+    logo = 'https://langdinglab.com/images/logo-2.png',
     description = '압도적인 랜딩페이지 제작 전문 업체',
     sameAs = [] // 소셜 미디어 URL 배열
   } = options;

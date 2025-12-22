@@ -8,7 +8,7 @@ const {
 
 // 메인 페이지 컨트롤러
 exports.getHome = (req, res) => {
-  const baseUrl = 'https://landinglab.com';
+  const baseUrl = 'https://langdinglab.com';
   
   // JSON-LD 스키마 생성
   const jsonLdSchemas = [];

@@ -4,7 +4,7 @@ const { getPostsData } = require('./homeController');
  * Sitemap.xml 생성
  */
 exports.getSitemap = (req, res) => {
-  const baseUrl = 'https://landinglab.com';
+  const baseUrl = 'https://langdinglab.com';
   const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식
   
   // 정적 페이지 URL 목록
@@ -54,7 +54,7 @@ exports.getSitemap = (req, res) => {
  * robots.txt 생성
  */
 exports.getRobots = (req, res) => {
-  const baseUrl = 'https://landinglab.com';
+  const baseUrl = 'https://langdinglab.com';
   
   const robotsTxt = `# Robots.txt for LandingLab
 User-agent: *
@@ -77,7 +77,7 @@ Disallow: /api/
  * RSS Feed 생성 (RSS 2.0 형식)
  */
 exports.getRssFeed = (req, res) => {
-  const baseUrl = 'https://landinglab.com';
+  const baseUrl = 'https://langdinglab.com';
   const posts = getPostsData();
   const currentDate = new Date();
   

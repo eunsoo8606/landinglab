@@ -6,7 +6,7 @@
 function createWebSiteSchema(options = {}) {
   const {
     name = '랜딩랩',
-    url = 'https://landinglab.com',
+    url = 'https://langdinglab.com',
     description = '단순한 페이지가 아닙니다. 매출을 바꾸는 전략입니다.',
     inLanguage = 'ko-KR'
   } = options;
