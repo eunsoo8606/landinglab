@@ -22,7 +22,7 @@ exports.showLoginPage = (req, res) => {
  */
 exports.login = async (req, res) => {
   const { username, password } = req.body;
-  
+
   // 입력 검증
   if (!username || !password) {
     return res.render('admin/login', {
@@ -31,11 +31,11 @@ exports.login = async (req, res) => {
       message: null
     });
   }
-  
+
   try {
     // 관리자 조회
     const admin = await Admin.findByUsername(username);
-    
+
     if (!admin) {
       return res.render('admin/login', {
         title: '관리자 로그인 - LandingLab',
@@ -43,10 +43,10 @@ exports.login = async (req, res) => {
         message: null
       });
     }
-    
+
     // 비밀번호 검증
     const isValidPassword = await Admin.verifyPassword(password, admin.password);
-    
+
     if (!isValidPassword) {
       return res.render('admin/login', {
         title: '관리자 로그인 - LandingLab',
@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
         message: null
       });
     }
-    
+
     // 세션에 관리자 정보 저장 (비밀번호 제외)
     req.session.admin = {
       id: admin.id,
@@ -63,13 +63,13 @@ exports.login = async (req, res) => {
       name: admin.name,
       role: admin.role
     };
-    
+
     // 마지막 로그인 시간 업데이트
     await Admin.updateLastLogin(admin.id);
-    
+
     // 대시보드로 리다이렉트
     res.redirect('/admin/dashboard');
-    
+
   } catch (error) {
     console.error('로그인 처리 오류:', error);
     res.render('admin/login', {
@@ -98,25 +98,30 @@ exports.logout = (req, res) => {
 exports.showDashboard = async (req, res) => {
   console.log('=== 대시보드 접근 시작 ===');
   console.log('세션 정보:', req.session.admin);
-  
+
   try {
     const { pool } = require('../config/database');
-    
+
     console.log('데이터베이스 쿼리 시작...');
-    
+
     // 통계 정보 조회
     console.log('공지사항 수 조회 중...');
-    const [boardStats] = await pool.execute('SELECT COUNT(*) as count FROM boards');
+    const [boardStats] = await pool.execute(
+      `SELECT COUNT(*) as count 
+       FROM posts p
+       JOIN boards b ON p.board_id = b.id
+       WHERE b.company_id = 1 AND b.category = 'notice'`
+    );
     console.log('공지사항 수:', boardStats[0].count);
-    
+
     console.log('문의 수 조회 중...');
     const [contactStats] = await pool.execute('SELECT COUNT(*) as count FROM contacts');
     console.log('문의 수:', contactStats[0].count);
-    
+
     console.log('포트폴리오 수 조회 중...');
     const [portfolioStats] = await pool.execute('SELECT COUNT(*) as count FROM portfolios');
     console.log('포트폴리오 수:', portfolioStats[0].count);
-    
+
     // 최근 문의 조회 (최근 5개)
     console.log('최근 문의 조회 중...');
     const [recentContactsRaw] = await pool.execute(
@@ -126,10 +131,10 @@ exports.showDashboard = async (req, res) => {
        LIMIT 5`
     );
     console.log('최근 문의 수:', recentContactsRaw.length);
-    
+
     // 암호화된 데이터 복호화
     const recentContacts = Contact.decryptSensitiveData(recentContactsRaw);
-    
+
     console.log('대시보드 렌더링 시작...');
     res.render('admin/dashboard', {
       title: '관리자 대시보드 - LandingLab',
@@ -142,7 +147,7 @@ exports.showDashboard = async (req, res) => {
       recentContacts
     });
     console.log('=== 대시보드 렌더링 완료 ===');
-    
+
   } catch (error) {
     console.error('=== 대시보드 조회 오류 ===');
     console.error('오류 상세:', error);

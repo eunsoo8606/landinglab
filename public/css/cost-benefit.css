@@ -1,0 +1,178 @@
+/* Cost & Benefit Analysis Section */
+.cost-benefit-section {
+    padding: 120px 0;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.roi-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+/* Cost Analysis Card */
+.cost-analysis-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cost-analysis-card::before {
+    content: 'LOSS';
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background: #ff4d4d;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+}
+
+.cost-label {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.cost-value-main {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.cost-value-sub {
+    font-size: 1.1rem;
+    color: #888;
+    margin-bottom: 30px;
+}
+
+.cost-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cost-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #aaa;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.cost-list li i {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+}
+
+/* Benefit Content */
+.benefit-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.benefit-content p {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.benefit-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.benefit-tag {
+    background: rgba(0, 255, 127, 0.1);
+    color: #00ff7f;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid rgba(0, 255, 127, 0.2);
+}
+
+/* Advantage Grid */
+.advantage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.advantage-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.advantage-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 255, 127, 0.3);
+    transform: translateY(-5px);
+}
+
+.adv-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 255, 127, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00ff7f;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.advantage-card h4 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.advantage-card p {
+    font-size: 0.9rem;
+    color: #888;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .roi-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .advantage-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .advantage-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cost-value-main {
+        font-size: 2rem;
+    }
+}

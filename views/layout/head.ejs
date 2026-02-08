@@ -13,7 +13,8 @@
   <meta name="google-site-verification" content="EhnjdqJuOrqLYg2-ctYpLNxbsBraWqIQ3-XAlZtGGaM" />
 
   <!-- SEO & Social Media Meta Tags -->
-  <meta name="description" content="<%= locals.description || '고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다. LandingLab과 함께 성공적인 프로젝트를 시작하세요.' %>">
+  <meta name="description"
+    content="<%= locals.description || '고객의 마음을 움직이는 고효율 랜딩페이지를 제작합니다. LandingLab과 함께 성공적인 프로젝트를 시작하세요.' %>">
   <meta name="keywords" content="<%= locals.keywords || '랜딩페이지, 웹사이트 제작, SEO 최적화, 반응형 웹, LandingLab' %>">
 
   <!-- Open Graph (Facebook, KakaoTalk) -->
@@ -31,70 +32,73 @@
   <meta name="twitter:image" content="<%= locals.ogImage || 'https://landinglab.com/images/logo-2.png' %>">
 
   <!-- JSON-LD Structured Data -->
-  <% if (locals.jsonLdSchemas && jsonLdSchemas.length > 0) { %>
-    <% jsonLdSchemas.forEach(schema => { %>
-  <script type="application/ld+json">
+  <% if (locals.jsonLdSchemas && jsonLdSchemas.length> 0) { %>
+    <% jsonLdSchemas.forEach(schema=> { %>
+      <script type="application/ld+json">
 <%- JSON.stringify(schema, null, 2) %>
   </script>
-    <% }); %>
-  <% } %>
+      <% }); %>
+        <% } %>
 
-  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+          <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
-  <!-- Bootstrap CSS (Preload) -->
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+          <!-- Bootstrap CSS (Preload) -->
+          <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Pretendard Font (Preload) -->
-  <link rel="preload" href="/css/pretendard.css" as="style">
-  <link rel="stylesheet" href="/css/pretendard.css">
+          <!-- Pretendard Font (Preload) -->
+          <link rel="preload" href="/css/pretendard.css" as="style">
+          <link rel="stylesheet" href="/css/pretendard.css">
 
-  <!-- Custom CSS (Preload Critical) -->
-  <link rel="preload" href="/css/style.css" as="style">
-  <link rel="stylesheet" href="/css/style.css">
+          <!-- Custom CSS (Preload Critical) -->
+          <link rel="preload" href="/css/style.css" as="style">
+          <link rel="stylesheet" href="/css/style.css">
 
-  <!-- Rocket Cursor Effect -->
-  <link rel="stylesheet" href="/css/rocket-cursor.css">
+          <!-- Rocket Cursor Effect -->
+          <link rel="stylesheet" href="/css/rocket-cursor.css">
 
-  <!-- Preload Critical Images (LCP) -->
-  <link rel="preload" href="/images/hero-image.svg" as="image">
+          <!-- Preload Critical Images (LCP) -->
+          <link rel="preload" href="/images/hero-image.svg" as="image">
 
-  <!-- Defer Loading for Below-the-fold Sections -->
-  <link rel="stylesheet" href="/css/about-section.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="/css/company-story.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="/css/reviews.css" media="print" onload="this.media='all'">
+          <!-- Defer Loading for Below-the-fold Sections -->
+          <link rel="stylesheet" href="/css/about-section.css" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="/css/company-story.css" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="/css/reviews.css" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="/css/seo-comparison.css" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="/css/cost-benefit.css" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="/css/process-section.css" media="print" onload="this.media='all'">
 
-  <noscript>
-    <link rel="stylesheet" href="/css/about-section.css">
-    <link rel="stylesheet" href="/css/company-story.css">
-    <link rel="stylesheet" href="/css/reviews.css">
-  </noscript>
+          <noscript>
+            <link rel="stylesheet" href="/css/about-section.css">
+            <link rel="stylesheet" href="/css/company-story.css">
+            <link rel="stylesheet" href="/css/reviews.css">
+          </noscript>
 
-  <!-- Contact Page CSS -->
-  <% if (page==='contact' ) { %>
-    <link rel="stylesheet" href="/css/contact.css">
-    <% } %>
+          <!-- Contact Page CSS -->
+          <% if (page==='contact' ) { %>
+            <link rel="stylesheet" href="/css/contact.css">
+            <% } %>
 
-      <!-- Font Awesome Override (font-display fix) -->
-      <link rel="stylesheet" href="/css/font-awesome-override.css">
+              <!-- Font Awesome Override (font-display fix) -->
+              <link rel="stylesheet" href="/css/font-awesome-override.css">
 
-      <!-- Font Awesome (Defer Loading) -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        media="print" onload="this.media='all'">
-      <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-      </noscript>
+              <!-- Font Awesome (Defer Loading) -->
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+                media="print" onload="this.media='all'">
+              <noscript>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+              </noscript>
 
-      <!-- Google Tag Manager -->
-      <script>(function (w, d, s, l, i) {
-          w[l] = w[l] || []; w[l].push({
-            'gtm.start':
-              new Date().getTime(), event: 'gtm.js'
-          }); var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-              'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-PJ9LBM8V');</script>
-      <!-- End Google Tag Manager -->
+              <!-- Google Tag Manager -->
+              <script>(function (w, d, s, l, i) {
+                  w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                      new Date().getTime(), event: 'gtm.js'
+                  }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                      'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+                })(window, document, 'script', 'dataLayer', 'GTM-PJ9LBM8V');</script>
+              <!-- End Google Tag Manager -->
 </head>
 
 <body>

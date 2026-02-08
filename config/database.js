@@ -41,7 +41,7 @@ async function testConnection() {
  */
 async function query(sql, params = []) {
   try {
-    const [rows] = await pool.execute(sql, params);
+    const [rows] = await pool.query(sql, params);
     return rows;
   } catch (error) {
     console.error('쿼리 실행 오류:', error.message);
@@ -57,7 +57,7 @@ async function query(sql, params = []) {
 async function transaction(callback) {
   const connection = await pool.getConnection();
   await connection.beginTransaction();
-  
+
   try {
     const result = await callback(connection);
     await connection.commit();

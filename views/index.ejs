@@ -1,177 +1,455 @@
 <%- include('layout/head') %>
-<%- include('layout/header') %>
+  <%- include('layout/header') %>
 
-<main>
-  <!-- Hero Section -->
-  <section id="home" class="hero-section">
-    <!-- 비디오 배경 -->
-    <video class="hero-video" autoplay muted loop playsinline fetchpriority="high" poster="/images/hero-image.svg" 
-           data-desktop-src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4"
-           data-mobile-src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4">
-      <source src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4" type="video/mp4">
-      <track kind="captions" srclang="ko" label="한국어" default>
-      <!-- 비디오를 지원하지 않는 브라우저를 위한 대체 이미지 -->
-      <img src="/images/hero-image.svg" alt="Hero Background" fetchpriority="high">
-    </video>
-    
-    <!-- 오버레이 -->
-    <div class="hero-overlay"></div>
-    
-    <!-- 콘텐츠 -->
-    <div class="hero-content">
-      <!-- 텍스트 영역 (위로 이동) -->
-      <div class="hero-text-area">
-        <h1 class="hero-headline">
-          단순한 페이지가 아닙니다.<br>
-          <span class="hero-highlight">매출을 바꾸는 전략</span>입니다.
-        </h1>
-        
-        <p class="hero-subtext">
-          기획부터 디자인, 퍼블리싱까지.<br>
-          고객의 마음을 움직이는 고효율 랜딩페이지를 경험하세요.
-        </p>
-      </div>
-      
-      <!-- 버튼 영역 (원래 위치 유지) -->
-      <div class="hero-buttons">
-        <a href="/contact" class="btn-primary-solid">무료 견적 문의하기</a>
-        <a href="/portfolio" class="btn-outline-ghost">포트폴리오 보러가기</a>
-      </div>
-    </div>
-  </section>
-  <!-- Services Section -->
-  <section id="services" class="services-section">
-    <!-- 다이나믹 배경 요소들 -->
-    <div class="about-background-grid"></div>
-    <div class="floating-orbs">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-    </div>
-    <div class="light-beams">
-      <div class="beam beam-1"></div>
-      <div class="beam beam-2"></div>
-      <div class="beam beam-3"></div>
-    </div>
-    
-    <div class="container">
-      <!-- 섹션 헤더 -->
-      <div class="about-header fade-in-up">
-        <span class="about-badge">Performance & SEO Optimized</span>
-        <h2 class="about-title">
-          공장처럼 찍어내는 랜딩페이지는 이제 그만!<br>
-          <span class="gradient-text">성과를 창출하는</span> 맞춤형 웹사이트
-        </h2>
-        <p class="about-subtitle">
-          백엔드부터 프론트엔드까지, 전체 사이클을 대표가 직접 책임집니다.<br>
-          검색엔진 최적화와 극한의 성능으로 실질적인 비즈니스 성과를 만들어드립니다.
-        </p>
-      </div>
+    <main>
+      <!-- Hero Section -->
+      <section id="home" class="hero-section">
+        <!-- 비디오 배경 -->
+        <video class="hero-video" autoplay muted loop playsinline fetchpriority="high" poster="/images/hero-image.svg"
+          data-desktop-src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4" data-mobile-src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4">
+          <source src="/videos/이미지_재활용_및_디지털_배경_영상_제작.mp4" type="video/mp4">
+          <track kind="captions" srclang="ko" label="한국어" default>
+          <!-- 비디오를 지원하지 않는 브라우저를 위한 대체 이미지 -->
+          <img src="/images/hero-image.svg" alt="Hero Background" fetchpriority="high">
+        </video>
 
-      <!-- 특징 카드 -->
-      <div class="about-cards">
-        <div class="about-card glass-card fade-in-up" data-delay="100">
-          <div class="card-icon">
-            <i class="fas fa-code"></i>
+        <!-- 오버레이 -->
+        <div class="hero-overlay"></div>
+
+        <!-- 콘텐츠 -->
+        <div class="hero-content">
+          <!-- 텍스트 영역 (위로 이동) -->
+          <div class="hero-text-area">
+            <h1 class="hero-headline">
+              단순한 페이지가 아닙니다.<br>
+              <span class="hero-highlight">매출을 바꾸는 전략</span>입니다.
+            </h1>
+
+            <p class="hero-subtext">
+              기획부터 디자인, 퍼블리싱까지.<br>
+              고객의 마음을 움직이는 고효율 랜딩페이지를 경험하세요.
+            </p>
           </div>
-          <h3>웹빌더 NO! 맞춤형 개발</h3>
-          <p>서버 세팅부터 코드 작성, 빌드, 배포까지 전 과정을 직접 개발. 불필요한 리소스 제로, 최고의 성능을 보장합니다.</p>
-          <div class="card-glow"></div>
-        </div>
 
-        <div class="about-card glass-card fade-in-up" data-delay="200">
-          <div class="card-icon">
-            <i class="fas fa-rocket"></i>
-          </div>
-          <h3>극한의 성능 최적화</h3>
-          <p>0.5초 이내 로딩 속도, 완벽한 SEO 최적화로 검색엔진 상위 노출을 실현합니다. 성능이 곧 매출입니다.</p>
-          <div class="card-glow"></div>
-        </div>
-
-        <div class="about-card glass-card fade-in-up" data-delay="300">
-          <div class="card-icon">
-            <i class="fas fa-shield-halved"></i>
-          </div>
-          <h3>SSL 평생 무료<br/>도메인 2년 무료 제공</h3>
-          <p>무료 SSL 인증서 자동 갱신 설정 + 도메인 2년 무료 제공. 고객님의 걱정은 저희가 해결합니다.</p>
-          <div class="card-glow"></div>
-        </div>
-
-        <div class="about-card glass-card fade-in-up" data-delay="400">
-          <div class="card-icon">
-            <i class="fas fa-mobile-screen"></i>
-          </div>
-          <h3>완벽한 반응형 디자인</h3>
-          <p>PC, 태블릿, 모바일 모든 기기에서 최적화된 경험. 사용자 친화적 UI/UX로 전환율을 극대화합니다.</p>
-          <div class="card-glow"></div>
-        </div>
-      </div>
-
-      <!-- 통계 섹션 (리디자인) -->
-      <div class="stats-container fade-in-up" data-delay="500">
-        <!-- 메인 통계: 구글 페이지 스피드 -->
-        <div class="stat-card main-stat">
-          <div class="circular-progress" data-value="100">
-            <svg viewBox="0 0 100 100">
-              <circle class="bg" cx="50" cy="50" r="45"></circle>
-              <circle class="fg" cx="50" cy="50" r="45"></circle>
-            </svg>
-            <div class="value-container">
-              <span class="stat-number" data-target="100">0</span>
-            </div>
-          </div>
-          <div class="stat-info">
-            <h4>Google PageSpeed</h4>
-            <p>압도적인 성능 최적화</p>
+          <!-- 버튼 영역 (원래 위치 유지) -->
+          <div class="hero-buttons">
+            <a href="/contact" class="btn-primary-solid">무료 견적 문의하기</a>
+            <a href="/portfolio" class="btn-outline-ghost">포트폴리오 보러가기</a>
           </div>
         </div>
+      </section>
+      <!-- Services Section -->
+      <section id="services" class="services-section">
+        <!-- 다이나믹 배경 요소들 -->
+        <div class="about-background-grid"></div>
+        <div class="floating-orbs">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+          <div class="orb orb-3"></div>
+        </div>
+        <div class="light-beams">
+          <div class="beam beam-1"></div>
+          <div class="beam beam-2"></div>
+          <div class="beam beam-3"></div>
+        </div>
 
-        <!-- 서브 통계들 -->
-        <div class="sub-stats-grid">
-          <div class="stat-card sub-stat">
-            <div class="stat-icon-wrapper">
-              <i class="fas fa-tools"></i>
+        <div class="container">
+          <!-- 섹션 헤더 -->
+          <div class="about-header fade-in-up">
+            <span class="about-badge">Performance & SEO Optimized</span>
+            <h2 class="about-title">
+              공장처럼 찍어내는 랜딩페이지는 이제 그만!<br>
+              <span class="gradient-text">성과를 창출하는</span> 맞춤형 웹사이트
+            </h2>
+            <p class="about-subtitle">
+              백엔드부터 프론트엔드까지, 전체 사이클을 대표가 직접 책임집니다.<br>
+              검색엔진 최적화와 극한의 성능으로 실질적인 비즈니스 성과를 만들어드립니다.
+            </p>
+          </div>
+
+          <!-- 특징 카드 -->
+          <div class="about-cards">
+            <div class="about-card glass-card fade-in-up" data-delay="100">
+              <div class="card-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <h3>웹빌더 NO! 맞춤형 개발</h3>
+              <p>서버 세팅부터 코드 작성, 빌드, 배포까지 전 과정을 직접 개발. 불필요한 리소스 제로, 최고의 성능을 보장합니다.</p>
+              <div class="card-glow"></div>
             </div>
-            <div class="stat-text">
-              <span class="stat-number" data-target="2">0</span>
-              <span class="unit">개월</span>
-              <p>무상 유지보수</p>
+
+            <div class="about-card glass-card fade-in-up" data-delay="200">
+              <div class="card-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <h3>극한의 성능 최적화</h3>
+              <p>0.5초 이내 로딩 속도, 완벽한 SEO 최적화로 검색엔진 상위 노출을 실현합니다. 성능이 곧 매출입니다.</p>
+              <div class="card-glow"></div>
+            </div>
+
+            <div class="about-card glass-card fade-in-up" data-delay="300">
+              <div class="card-icon">
+                <i class="fas fa-shield-halved"></i>
+              </div>
+              <h3>SSL 평생 무료<br />도메인 2년 무료 제공</h3>
+              <p>무료 SSL 인증서 자동 갱신 설정 + 도메인 2년 무료 제공. 고객님의 걱정은 저희가 해결합니다.</p>
+              <div class="card-glow"></div>
+            </div>
+
+            <div class="about-card glass-card fade-in-up" data-delay="400">
+              <div class="card-icon">
+                <i class="fas fa-mobile-screen"></i>
+              </div>
+              <h3>완벽한 반응형 디자인</h3>
+              <p>PC, 태블릿, 모바일 모든 기기에서 최적화된 경험. 사용자 친화적 UI/UX로 전환율을 극대화합니다.</p>
+              <div class="card-glow"></div>
             </div>
           </div>
 
-          <div class="stat-card sub-stat">
-            <div class="stat-icon-wrapper">
-              <i class="fas fa-globe"></i>
+          <!-- 통계 섹션 (리디자인) -->
+          <div class="stats-container fade-in-up" data-delay="500">
+            <!-- 메인 통계: 구글 페이지 스피드 -->
+            <div class="stat-card main-stat">
+              <div class="circular-progress" data-value="100">
+                <svg viewBox="0 0 100 100">
+                  <circle class="bg" cx="50" cy="50" r="45"></circle>
+                  <circle class="fg" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="value-container">
+                  <span class="stat-number" data-target="100">0</span>
+                </div>
+              </div>
+              <div class="stat-info">
+                <h4>Google PageSpeed</h4>
+                <p>압도적인 성능 최적화</p>
+              </div>
             </div>
-            <div class="stat-text">
-              <span class="stat-number" data-target="2">0</span>
-              <span class="unit">년</span>
-              <p>도메인 무료</p>
-            </div>
-          </div>
 
-          <div class="stat-card sub-stat">
-            <div class="stat-icon-wrapper">
-              <i class="fas fa-bolt"></i>
-            </div>
-            <div class="stat-text">
-              <span class="stat-number" data-target="24">0</span>
-              <span class="unit">시간</span>
-              <p>빠른 응답</p>
+            <!-- 서브 통계들 -->
+            <div class="sub-stats-grid">
+              <div class="stat-card sub-stat">
+                <div class="stat-icon-wrapper">
+                  <i class="fas fa-tools"></i>
+                </div>
+                <div class="stat-text">
+                  <span class="stat-number" data-target="2">0</span>
+                  <span class="unit">개월</span>
+                  <p>무상 유지보수</p>
+                </div>
+              </div>
+
+              <div class="stat-card sub-stat">
+                <div class="stat-icon-wrapper">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <div class="stat-text">
+                  <span class="stat-number" data-target="2">0</span>
+                  <span class="unit">년</span>
+                  <p>도메인 무료</p>
+                </div>
+              </div>
+
+              <div class="stat-card sub-stat">
+                <div class="stat-icon-wrapper">
+                  <i class="fas fa-bolt"></i>
+                </div>
+                <div class="stat-text">
+                  <span class="stat-number" data-target="24">0</span>
+                  <span class="unit">시간</span>
+                  <p>빠른 응답</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- Reviews Section -->
-  <%- include('sections/reviews') %>
+      <!-- SEO Comparison Section -->
+      <section id="seo-comparison" class="seo-comparison-section">
+        <!-- 다이나믹 배경 요소들 (톤앤매너 통합) -->
+        <div class="about-background-grid"></div>
+        <div class="floating-orbs">
+          <div class="orb orb-2"></div>
+          <div class="orb orb-3"></div>
+        </div>
+        <div class="light-beams">
+          <div class="beam beam-2"></div>
+        </div>
 
-  <!-- Company Story Section -->
-  <div id="about">
-    <%- include('sections/company-story') %>
-  </div>
-</main>
+        <div class="container">
+          <div class="about-header fade-in-up">
+            <span class="about-badge">Search Value Optimization</span>
+            <h2 class="about-title">
+              이미 검색 결과에서부터<br>
+              <span class="gradient-text">승패가 결정됩니다</span>
+            </h2>
+            <p class="about-subtitle">
+              SEO는 단순히 상위 노출만을 의미하지 않습니다. 고객이 검색했을 때<br>
+              브랜드의 위상과 신뢰도를 결정짓는 가장 강력한 마케팅 수단입니다.
+            </p>
+          </div>
 
-<%- include('layout/footer') %>
+          <div class="comparison-grid">
+            <!-- Before: Poor SEO -->
+            <div class="comparison-box fade-in-up" data-delay="100">
+              <div class="box-header">
+                <span class="badge-bad">일반적인 제작 업체</span>
+                <i class="fas fa-times-circle text-danger"></i>
+              </div>
+              <div class="search-mockup">
+                <div class="mockup-item">
+                  <div class="item-url">
+                    <i class="fas fa-globe"></i> example-food.com
+                  </div>
+                  <div class="item-title">랜딩페이지 본사 기술자 필요없는 시스템...</div>
+                  <div class="item-desc">
+                    쉬운 저녁장사.높은테이블 단가10만원. 프랜차이즈안내. 홈페이지 제작 문의... (설명 부족 및 가독성 저하)
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- After: Optimized SEO -->
+            <div class="comparison-box optimized fade-in-up" data-delay="300">
+              <div class="box-header">
+                <span class="badge-good">랜딩랩 최적화 솔루션</span>
+                <i class="fas fa-check-circle text-success"></i>
+              </div>
+              <div class="search-mockup">
+                <div class="mockup-item">
+                  <div class="item-url">
+                    <i class="fas fa-globe"></i> <span>텍사스파파</span> <span class="url-sep">·</span> texaspapa.co.kr
+                  </div>
+                  <div class="item-title">텍사스파파 <span>|</span> 스마트한 창업의 시작</div>
+
+                  <div class="sitelinks-row">
+                    <span>COMPANY</span>
+                    <span>가맹</span>
+                    <span>메뉴</span>
+                    <span>공지사항</span>
+                    <span>가맹점현황</span>
+                    <span>오시는길</span>
+                  </div>
+
+                  <div class="item-desc">
+                    원가율 20%, 소자본 창업 가능! 텍사스파파 크레페 프랜차이즈로 성공적인 디저트 창업을 시작하세요.
+                  </div>
+
+                  <div class="sub-items-container">
+                    <div class="sub-item">
+                      <div class="sub-item-content">
+                        <span class="sub-item-title">회사 소개 - 텍사스파파</span>
+                        <p class="sub-item-desc">(주)동동F&B 텍사스파파 회사 소개. 크레페 프랜차이즈 전문 기업으로 성공적인 창...</p>
+                      </div>
+                      <div class="sub-item-thumb">
+                        <img src="/images/dg-m.PNG" alt="Thumbnail">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mockup-footer">
+                    관련문서 더보기 <i class="fas fa-chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="comparison-info fade-in-up" data-delay="500">
+            <div class="info-item">
+              <i class="fas fa-check"></i> 리치 스니펫 적용
+            </div>
+            <div class="info-item">
+              <i class="fas fa-check"></i> 사이트 링크 최적화
+            </div>
+            <div class="info-item">
+              <i class="fas fa-check"></i> 브랜드 신뢰도 상승
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROI & Advantage Section -->
+      <section class="cost-benefit-section">
+        <!-- 다이나믹 배경 요소들 (톤앤매너 통합) -->
+        <div class="about-background-grid"></div>
+        <div class="floating-orbs">
+          <div class="orb orb-1"></div>
+        </div>
+
+        <div class="container">
+          <div class="roi-container">
+            <!-- Cost Analysis -->
+            <div class="cost-analysis-card fade-in-up" data-delay="100">
+              <span class="cost-label">매몰되는 광고비</span>
+              <div class="cost-value-main">연간 8,400,000원 + α</div>
+              <div class="cost-value-sub">월 평균 약 700,000원의 파워링크 지출</div>
+              <ul class="cost-list">
+                <li><i class="fas fa-arrow-right"></i> 클릭 한 번에 사라지는 광고비</li>
+                <li><i class="fas fa-arrow-right"></i> 경쟁사 클릭 유도로 인한 불필요한 비용</li>
+                <li><i class="fas fa-arrow-right"></i> 도메인 신뢰도가 없어 떨어지는 광고 효율</li>
+              </ul>
+            </div>
+
+            <!-- Strategic Content -->
+            <div class="benefit-content fade-in-up" data-delay="300">
+              <span class="about-badge">Strategic Asset</span>
+              <h3>검색창에 매달 버려지는 광고비,<br><span class="gradient-text">이제 당신의 자산</span>으로 만드세요</h3>
+              <p>
+                홈페이지는 단순히 정보를 주는 창구가 아닙니다. 24시간 쉬지 않고 고객을 설득하며 데이터를 수집하는 강력한 비즈니스 자산입니다. 한 번의 구축으로 연간 수백만 원의 고정비를 아끼세요.
+              </p>
+              <div class="benefit-tags">
+                <span class="benefit-tag">#광고비절감</span>
+                <span class="benefit-tag">#DB수집자동화</span>
+                <span class="benefit-tag">#브랜드공신력</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Advantage Grid -->
+          <div class="advantage-grid">
+            <div class="advantage-card fade-in-up" data-delay="400">
+              <div class="adv-icon">
+                <i class="fas fa-server"></i>
+              </div>
+              <h4>서버 & SSL 평생 무료</h4>
+              <p>서버 유지비와 매달 갱신해야 하는 SSL 인증서 비용이 0원입니다. 평생 추가 지출 걱정 없이 운영하세요.</p>
+            </div>
+
+            <div class="advantage-card fade-in-up" data-delay="500">
+              <div class="adv-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <h4>실시간 DB 수집 시스템</h4>
+              <p>고객 문의가 들어오는 즉시 데이터베이스에 안전하게 저장됩니다. 누락 없는 관리가 가능합니다.</p>
+            </div>
+
+            <div class="advantage-card fade-in-up" data-delay="600">
+              <div class="adv-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <h4>관리자 대시보드 통계</h4>
+              <p>방문자 수, 문의 유입 경로 등 핵심 지표를 한눈에 파악하세요. 데이터 기반의 의사결정을 지원합니다.</p>
+            </div>
+
+            <div class="advantage-card fade-in-up" data-delay="700">
+              <div class="adv-icon">
+                <i class="fas fa-headset"></i>
+              </div>
+              <h4>올인원 CS 창구</h4>
+              <p>카카오톡 상담, 전화 연결, 폼 문의까지. 고객과의 모든 접점을 하나로 통합한 맞춤형 CS 환경을 구축합니다.</p>
+            </div>
+
+            <div class="advantage-card fade-in-up" data-delay="800">
+              <div class="adv-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <h4>데이터 보안 및 안정성</h4>
+              <p>독립된 서버 환경과 최신 보안 기술로 고객님의 소중한 비즈니스 데이터를 완벽하게 보호합니다.</p>
+            </div>
+
+            <div class="advantage-card fade-in-up" data-delay="900">
+              <div class="adv-icon">
+                <i class="fas fa-magic"></i>
+              </div>
+              <h4>빠른 유지보수 대응</h4>
+              <p>변화하는 비즈니스 환경에 맞춰 신속한 수정과 업데이트를 지원합니다. 대표가 직접 책임집니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Project Process Section -->
+      <section class="process-section">
+        <!-- 다이나믹 배경 요소들 (톤앤매너 통합) -->
+        <div class="about-background-grid"></div>
+        <div class="floating-orbs">
+          <div class="orb orb-3"></div>
+        </div>
+
+        <div class="container">
+          <div class="about-header fade-in-up">
+            <span class="about-badge">Work Flow</span>
+            <h2 class="about-title">
+              성공적인 프로젝트를 위한<br>
+              <span class="gradient-text">6단계 진행 프로세스</span>
+            </h2>
+            <p class="about-subtitle">
+              랜딩랩은 체계적이고 투명한 절차를 통해<br>
+              고객사의 상상을 현실로 만듭니다.
+            </p>
+          </div>
+
+          <div class="process-grid">
+            <!-- Step 01 -->
+            <div class="fade-in-up" data-delay="100">
+              <div class="process-card">
+                <span class="step-num">01</span>
+                <div class="process-icon"><i class="fas fa-search"></i></div>
+                <h4>요구사항 분석 및 자료 수집</h4>
+                <p>사업의 본질을 이해하고 성공적인 사이트 구축을 위한 핵심 데이터와 니즈를 정밀하게 분석합니다.</p>
+              </div>
+            </div>
+
+            <!-- Step 02 -->
+            <div class="fade-in-up" data-delay="200">
+              <div class="process-card">
+                <span class="step-num">02</span>
+                <div class="process-icon"><i class="fas fa-calendar-alt"></i></div>
+                <h4>상세 일정 수립 및 기획</h4>
+                <p>분석된 자료를 바탕으로 최적의 작업 스케줄을 산출하고 효율적인 구조를 설계합니다.</p>
+              </div>
+            </div>
+
+            <!-- Step 03 -->
+            <div class="fade-in-up" data-delay="300">
+              <div class="process-card">
+                <span class="step-num">03</span>
+                <div class="process-icon"><i class="fas fa-magic"></i></div>
+                <h4>1차 데모 사이트 안내</h4>
+                <p>자료 수집 후 빠른 시일 내에 실제 동작하는 데모 사이트를 제작하여 결과물의 방향성을 보여드립니다.</p>
+              </div>
+            </div>
+
+            <!-- Step 04 -->
+            <div class="fade-in-up" data-delay="400">
+              <div class="process-card">
+                <span class="step-num">04</span>
+                <div class="process-icon"><i class="fas fa-code"></i></div>
+                <h4>본격 개발 및 고도화</h4>
+                <p>확정된 데모를 기반으로 세부 기능 구현 및 디자인 고도화 작업을 본격적으로 시작합니다.</p>
+              </div>
+            </div>
+
+            <!-- Step 05 -->
+            <div class="fade-in-up" data-delay="500">
+              <div class="process-card">
+                <span class="step-num">05</span>
+                <div class="process-icon"><i class="fas fa-tasks"></i></div>
+                <h4>컨펌 및 정밀 테스트</h4>
+                <p>고객님의 피드백을 수용하여 세부 사항을 수정하고, 다양한 환경에서의 안정성 테스트를 거칩니다.</p>
+              </div>
+            </div>
+
+            <!-- Step 06 -->
+            <div class="fade-in-up" data-delay="600">
+              <div class="process-card">
+                <span class="step-num">06</span>
+                <div class="process-icon"><i class="fas fa-rocket"></i></div>
+                <h4>최종 안정화 및 사이트 오픈</h4>
+                <p>완벽하게 검증된 사이트를 실서버에 반영하고, 성공적인 비즈니스의 시작을 함께합니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews Section -->
+      <%- include('sections/reviews') %>
+
+        <!-- Company Story Section -->
+        <div id="about">
+          <%- include('sections/company-story') %>
+        </div>
+    </main>
+
+    <%- include('layout/footer') %>

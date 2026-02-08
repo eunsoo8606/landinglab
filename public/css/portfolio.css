@@ -32,8 +32,17 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
-  50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(1.1);
+  }
 }
 
 .header-content {
@@ -111,10 +120,10 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 400px;
-  height: 500px;
-  margin-left: -200px;
-  margin-top: -250px;
+  width: 500px;
+  height: 320px;
+  margin-left: -250px;
+  margin-top: -160px;
   transform-style: preserve-3d;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -125,8 +134,7 @@
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: #111;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
@@ -143,17 +151,53 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  background: #111;
 }
 
-.card-image img {
+.desktop-view-simple {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.desktop-view-simple img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top;
   transition: transform 0.5s ease;
 }
 
-.portfolio-card:hover .card-image img {
-  transform: scale(1.1);
+.mobile-view-simple {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  width: 100px;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  z-index: 15;
+  /* 데스크탑 뷰보다 위, 오버레이보다는 아래 또는 위 설정 고려 */
+  transition: transform 0.4s ease;
+  pointer-events: none;
+  /* 클릭은 카드가 받도록 함 */
+}
+
+.mobile-view-simple img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.portfolio-card:hover .desktop-view-simple img {
+  transform: scale(1.05);
+}
+
+.portfolio-card:hover .mobile-view-simple {
+  transform: translateY(-8px) rotate(-2deg);
 }
 
 .card-overlay {
@@ -162,20 +206,26 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
+  background: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, 0.9) 100%);
   display: flex;
   align-items: flex-end;
-  padding: 30px;
+  padding: 25px;
   opacity: 0;
   transition: opacity 0.3s ease;
+  z-index: 20;
+  pointer-events: none;
+  /* 오버레이 자체가 이벤트를 막지 않도록 함 */
 }
 
+/* 호버 시 애니메이션 효과 */
 .portfolio-card:hover .card-overlay {
   opacity: 1;
 }
 
 .overlay-content {
   width: 100%;
+  pointer-events: auto;
+  /* 내부 버튼 등은 다시 이벤트 허용 */
 }
 
 .category-badge {
@@ -495,33 +545,37 @@
 }
 
 /* 포트폴리오 페이지 푸터 마진 제거 */
-.portfolio-page + .footer-custom,
-.portfolio-page ~ .footer-custom {
+.portfolio-page+.footer-custom,
+.portfolio-page~.footer-custom {
   margin-top: 0 !important;
 }
 
 /* ============================================
    반응형 디자인
    ============================================ */
+@media (max-width: 1200px) {
+  .portfolio-item {
+    width: 450px;
+    height: 315px;
+    margin-left: -225px;
+    margin-top: -157px;
+  }
+}
+
 @media (max-width: 1024px) {
   .portfolio-title {
     font-size: 2.5rem;
   }
 
   .gallery-3d {
-    height: 500px;
+    height: 450px;
   }
 
   .portfolio-item {
-    width: 320px;
-    height: 400px;
-    margin-left: -160px;
-    margin-top: -200px;
-  }
-
-  .details-inner {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    width: 400px;
+    height: 280px;
+    margin-left: -200px;
+    margin-top: -140px;
   }
 }
 
@@ -530,81 +584,19 @@
     padding: 100px 0 40px;
   }
 
-  .portfolio-title {
-    font-size: 2rem;
-  }
-
-  .portfolio-subtitle {
-    font-size: 1rem;
-  }
-
-  .gallery-3d {
-    height: 400px;
-  }
-
   .portfolio-item {
-    width: 280px;
-    height: 350px;
-    margin-left: -140px;
-    margin-top: -175px;
-  }
-
-  .gallery-controls {
-    padding: 0 10px;
-  }
-
-  .control-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-  }
-
-  .details-content {
-    padding: 30px 20px;
-  }
-
-  .details-title {
-    font-size: 1.75rem;
-  }
-
-  .details-description {
-    font-size: 1rem;
-  }
-
-  .cta-content h2 {
-    font-size: 1.75rem;
-  }
-
-  .cta-content p {
-    font-size: 1rem;
+    width: 320px;
+    height: 224px;
+    margin-left: -160px;
+    margin-top: -112px;
   }
 }
 
 @media (max-width: 480px) {
-  .portfolio-title {
-    font-size: 1.5rem;
-  }
-
-  .gallery-3d {
-    height: 350px;
-  }
-
   .portfolio-item {
-    width: 240px;
-    height: 300px;
-    margin-left: -120px;
-    margin-top: -150px;
-  }
-
-  .overlay-content h3 {
-    font-size: 1.25rem;
-  }
-
-  .details-title {
-    font-size: 1.5rem;
-  }
-
-  .cta-content h2 {
-    font-size: 1.5rem;
+    width: 260px;
+    height: 182px;
+    margin-left: -130px;
+    margin-top: -91px;
   }
 }

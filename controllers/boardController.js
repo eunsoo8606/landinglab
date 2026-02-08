@@ -15,34 +15,40 @@ exports.getBoards = async (req, res) => {
     const limit = 10;
     const offset = (page - 1) * limit;
     const searchQuery = req.query.search || '';
-    
+    const companyId = 1; // 랜딩랩 고정
+    const category = 'notice'; // 공지사항 고정 (필요시 query에서 받을 수 있음)
+
     // WHERE 조건 생성
-    let whereClause = '';
-    let params = [];
-    
+    let whereClause = 'WHERE b.company_id = ? AND b.category = ?';
+    let params = [companyId, category];
+
     if (searchQuery) {
-      whereClause = 'WHERE title LIKE ?';
+      whereClause += ' AND p.title LIKE ?';
       params.push(`%${searchQuery}%`);
     }
-    
+
     // 전체 게시글 수 조회
-    const [countResult] = await pool.execute(
-      `SELECT COUNT(*) as total FROM boards ${whereClause}`,
+    const [countResult] = await pool.query(
+      `SELECT COUNT(*) as total 
+       FROM posts p
+       JOIN boards b ON p.board_id = b.id
+       ${whereClause}`,
       params
     );
     const totalCount = countResult[0].total;
     const totalPages = Math.ceil(totalCount / limit);
-    
+
     // 게시글 목록 조회
-    const [boards] = await pool.execute(
-      `SELECT id, title, author, category, views, created_at 
-       FROM boards 
+    const [boards] = await pool.query(
+      `SELECT p.post_no as id, p.title, p.author_name as author, b.category, p.views, p.create_dt as created_at 
+       FROM posts p
+       JOIN boards b ON p.board_id = b.id
        ${whereClause}
-       ORDER BY created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [...params, limit, offset]
+       ORDER BY p.top_yn DESC, p.post_no DESC 
+       LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`,
+      params
     );
-    
+
     res.render('boards', {
       title: '공지사항 - LandingLab',
       page: 'boards',
@@ -52,7 +58,7 @@ exports.getBoards = async (req, res) => {
       totalCount,
       searchQuery
     });
-    
+
   } catch (error) {
     console.error('공지사항 목록 조회 오류:', error);
     res.render('error', {
@@ -71,20 +77,18 @@ exports.getBoards = async (req, res) => {
 exports.getBoardDetail = async (req, res) => {
   try {
     const { id } = req.params;
-    
-    // 조회수 증가
-    await pool.execute(
-      'UPDATE boards SET views = views + 1 WHERE id = ?',
-      [id]
+    const companyId = 1;
+
+    // 게시글 존재 및 권한(company_id) 확인 조회
+    const [posts] = await pool.query(
+      `SELECT p.*, b.category 
+       FROM posts p
+       JOIN boards b ON p.board_id = b.id
+       WHERE p.post_no = ? AND b.company_id = ?`,
+      [id, companyId]
     );
-    
-    // 게시글 조회
-    const [boards] = await pool.execute(
-      'SELECT * FROM boards WHERE id = ?',
-      [id]
-    );
-    
-    if (boards.length === 0) {
+
+    if (posts.length === 0) {
       return res.status(404).render('error', {
         title: '404 - LandingLab',
         page: 'error',
@@ -92,15 +96,26 @@ exports.getBoardDetail = async (req, res) => {
         error: { status: 404 }
       });
     }
-    
-    const board = boards[0];
-    
+
+    // 조회수 증가
+    await pool.execute(
+      'UPDATE posts SET views = IFNULL(views, 0) + 1 WHERE post_no = ?',
+      [id]
+    );
+
+    const board = {
+      ...posts[0],
+      id: posts[0].post_no,
+      author: posts[0].author_name,
+      created_at: posts[0].create_dt
+    };
+
     res.render('board-detail', {
       title: `${board.title} - LandingLab`,
       page: 'board-detail',
       board
     });
-    
+
   } catch (error) {
     console.error('공지사항 상세 조회 오류:', error);
     res.render('error', {

@@ -2,7 +2,7 @@
 // 3D 포트폴리오 갤러리
 // ============================================
 
-(function() {
+(function () {
   'use strict';
 
   // DOM 요소
@@ -23,21 +23,51 @@
   let currentRotation = 0;
   let targetRotation = 0;
 
-  // 포트폴리오 데이터
-  const portfolios = window.portfolioData || [];
+  // 포트폴리오 데이터 로드 (DOM에서 읽기)
+  function getPortfolios() {
+    try {
+      if (window.portfolioData && window.portfolioData.length > 0) return window.portfolioData;
+
+      const dataStore = document.getElementById('portfolio-raw-data');
+      if (dataStore && dataStore.dataset.portfolios) {
+        const data = JSON.parse(dataStore.dataset.portfolios);
+        console.log('Portfolio Data Loaded from DOM:', data.length);
+        return data;
+      }
+    } catch (e) {
+      console.error('Failed to load portfolio data:', e);
+    }
+    return [];
+  }
+
+  let portfolios = getPortfolios();
   const totalItems = items.length;
+
+  console.log('Portfolio Gallery Initialized:', { totalItems, dataCount: portfolios.length });
+
+  // 데이터 보완 (비동기 대응)
+  if (portfolios.length === 0) {
+    const timer = setInterval(() => {
+      portfolios = getPortfolios();
+      if (portfolios.length > 0) {
+        console.log('Portfolio Data Recovered:', portfolios.length);
+        clearInterval(timer);
+      }
+    }, 500);
+    setTimeout(() => clearInterval(timer), 5000);
+  }
 
   // ============================================
   // 3D 위치 계산 및 업데이트
   // ============================================
   function updateGallery() {
     const angleStep = (2 * Math.PI) / totalItems;
-    const radius = 450; // 타원의 가로 반지름
+    const radius = 500; // 타원의 가로 반지름
     const radiusY = 150; // 타원의 세로 반지름
 
     items.forEach((item, index) => {
       const angle = angleStep * index + currentRotation;
-      
+
       // 타원형 좌표 계산
       const x = Math.sin(angle) * radius;
       const z = Math.cos(angle) * radius;
@@ -126,7 +156,7 @@
   // ============================================
   function startAutoRotate() {
     if (isAutoRotating) return;
-    
+
     isAutoRotating = true;
 
     autoRotateInterval = setInterval(() => {
@@ -206,7 +236,7 @@
     document.getElementById('detailsCategory').textContent = portfolio.category;
     document.getElementById('detailsTitle').textContent = portfolio.title;
     document.getElementById('detailsDescription').textContent = portfolio.description;
-    
+
     // 기술 스택 태그 생성
     const techContainer = document.getElementById('detailsTech');
     techContainer.innerHTML = '';
@@ -241,50 +271,50 @@
   if (gallery) {
     let clickStartTime = 0;
     let clickStartPos = { x: 0, y: 0 };
-    
+
     gallery.addEventListener('mousedown', (e) => {
       clickStartTime = Date.now();
       clickStartPos = { x: e.clientX, y: e.clientY };
       handleDragStart(e);
     });
-    
+
     gallery.addEventListener('touchstart', (e) => {
       clickStartTime = Date.now();
       clickStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       handleDragStart(e);
     }, { passive: true });
-    
+
     document.addEventListener('mousemove', handleDragMove);
     document.addEventListener('touchmove', handleDragMove, { passive: true });
-    
+
     document.addEventListener('mouseup', (e) => {
       const clickDuration = Date.now() - clickStartTime;
       const distance = Math.sqrt(
-        Math.pow(e.clientX - clickStartPos.x, 2) + 
+        Math.pow(e.clientX - clickStartPos.x, 2) +
         Math.pow(e.clientY - clickStartPos.y, 2)
       );
-      
+
       // 클릭으로 판단 (300ms 이내, 10px 이내 이동)
       if (clickDuration < 300 && distance < 10) {
         toggleAutoRotate();
       }
-      
+
       handleDragEnd();
     });
-    
+
     document.addEventListener('touchend', (e) => {
       const clickDuration = Date.now() - clickStartTime;
       const touch = e.changedTouches[0];
       const distance = Math.sqrt(
-        Math.pow(touch.clientX - clickStartPos.x, 2) + 
+        Math.pow(touch.clientX - clickStartPos.x, 2) +
         Math.pow(touch.clientY - clickStartPos.y, 2)
       );
-      
+
       // 탭으로 판단 (300ms 이내, 10px 이내 이동)
       if (clickDuration < 300 && distance < 10) {
         toggleAutoRotate();
       }
-      
+
       handleDragEnd();
     });
   }
@@ -298,25 +328,35 @@
   });
 
   // 상세보기 버튼
-  document.querySelectorAll('.view-details-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const portfolioId = parseInt(btn.dataset.id);
-      showDetails(portfolioId);
+  function bindDetailButtons() {
+    const detailButtons = document.querySelectorAll('.view-details-btn');
+    console.log('Binding Details Buttons:', detailButtons.length);
+
+    detailButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const portfolioId = parseInt(btn.dataset.id);
+        console.log('Detail Button Clicked. ID:', portfolioId);
+        showDetails(portfolioId);
+      });
     });
-  });
+  }
+
+  // 초기 로드 시 버튼 바인딩
+  bindDetailButtons();
 
   // 포트폴리오 카드 클릭으로 상세보기
   document.querySelectorAll('.portfolio-card').forEach(card => {
     card.addEventListener('click', (e) => {
       // 상세보기 버튼 클릭은 이미 처리되므로 제외
       if (e.target.closest('.view-details-btn')) return;
-      
+
       const portfolioItem = card.closest('.portfolio-item');
       const portfolioId = parseInt(portfolioItem.dataset.id);
       showDetails(portfolioId);
     });
-    
+
     // 카드에 포인터 커서 추가
     card.style.cursor = 'pointer';
   });
@@ -358,7 +398,7 @@
   // ============================================
   function init() {
     updateGallery();
-    
+
     // 페이지 로드 후 자동 회전 시작 (선택사항)
     // setTimeout(startAutoRotate, 1000);
   }

@@ -1,118 +1,125 @@
 <%- include('layout/head') %>
-<%- include('layout/header') %>
+  <%- include('layout/header') %>
 
-<main class="portfolio-page">
-  <!-- 포트폴리오 헤더 섹션 -->
-  <section class="portfolio-header">
-    <div class="container">
-      <div class="header-content">
-        <span class="portfolio-badge">Our Works</span>
-        <h1 class="portfolio-title">
-          성과를 만드는 <span class="gradient-text">포트폴리오</span>
-        </h1>
-        <p class="portfolio-subtitle">
-          다양한 업종의 랜딩페이지를 제작했습니다.<br>
-          드래그하여 포트폴리오를 둘러보세요.
-        </p>
-      </div>
-    </div>
-  </section>
+    <main class="portfolio-page">
+      <!-- 포트폴리오 헤더 섹션 -->
+      <section class="portfolio-header">
+        <div class="container">
+          <div class="header-content">
+            <span class="portfolio-badge">Our Works</span>
+            <h1 class="portfolio-title">
+              성과를 만드는 <span class="gradient-text">포트폴리오</span>
+            </h1>
+            <p class="portfolio-subtitle">
+              다양한 업종의 랜딩페이지를 제작했습니다.<br>
+              드래그하여 포트폴리오를 둘러보세요.
+            </p>
+          </div>
+        </div>
+      </section>
 
-  <!-- 3D 갤러리 섹션 -->
-  <section class="portfolio-gallery-section">
-    <div class="container">
-      <!-- 3D 회전 갤러리 컨테이너 -->
-      <div class="gallery-container">
-        <div class="gallery-3d" id="gallery3d">
-          <% portfolios.forEach((portfolio, index) => { %>
-            <div class="portfolio-item" data-index="<%= index %>" data-id="<%= portfolio.id %>">
-              <div class="portfolio-card">
-                <div class="card-image">
-                  <img src="<%= portfolio.image %>" alt="<%= portfolio.title %>" loading="lazy">
-                  <div class="card-overlay">
-                    <div class="overlay-content">
-                      <span class="category-badge"><%= portfolio.category %></span>
-                      <h3><%= portfolio.title %></h3>
-                      <button class="view-details-btn" data-id="<%= portfolio.id %>">
-                        <i class="fas fa-eye"></i> 상세보기
-                      </button>
+      <!-- 3D 갤러리 섹션 -->
+      <section class="portfolio-gallery-section">
+        <div class="container">
+          <!-- 3D 회전 갤러리 컨테이너 -->
+          <div class="gallery-container">
+            <div class="gallery-3d" id="gallery3d">
+              <% portfolios.forEach((portfolio, index)=> { %>
+                <div class="portfolio-item" data-index="<%= index %>" data-id="<%= portfolio.id %>">
+                  <div class="portfolio-card" style="cursor: pointer;">
+                    <div class="card-image">
+                      <div class="desktop-view-simple">
+                        <img src="<%= portfolio.image %>" alt="<%= portfolio.title %> Desktop" loading="lazy">
+                      </div>
+                      <div class="mobile-view-simple">
+                        <img src="<%= portfolio.mobileImage %>" alt="<%= portfolio.title %> Mobile" loading="lazy">
+                      </div>
+                      <div class="card-overlay">
+                        <div class="overlay-content">
+                          <span class="category-badge">
+                            <%= portfolio.category %>
+                          </span>
+                          <h3>
+                            <%= portfolio.title %>
+                          </h3>
+                          <button class="view-details-btn" data-id="<%= portfolio.id %>">
+                            <i class="fas fa-eye"></i> 상세보기
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                <% }); %>
             </div>
-          <% }); %>
-        </div>
 
-        <!-- 컨트롤 버튼 -->
-        <div class="gallery-controls">
-          <button class="control-btn prev-btn" id="prevBtn">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="control-btn next-btn" id="nextBtn">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-
-        <!-- 인디케이터 -->
-        <div class="gallery-indicators">
-          <% portfolios.forEach((portfolio, index) => { %>
-            <span class="indicator <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>"></span>
-          <% }); %>
-        </div>
-      </div>
-
-      <!-- 상세정보 패널 -->
-      <div class="details-panel" id="detailsPanel">
-        <div class="details-content">
-          <button class="close-details-btn" id="closeDetailsBtn">
-            <i class="fas fa-times"></i>
-          </button>
-          
-          <div class="details-inner">
-            <div class="details-image">
-              <img src="" alt="" id="detailsImage">
+            <!-- 컨트롤 버튼 -->
+            <div class="gallery-controls">
+              <button class="control-btn prev-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="control-btn next-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+              </button>
             </div>
-            
-            <div class="details-info">
-              <span class="details-category" id="detailsCategory"></span>
-              <h2 class="details-title" id="detailsTitle"></h2>
-              <p class="details-description" id="detailsDescription"></p>
-              
-              <div class="details-tech">
-                <h4>사용 기술</h4>
-                <div class="tech-tags" id="detailsTech"></div>
+
+            <!-- 인디케이터 -->
+            <div class="gallery-indicators">
+              <% portfolios.forEach((portfolio, index)=> { %>
+                <span class="indicator <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>"></span>
+                <% }); %>
+            </div>
+          </div>
+
+          <!-- 상세정보 패널 -->
+          <div class="details-panel" id="detailsPanel">
+            <div class="details-content">
+              <button class="close-details-btn" id="closeDetailsBtn">
+                <i class="fas fa-times"></i>
+              </button>
+
+              <div class="details-inner">
+                <div class="details-image">
+                  <img src="" alt="" id="detailsImage">
+                </div>
+
+                <div class="details-info">
+                  <span class="details-category" id="detailsCategory"></span>
+                  <h2 class="details-title" id="detailsTitle"></h2>
+                  <p class="details-description" id="detailsDescription"></p>
+
+                  <div class="details-tech">
+                    <h4>사용 기술</h4>
+                    <div class="tech-tags" id="detailsTech"></div>
+                  </div>
+
+                  <a href="javascript:void(0)" class="details-link" id="detailsLink" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> 프로젝트 보기
+                  </a>
+                </div>
               </div>
-              
-              <a href="javascript:void(0)" class="details-link" id="detailsLink" target="_blank">
-                <i class="fas fa-external-link-alt"></i> 프로젝트 보기
-              </a>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- CTA 섹션 -->
-  <section class="portfolio-cta">
-    <div class="container">
-      <div class="cta-content">
-        <h2>당신의 비즈니스를 위한<br><span class="gradient-text">맞춤형 랜딩페이지</span>를 만들어드립니다</h2>
-        <p>지금 바로 무료 상담을 받아보세요</p>
-        <a href="/contact" class="btn-primary-solid">무료 견적 문의하기</a>
-      </div>
-    </div>
-  </section>
-</main>
+      <!-- CTA 섹션 -->
+      <section class="portfolio-cta">
+        <div class="container">
+          <div class="cta-content">
+            <h2>당신의 비즈니스를 위한<br><span class="gradient-text">맞춤형 랜딩페이지</span>를 만들어드립니다</h2>
+            <p>지금 바로 무료 상담을 받아보세요</p>
+            <a href="/contact" class="btn-primary-solid">무료 견적 문의하기</a>
+          </div>
+        </div>
+      </section>
+    </main>
 
-<!-- 포트폴리오 데이터를 JavaScript로 전달 -->
-<script>
-  window.portfolioData = <%- JSON.stringify(portfolios) %>;
-</script>
+    <!-- 포트폴리오 데이터를 안전하게 저장 (인라인 스크립트 에러 방지) -->
+    <div id="portfolio-raw-data" style="display: none;" data-portfolios='<%- JSON.stringify(portfolios) %>'></div>
 
-<!-- 포트폴리오 전용 스크립트 -->
-<link rel="stylesheet" href="/css/portfolio.css">
-<script src="/js/portfolio.js"></script>
+    <!-- 포트폴리오 전용 스크립트 -->
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <script src="/js/portfolio.js"></script>
 
-<%- include('layout/footer') %>
+    <%- include('layout/footer') %>
