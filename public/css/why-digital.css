@@ -1,0 +1,201 @@
+/* Why Digital Asset Section Styles */
+.why-digital-section {
+    padding: 160px 0;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    perspective: 2000px;
+}
+
+.why-header {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+/* Scroll Path Line */
+.scroll-path-container {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: calc(100% - 400px);
+    background: rgba(255, 255, 255, 0.03);
+    z-index: 1;
+}
+
+.scroll-path-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    /* 스크롤에 따라 변경 */
+    background: linear-gradient(to bottom, #00ff7f, #00a3ff);
+    box-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
+    transition: height 0.2s ease-out;
+}
+
+.why-digital-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px 40px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Digital Asset Card Styling */
+.asset-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease, opacity 0.8s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 420px;
+    transform-style: preserve-3d;
+    opacity: 0;
+    /* 초기 상태 */
+}
+
+/* Scroll Glide Reveal 초기 상태 */
+.asset-card.reveal-left {
+    transform: translateX(-50px) rotateY(10deg);
+}
+
+.asset-card.reveal-right {
+    transform: translateX(50px) rotateY(-10deg);
+}
+
+.asset-card.scrolled-active {
+    opacity: 1;
+    transform: translateX(0) rotateY(0) !important;
+}
+
+.card-glow-tracker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(0, 255, 127, 0.08), transparent 40%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.asset-card:hover {
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+    border-color: rgba(0, 255, 127, 0.3);
+}
+
+.card-bg-icon {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    font-size: 15rem;
+    color: rgba(255, 255, 255, 0.02);
+    transform: translateZ(-20px) rotate(-15deg);
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.asset-card:hover .card-bg-icon {
+    color: rgba(0, 255, 127, 0.05);
+    transform: translateZ(-10px) rotate(0deg) scale(1.1);
+}
+
+.asset-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #00ff7f;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    display: inline-block;
+    transform: translateZ(20px);
+}
+
+.asset-card h3 {
+    font-size: 2.3rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 25px;
+    color: #fff;
+    transform: translateZ(40px);
+}
+
+.asset-card p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.7;
+    margin: 0;
+    transform: translateZ(30px);
+}
+
+.interactive-stat {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transform: translateZ(50px);
+}
+
+.stat-num-container {
+    display: flex;
+    align-items: baseline;
+    color: #fff;
+    font-weight: 900;
+}
+
+.stat-num {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.stat-suffix {
+    font-size: 1.5rem;
+    margin-left: 2px;
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    color: #888;
+    line-height: 1.4;
+}
+
+/* Parallax Orbs 전용 */
+.parallax-orb {
+    transition: transform 0.1s linear;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .scroll-path-container {
+        display: none;
+    }
+
+    .why-digital-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .asset-card {
+        min-height: auto;
+        padding: 50px 30px;
+    }
+
+    .asset-card h3 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .why-digital-section {
+        padding: 100px 0;
+    }
+}

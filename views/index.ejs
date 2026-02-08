@@ -38,6 +38,197 @@
           </div>
         </div>
       </section>
+
+      <!-- Why Digital Asset Section -->
+      <section class="why-digital-section" id="why-digital">
+        <!-- 다이나믹 배경 요소들 (톤앤매너 통합) -->
+        <div class="about-background-grid"></div>
+        <div class="floating-orbs">
+          <div class="orb orb-1 parallax-orb" data-speed="0.2"></div>
+          <div class="orb orb-2 parallax-orb" data-speed="0.1"></div>
+        </div>
+
+        <!-- Scroll Path (지그재그 연결 경로) -->
+        <div class="scroll-path-container">
+          <div class="scroll-path-fill" id="scroll-path-fill"></div>
+        </div>
+
+        <div class="container">
+          <div class="why-header fade-in-up">
+            <span class="about-badge">The Business Reality</span>
+            <h2 class="about-title">
+              당신의 비즈니스는<br>
+              <span class="gradient-text">24시간 깨어 있습니까?</span>
+            </h2>
+            <p class="about-subtitle">
+              단순한 웹사이트를 넘어, 스스로 고객을 설득하고<br>
+              수익을 창출하는 '디지털 자산'이 필요한 이유입니다.
+            </p>
+          </div>
+
+          <div class="why-digital-grid">
+            <!-- Asset 01: Trust (Left Slide) -->
+            <div class="card-reveal-wrapper">
+              <div class="asset-card active-card reveal-left">
+                <div class="card-glow-tracker"></div>
+                <i class="fas fa-id-card card-bg-icon"></i>
+                <div>
+                  <span class="asset-tag">Brand Identity</span>
+                  <h3>신뢰의<br>마침표</h3>
+                  <p>정보가 넘치는 시대, 고객은 '검색'으로 브랜드의 실체를 확인합니다. 잘 만들어진 웹사이트는 그 자체만으로 강력한 공신력이 됩니다.</p>
+                </div>
+                <div class="interactive-stat">
+                  <div class="stat-num-container">
+                    <span class="stat-num" data-count="90">0</span><span class="stat-suffix">%</span>
+                  </div>
+                  <div class="stat-label">고객이 구매 전<br>공식 홈페이지를 확인합니다.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Asset 02: Conversion (Right Slide) -->
+            <div class="card-reveal-wrapper">
+              <div class="asset-card active-card reveal-right">
+                <div class="card-glow-tracker"></div>
+                <i class="fas fa-funnel-dollar card-bg-icon"></i>
+                <div>
+                  <span class="asset-tag">High Performance</span>
+                  <h3>광고비의<br>회수</h3>
+                  <p>아무리 많은 광고(SNS, 파워링크)를 돌려도 랜딩페이지가 부실하면 고객은 이탈합니다. 랜딩랩은 떠나는 고객을 잡는 '깔때기'를 만듭니다.</p>
+                </div>
+                <div class="interactive-stat">
+                  <div class="stat-num-container">
+                    <span class="stat-num" data-count="3.5" data-decimals="1">0</span><span class="stat-suffix">x</span>
+                  </div>
+                  <div class="stat-label">최적화된 랜딩페이지의<br>평균 매출 상승률</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Asset 03: Efficiency (Left Slide) -->
+            <div class="card-reveal-wrapper">
+              <div class="asset-card active-card reveal-left">
+                <div class="card-glow-tracker"></div>
+                <i class="fas fa-clock card-bg-icon"></i>
+                <div>
+                  <span class="asset-tag">24/7 Operation</span>
+                  <h3>수면 중에도<br>수익 창출</h3>
+                  <p>전화기는 퇴근하면 꺼지지만, 웹사이트는 잠들지 않습니다. 주말이나 늦은 밤에도 예약과 상담을 자동으로 처리하는 영업 사원을 고용하세요.</p>
+                </div>
+                <div class="interactive-stat">
+                  <div class="stat-num-container">
+                    <span class="stat-num" data-count="24">0</span><span class="stat-suffix">H</span>
+                  </div>
+                  <div class="stat-label">추가 인건비 없이<br>365일 고객 응대 가능</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Asset 04: Data (Right Slide) -->
+            <div class="card-reveal-wrapper">
+              <div class="asset-card active-card reveal-right">
+                <div class="card-glow-tracker"></div>
+                <i class="fas fa-chart-pie card-bg-icon"></i>
+                <div>
+                  <span class="asset-tag">Intelligent Insight</span>
+                  <h3>보이는<br>비즈니스</h3>
+                  <p>고객이 어떤 경로로 와서 어떤 부분에 흥미를 느끼는지 데이터로 확인하세요. 감이 아닌 '지표'로 다음 전략을 세울 수 있습니다.</p>
+                </div>
+                <div class="interactive-stat">
+                  <div class="stat-num-container">
+                    <span class="stat-num" data-count="100">0</span><span class="stat-suffix">%</span>
+                  </div>
+                  <div class="stat-label">유입 분석을 통한<br>마케팅 효율 극대화</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const section = document.getElementById('why-digital');
+          const cards = document.querySelectorAll('.active-card');
+          const pathFill = document.getElementById('scroll-path-fill');
+          const orbs = document.querySelectorAll('.parallax-orb');
+
+          // 3D Tilt & Glow Effect (상시 작동)
+          cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              card.style.setProperty('--mouse-x', `${x}px`);
+              card.style.setProperty('--mouse-y', `${y}px`);
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
+              const rotateX = (y - centerY) / 15;
+              const rotateY = (centerX - x) / 15;
+              card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+              card.style.transform = 'rotateX(0) rotateY(0)';
+            });
+          });
+
+          // 통합 스크롤 이벤트 (Parallax + Path Fill + Card Reveal)
+          const handleScroll = () => {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            // 1. 섹션 내 스크롤 진행도 계산 (0 ~ 1)
+            const scrollDistance = -rect.top + (windowHeight * 0.5);
+            const scrollProgress = Math.max(0, Math.min(1, scrollDistance / rect.height));
+
+            // 2. Path Fill 애니메이션
+            if (pathFill) pathFill.style.height = `${scrollProgress * 100}%`;
+
+            // 3. Orbs Parallax
+            orbs.forEach(orb => {
+              const speed = parseFloat(orb.getAttribute('data-speed'));
+              const yOffset = rect.top * speed;
+              orb.style.transform = `translateY(${yOffset}px)`;
+            });
+
+            // 4. Card Reveal (Scroll triggered)
+            cards.forEach(card => {
+              const cardRect = card.getBoundingClientRect();
+              if (cardRect.top < windowHeight * 0.85) {
+                card.classList.add('scrolled-active');
+              }
+            });
+          };
+
+          window.addEventListener('scroll', handleScroll);
+          handleScroll(); // 초기 실행
+
+          // Count Up 애니메이션 (Intersection Observer 유지)
+          const countUps = document.querySelectorAll('.stat-num');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const target = entry.target;
+                const endValue = parseFloat(target.getAttribute('data-count'));
+                const decimals = parseInt(target.getAttribute('data-decimals') || 0);
+                const duration = 2000;
+                const startTime = performance.now();
+                const animateCount = (currentTime) => {
+                  const elapsed = currentTime - startTime;
+                  const progress = Math.min(elapsed / duration, 1);
+                  const easeOutExpo = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                  target.innerText = (easeOutExpo * endValue).toFixed(decimals);
+                  if (progress < 1) requestAnimationFrame(animateCount);
+                };
+                requestAnimationFrame(animateCount);
+                observer.unobserve(target);
+              }
+            });
+          }, { threshold: 0.5 });
+          countUps.forEach(el => observer.observe(el));
+        });
+      </script>
+
       <!-- Services Section -->
       <section id="services" class="services-section">
         <!-- 다이나믹 배경 요소들 -->
