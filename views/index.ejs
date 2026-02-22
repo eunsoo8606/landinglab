@@ -48,10 +48,6 @@
           <div class="orb orb-2 parallax-orb" data-speed="0.1"></div>
         </div>
 
-        <!-- Scroll Path (지그재그 연결 경로) -->
-        <div class="scroll-path-container">
-          <div class="scroll-path-fill" id="scroll-path-fill"></div>
-        </div>
 
         <div class="container">
           <div class="why-header fade-in-up">
@@ -67,6 +63,10 @@
           </div>
 
           <div class="why-digital-grid">
+            <!-- Scroll Path (지그재그 연결 경로) -->
+            <div class="scroll-path-container">
+              <div class="scroll-path-fill" id="scroll-path-fill"></div>
+            </div>
             <!-- Asset 01: Trust (Left Slide) -->
             <div class="card-reveal-wrapper">
               <div class="asset-card active-card reveal-left">
@@ -175,11 +175,14 @@
           // 통합 스크롤 이벤트 (Parallax + Path Fill + Card Reveal)
           const handleScroll = () => {
             const rect = section.getBoundingClientRect();
+            const grid = section.querySelector('.why-digital-grid');
+            const gridRect = grid ? grid.getBoundingClientRect() : rect;
             const windowHeight = window.innerHeight;
 
-            // 1. 섹션 내 스크롤 진행도 계산 (0 ~ 1)
-            const scrollDistance = -rect.top + (windowHeight * 0.5);
-            const scrollProgress = Math.max(0, Math.min(1, scrollDistance / rect.height));
+            // 1. 그리드 내 스크롤 진행도 계산 (0 ~ 1)
+            // 화면 중간(0.5)을 기준으로 그리드 상단이 도달했을 때부터 시작
+            const scrollDistance = -gridRect.top + (windowHeight * 0.5);
+            const scrollProgress = Math.max(0, Math.min(1, scrollDistance / gridRect.height));
 
             // 2. Path Fill 애니메이션
             if (pathFill) pathFill.style.height = `${scrollProgress * 100}%`;
