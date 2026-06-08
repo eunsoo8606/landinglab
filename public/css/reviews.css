@@ -59,30 +59,35 @@
   display: flex;
   gap: 30px;
   width: max-content;
-  /* 왼쪽에서 오른쪽으로 이동 */
-  animation: scrollRight 40s linear infinite;
+  /* 최신 트랜드: 3D 가속 활성화 및 시선의 흐름에 맞춘 방향(우->좌)으로 흘러가도록 수정 */
+  animation: scrollLeft 55s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
-/* 마우스 올리면 멈춤 */
-.reviews-track:hover {
-  animation-play-state: paused;
+/* 모바일 터치 시 애니메이션 멈춤 렉 방지 (마우스 호버 시에만 정지) */
+@media (hover: hover) {
+  .reviews-track:hover {
+    animation-play-state: paused;
+  }
 }
 
 .review-item {
   width: 300px;
   flex-shrink: 0;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  will-change: transform;
 }
 
 .review-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(13, 110, 253, 0.2);
+  transform: translateY(-8px) scale(1.02); /* 입체감 넘치는 스케일 및 부드러운 호버 */
+  box-shadow: 0 20px 40px rgba(13, 110, 253, 0.25);
   border-color: var(--accent-blue);
 }
 
@@ -93,13 +98,13 @@
   object-fit: cover;
 }
 
-/* 애니메이션 키프레임 */
-@keyframes scrollRight {
+/* 애니메이션 키프레임: GPU 가속(translate3d)을 활용한 끊김 없는 무한 루프 */
+@keyframes scrollLeft {
   0% {
-    transform: translateX(-50%);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(0);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 

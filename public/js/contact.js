@@ -25,6 +25,15 @@ function initContactForm() {
       
       // hidden input에 값 저장
       hiddenInput.value = this.dataset.value;
+
+      // 모바일 환경이고 Step 1일 때 다음 단계(Step 2)로 스크롤
+      const stepContainer = this.closest('.form-step');
+      if (stepContainer && stepContainer.dataset.step === '1') {
+        const isMobile = window.innerWidth <= 1024 || ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+        if (isMobile) {
+          setTimeout(() => scrollToStep(2), 300);
+        }
+      }
     });
   });
   
@@ -79,6 +88,12 @@ function initContactForm() {
       
       // hidden input에 값 저장
       packageInput.value = this.dataset.package;
+
+      // 모바일 환경일 때 다음 단계(Step 4)로 스크롤
+      const isMobile = window.innerWidth <= 1024 || ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      if (isMobile) {
+        setTimeout(() => scrollToStep(4), 300);
+      }
     });
   });
   

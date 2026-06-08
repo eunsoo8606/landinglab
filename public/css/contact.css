@@ -523,3 +523,12 @@ textarea.form-control {
     padding: 1.5rem 1rem;
   }
 }
+
+/* 서브타이틀 보조 설명글 */
+.contact-form-container .subtitle-desc {
+  font-size: 0.9rem;
+  color: #888888;
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: normal;
+}

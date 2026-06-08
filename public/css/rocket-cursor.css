@@ -95,13 +95,14 @@ body * {
   perspective: 1000px;
 }
 
-/* 모바일에서는 커서 효과 비활성화 (터치 디바이스) */
-@media (hover: none) and (pointer: coarse) {
+/* 모바일 및 터치 디바이스에서는 커서 효과 비활성화 (1024px 이하 또는 터치 환경) */
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
   body,
   body * {
     cursor: auto !important;
   }
   
+  #rocket-cursor,
   #rocket-particles-container {
     display: none !important;
   }

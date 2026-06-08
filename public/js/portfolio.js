@@ -22,6 +22,11 @@
   let startX = 0;
   let currentRotation = 0;
   let targetRotation = 0;
+  let animationFrameId = null; // 프레임 애니메이션 ID
+  let animStartTime = 0;       // 애니메이션 시작 시간
+  let startRotation = 0;       // 애니메이션 시작 각도
+  let endRotation = 0;         // 애니메이션 목표 각도
+  const animDuration = 500;    // 회전 완료 시간 (500ms)
 
   // 포트폴리오 데이터 로드 (DOM에서 읽기)
   function getPortfolios() {
@@ -62,8 +67,21 @@
   // ============================================
   function updateGallery() {
     const angleStep = (2 * Math.PI) / totalItems;
-    const radius = 500; // 타원의 가로 반지름
-    const radiusY = 150; // 타원의 세로 반지름
+    
+    // 화면 크기에 맞게 3D 회전 반경 유동적 조절 (모바일 깨짐 방지)
+    let radius = 500; 
+    let radiusY = 150;
+    
+    if (window.innerWidth <= 480) {
+      radius = window.innerWidth * 0.38;
+      radiusY = 30;
+    } else if (window.innerWidth <= 768) {
+      radius = window.innerWidth * 0.42;
+      radiusY = 60;
+    } else if (window.innerWidth <= 1024) {
+      radius = 350;
+      radiusY = 100;
+    }
 
     items.forEach((item, index) => {
       const angle = angleStep * index + currentRotation;
@@ -120,21 +138,47 @@
 
     currentIndex = index;
     const angleStep = (2 * Math.PI) / totalItems;
-    targetRotation = -angleStep * index;
+    
+    startRotation = currentRotation;
+    endRotation = -angleStep * index;
+    
+    // 최단 경로 회전 보정 (360도 반대로 뺑 도는 현상 방지)
+    const diff = endRotation - startRotation;
+    const normalizedDiff = Math.atan2(Math.sin(diff), Math.cos(diff));
+    endRotation = startRotation + normalizedDiff;
 
+    animStartTime = performance.now();
+
+    // 기존 진행 중인 프레임 루프 취소
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
+    
     animateRotation();
   }
 
   function animateRotation() {
-    const diff = targetRotation - currentRotation;
-    currentRotation += diff * 0.1;
+    const now = performance.now();
+    const elapsed = now - animStartTime;
+    const progress = Math.min(elapsed / animDuration, 1);
+    
+    // easeOutCubic 이징 공식 적용 (스르륵하고 점진적으로 멈추는 효과)
+    const ease = 1 - Math.pow(1 - progress, 3);
+    currentRotation = startRotation + (endRotation - startRotation) * ease;
+    
+    updateGallery();
 
-    if (Math.abs(diff) > 0.001) {
-      updateGallery();
-      requestAnimationFrame(animateRotation);
+    if (progress < 1) {
+      animationFrameId = requestAnimationFrame(animateRotation);
     } else {
-      currentRotation = targetRotation;
+      currentRotation = endRotation;
+      
+      // 누적 회전각 단순화 정돈 (0 ~ 2*PI 범위로 가둠)
+      const twoPi = Math.PI * 2;
+      currentRotation = ((currentRotation % twoPi) + twoPi) % twoPi;
+      
       updateGallery();
+      animationFrameId = null;
     }
   }
 
@@ -191,6 +235,12 @@
     startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
     gallery.style.cursor = 'grabbing';
     stopAutoRotate();
+
+    // 드래그가 시작되면 기존에 돌고 있던 스무스 회전 애니메이션 강제 정지
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
   }
 
   function handleDragMove(e) {
@@ -418,5 +468,62 @@
       updateGallery();
     }, 200);
   });
+
+  // ============================================
+  // 라이트박스 (이미지 전체 화면 확대 보기)
+  // ============================================
+  function initLightbox() {
+    const lightbox = document.createElement('div');
+    lightbox.id = 'lightboxModal';
+    lightbox.className = 'lightbox-modal';
+    lightbox.innerHTML = `
+      <button class="lightbox-close" id="lightboxClose" aria-label="닫기">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="lightbox-content">
+        <img src="" alt="Portfolio Large View" id="lightboxImage">
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const lightboxImg = document.getElementById('lightboxImage');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const detailsImg = document.getElementById('detailsImage');
+
+    if (detailsImg) {
+      detailsImg.style.cursor = 'zoom-in';
+      detailsImg.addEventListener('click', () => {
+        if (detailsImg.src) {
+          lightboxImg.src = detailsImg.src;
+          lightbox.classList.add('active');
+        }
+      });
+    }
+
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+      });
+    }
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+        lightbox.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        lightbox.classList.remove('active');
+      }
+    });
+  }
+
+  // 초기화 시 라이트박스 빌드
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLightbox);
+  } else {
+    initLightbox();
+  }
 
 })();

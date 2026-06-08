@@ -5,6 +5,15 @@
 
 class RocketCursor {
   constructor() {
+    // 모바일 및 터치 디바이스 감지 (화면 너비 1024px 이하 또는 터치 기기)
+    const isMobile = window.matchMedia('(max-width: 1024px)').matches || 
+                     window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+                     ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    
+    if (isMobile) {
+      return;
+    }
+
     this.particles = [];
     this.mouseX = window.innerWidth / 2;
     this.mouseY = window.innerHeight / 2;
