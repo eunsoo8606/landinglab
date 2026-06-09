@@ -6,6 +6,7 @@ const boardController = require('../controllers/boardController');
 const postController = require('../controllers/postController');
 const contactController = require('../controllers/contactController');
 const sitemapController = require('../controllers/sitemapController');
+const { requireApiAuth } = require('../middleware/auth');
 
 // SEO - Sitemap & Robots.txt & RSS Feed
 router.get('/sitemap.xml', sitemapController.getSitemap);
@@ -39,12 +40,15 @@ router.get('/boards', boardController.getBoards);
 // 공지사항 상세 페이지 (데이터베이스 기반)
 router.get('/boards/:id', boardController.getBoardDetail);
 
-// Contact API
+// Contact API (제출은 비인증 허용, 관리는 관리자 인증 필수)
 router.post('/api/contact', contactController.submitContact);
-router.get('/api/contacts', contactController.getContacts);
-router.get('/api/contacts/:id', contactController.getContactById);
-router.put('/api/contacts/:id/status', contactController.updateContactStatus);
-router.delete('/api/contacts/:id', contactController.deleteContact);
+router.get('/api/contacts', requireApiAuth, contactController.getContacts);
+router.get('/api/contacts/:id', requireApiAuth, contactController.getContactById);
+router.put('/api/contacts/:id/status', requireApiAuth, contactController.updateContactStatus);
+router.delete('/api/contacts/:id', requireApiAuth, contactController.deleteContact);
+
+// 대시보드 통계 API (관리자 인증 필요)
+router.get('/api/admin/stats', requireApiAuth, adminController.getDashboardStats);
 
 // 관리자 로그인 페이지 (기존 경로 유지)
 router.get('/console', adminController.getLogin);

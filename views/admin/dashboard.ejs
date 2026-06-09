@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title><%= title %></title>
+  <!-- Chart.js 다이나믹 그래프 시각화 라이브러리 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
     :root {
@@ -402,30 +404,334 @@
       opacity: 0.5;
     }
     
-    /* 반응형 */
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-      
-      .main-content {
-        margin-left: 0;
-      }
-      
-      .header {
-        padding: 0 15px;
-      }
-      
-      .content {
-        padding: 15px;
-      }
-      
-      .stats-grid {
+    
+    /* 탭 세션 기본 숨김 */
+    .view-section {
+      display: none;
+    }
+    .view-section.active {
+      display: block;
+    }
+    
+    /* 문의관리 필터 바 */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid #dee2e6;
+      background: #fff;
+      color: #495057;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .filter-btn:hover {
+      background: #f8f9fa;
+    }
+    
+    .filter-btn.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+    }
+    
+    /* 문의관리 테이블 */
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow-x: auto;
+    }
+    
+    .contacts-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+    
+    .contacts-table th,
+    .contacts-table td {
+      padding: 16px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+    
+    .contacts-table th {
+      font-weight: 600;
+      color: #6c757d;
+      background-color: #fafbfe;
+    }
+    
+    .contacts-table tr:hover td {
+      background-color: #f8f9fa;
+    }
+    
+    /* 버튼 스타일 */
+    .btn-sm {
+      padding: 8px 16px; /* 가로/세로 패딩 확장 */
+      font-size: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-width: 80px; /* 최소 가로폭 확장 */
+    }
+    
+    .btn-primary {
+      background-color: var(--accent-blue);
+      color: white;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+    
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+    
+    /* 페이징네이션 */
+    .pagination-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      margin-top: 25px;
+    }
+    
+    .page-btn {
+      min-width: 35px;
+      height: 35px;
+      border: 1px solid #dee2e6;
+      background: white;
+      color: #495057;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .page-btn:hover {
+      background: #f8f9fa;
+    }
+    
+    .page-btn.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+    }
+    
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    /* 상세 모달 */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+    
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 700px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      transform: translateY(30px);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--main-dark);
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #6c757d;
+      transition: color 0.2s ease;
+    }
+    
+    .modal-close:hover {
+      color: #333;
+    }
+    
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafbfe;
+    }
+    
+    /* 모달 디테일 레이아웃 */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .detail-item.full-width {
+      grid-column: span 2;
+    }
+    
+    .detail-label {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600;
+    }
+    
+    .detail-value {
+      font-size: 14px;
+      color: #333;
+      background: #f8f9fa;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #e9ecef;
+      min-height: 40px;
+      word-break: break-all;
+    }
+    
+    textarea.detail-value {
+      resize: none;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+    
+    .status-select {
+      padding: 8px 16px; /* 패딩 확장 */
+      border-radius: 6px;
+      border: 1px solid #ced4da;
+      font-size: 13px;
+      font-weight: 600;
+      background: white;
+      cursor: pointer;
+      color: #495057;
+      outline: none;
+      min-width: 120px; /* 최소 가로폭 확장 */
+    }
+    
+    .status-select:focus {
+      border-color: var(--accent-blue);
+    }
+
+    /* 대시보드 통계 차트 전용 레이아웃 및 반응형 스타일 */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .chart-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .chart-card-header {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 12px;
+    }
+    
+    .chart-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--main-dark);
+    }
+    
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      flex: 1;
+    }
+    
+    @media (max-width: 1024px) {
+      .charts-grid {
         grid-template-columns: 1fr;
-      }
-      
-      .user-details {
-        display: none;
       }
     }
   </style>
@@ -440,31 +746,31 @@
     
     <ul class="sidebar-menu">
       <li>
-        <a href="/admin/dashboard" class="active">
+        <a href="#dashboard" class="menu-link active" data-target="dashboard-section">
           <span class="icon">📊</span>
           <span>대시보드</span>
         </a>
       </li>
       <li>
-        <a href="#boards">
+        <a href="#boards" class="menu-link" data-target="boards-section">
           <span class="icon">📄</span>
           <span>공지사항 관리</span>
         </a>
       </li>
       <li>
-        <a href="#contacts">
+        <a href="#contacts" class="menu-link" data-target="contacts-section">
           <span class="icon">✉️</span>
           <span>문의 관리</span>
         </a>
       </li>
       <li>
-        <a href="#portfolios">
+        <a href="#portfolios" class="menu-link" data-target="portfolios-section">
           <span class="icon">💼</span>
           <span>포트폴리오 관리</span>
         </a>
       </li>
       <li>
-        <a href="#settings">
+        <a href="#settings" class="menu-link" data-target="settings-section">
           <span class="icon">⚙️</span>
           <span>설정</span>
         </a>
@@ -477,7 +783,7 @@
     <!-- 헤더 -->
     <header class="header">
       <div class="header-left">
-        <h1>대시보드</h1>
+        <h1 id="main-header-title">대시보드</h1>
       </div>
       <div class="header-right">
         <div class="user-info">
@@ -495,78 +801,881 @@
     
     <!-- 컨텐츠 -->
     <main class="content">
-      <!-- 통계 카드 -->
-      <div class="stats-grid">
-        <div class="stat-card primary">
-          <div class="stat-card-header">
-            <div class="stat-card-title">공지사항</div>
-            <div class="stat-card-icon">📄</div>
-          </div>
-          <div class="stat-card-value"><%= stats.boards %></div>
-          <div class="stat-card-change">전체 공지사항 수</div>
-        </div>
-        
-        <div class="stat-card success">
-          <div class="stat-card-header">
-            <div class="stat-card-title">문의</div>
-            <div class="stat-card-icon">✉️</div>
-          </div>
-          <div class="stat-card-value"><%= stats.contacts %></div>
-          <div class="stat-card-change">전체 문의 수</div>
-        </div>
-        
-        <div class="stat-card warning">
-          <div class="stat-card-header">
-            <div class="stat-card-title">포트폴리오</div>
-            <div class="stat-card-icon">💼</div>
-          </div>
-          <div class="stat-card-value"><%= stats.portfolios %></div>
-          <div class="stat-card-change">전체 프로젝트 수</div>
-        </div>
-      </div>
       
-      <!-- 최근 문의 -->
-      <div class="recent-section">
-        <div class="section-header">
-          <h2 class="section-title">💬 최근 문의</h2>
-          <a href="#all-contacts" class="section-action">전체 보기 →</a>
+      <!-- 1. 대시보드 뷰 섹션 -->
+      <div class="view-section active" id="dashboard-section">
+        <!-- 실시간 통계 요약 카드 (일일/주간/월간 현황) -->
+        <div class="stats-grid">
+          <!-- 일일 현황 -->
+          <div class="stat-card primary">
+            <div class="stat-card-header">
+              <div class="stat-card-title">오늘 순방문자 (일일)</div>
+              <div class="stat-card-icon">👤</div>
+            </div>
+            <div class="stat-card-value" id="stat-today-visits">-</div>
+            <div class="stat-card-change">오늘 사이트 방문 순유저</div>
+          </div>
+          
+          <div class="stat-card success">
+            <div class="stat-card-header">
+              <div class="stat-card-title">오늘 문의 접수 (일일)</div>
+              <div class="stat-card-icon">✉️</div>
+            </div>
+            <div class="stat-card-value" id="stat-today-contacts">-</div>
+            <div class="stat-card-change">오늘 유입된 견적 문의</div>
+          </div>
+          
+          <!-- 주간 현황 -->
+          <div class="stat-card warning">
+            <div class="stat-card-header">
+              <div class="stat-card-title">주간 방문자 수 (7일)</div>
+              <div class="stat-card-icon">📈</div>
+            </div>
+            <div class="stat-card-value" id="stat-weekly-visits">-</div>
+            <div class="stat-card-change">최근 7일간의 총 방문객</div>
+          </div>
+          
+          <div class="stat-card primary" style="border-left-color: #6f42c1;">
+            <div class="stat-card-header">
+              <div class="stat-card-title">주간 문의 접수 (7일)</div>
+              <div class="stat-card-icon">📬</div>
+            </div>
+            <div class="stat-card-value" id="stat-weekly-contacts">-</div>
+            <div class="stat-card-change">최근 7일간의 누적 문의</div>
+          </div>
+          
+          <!-- 월간 현황 -->
+          <div class="stat-card warning" style="border-left-color: #fd7e14;">
+            <div class="stat-card-header">
+              <div class="stat-card-title">월간 방문자 수 (30일)</div>
+              <div class="stat-card-icon">📊</div>
+            </div>
+            <div class="stat-card-value" id="stat-monthly-visits">-</div>
+            <div class="stat-card-change">최근 30일간의 총 방문객</div>
+          </div>
+          
+          <div class="stat-card success" style="border-left-color: #20c997;">
+            <div class="stat-card-header">
+              <div class="stat-card-title">월간 문의 접수 (30일)</div>
+              <div class="stat-card-icon">📋</div>
+            </div>
+            <div class="stat-card-value" id="stat-monthly-contacts">-</div>
+            <div class="stat-card-change">최근 30일간의 누적 문의</div>
+          </div>
         </div>
-        
-        <% if (recentContacts && recentContacts.length > 0) { %>
-          <% recentContacts.forEach(contact => { %>
-            <div class="contact-item">
-              <div class="contact-header">
-                <div>
-                  <span class="contact-name"><%= contact.name %></span>
-                  <% if (contact.company_name) { %>
-                    <span class="contact-company">(<%= contact.company_name %>)</span>
-                  <% } %>
-                </div>
-                <span class="status-badge status-<%= contact.status %>">
-                  <%= contact.status === 'pending' ? '대기중' : 
-                      contact.status === 'processing' ? '처리중' : 
-                      contact.status === 'completed' ? '완료' : '거부' %>
-                </span>
+
+        <!-- 차트 대시보드 시각화 패널 -->
+        <div class="charts-grid">
+          <!-- 최근 7일 날짜별 추이 꺾은선 차트 -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h3 class="chart-card-title">📈 최근 7일 트래픽 및 문의 추이</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+          
+          <!-- 기기 접근 비율 및 유입 경로 도넛 차트 -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3 class="chart-card-title">📱 기기별 접근 비중</h3>
               </div>
-              <div class="contact-email"><%= contact.email %></div>
-              <div class="contact-message">
-                <%= contact.description && contact.description.length > 120 ? contact.description.substring(0, 120) + '...' : contact.description || '내용 없음' %>
-              </div>
-              <div class="contact-footer">
-                <div class="contact-date">
-                  🕐 <%= new Date(contact.created_at).toLocaleString('ko-KR') %>
-                </div>
+              <div class="chart-wrapper" style="height: 140px;">
+                <canvas id="deviceChart"></canvas>
               </div>
             </div>
-          <% }) %>
-        <% } else { %>
-          <div class="empty-state">
-            <div class="empty-state-icon">📭</div>
-            <p>최근 문의가 없습니다.</p>
+            
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3 class="chart-card-title">🔍 주요 유입 경로</h3>
+              </div>
+              <div class="chart-wrapper" style="height: 140px;">
+                <canvas id="inflowChart"></canvas>
+              </div>
+            </div>
           </div>
-        <% } %>
+        </div>
+        
+        <!-- 최근 문의 -->
+        <div class="recent-section">
+          <div class="section-header">
+            <h2 class="section-title">💬 최근 문의</h2>
+            <a href="#contacts" class="section-action" id="view-all-contacts-link">전체 보기 →</a>
+          </div>
+          
+          <% if (recentContacts && recentContacts.length > 0) { %>
+            <% recentContacts.forEach(contact => { %>
+              <div class="contact-item" style="cursor: pointer;" onclick="openContactDetail(<%= contact.id %>)">
+                <div class="contact-header">
+                  <div>
+                    <span class="contact-name"><%= contact.name %></span>
+                    <% if (contact.company_name) { %>
+                      <span class="contact-company">(<%= contact.company_name %>)</span>
+                    <% } %>
+                  </div>
+                  <span class="status-badge status-<%= contact.status %>">
+                    <%= contact.status === 'pending' ? '대기중' : 
+                        contact.status === 'processing' ? '처리중' : 
+                        contact.status === 'completed' ? '완료' : '거부' %>
+                  </span>
+                </div>
+                <div class="contact-email"><%= contact.email %></div>
+                <div class="contact-message">
+                  <%= contact.description && contact.description.length > 120 ? contact.description.substring(0, 120) + '...' : contact.description || '내용 없음' %>
+                </div>
+                <div class="contact-footer">
+                  <div class="contact-date">
+                    🕐 <%= new Date(contact.created_at).toLocaleString('ko-KR') %>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <div class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <p>최근 문의가 없습니다.</p>
+            </div>
+          <% } %>
+        </div>
       </div>
+
+      <!-- 2. 문의 사항 관리 뷰 섹션 -->
+      <div class="view-section" id="contacts-section">
+        <!-- 필터 바 -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-status="all">전체</button>
+          <button class="filter-btn" data-status="pending">대기중</button>
+          <button class="filter-btn" data-status="processing">처리중</button>
+          <button class="filter-btn" data-status="completed">완료</button>
+          <button class="filter-btn" data-status="rejected">거부</button>
+        </div>
+
+        <!-- 테이블 목록 -->
+        <div class="table-container">
+          <table class="contacts-table">
+            <thead>
+              <tr>
+                <th>이름</th>
+                <th>회사명</th>
+                <th>프로젝트 유형</th>
+                <th>제출일시</th>
+                <th>처리상태</th>
+                <th style="width: 150px; text-align: center;">작업</th>
+              </tr>
+            </thead>
+            <tbody id="contacts-table-body">
+              <!-- AJAX를 통해 동적으로 행이 추가됩니다 -->
+            </tbody>
+          </table>
+
+          <!-- 페이징네이션 -->
+          <div class="pagination-bar" id="contacts-pagination">
+            <!-- AJAX를 통해 동적으로 버튼이 추가됩니다 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 공지사항 / 포트폴리오 / 설정 준비중 섹션 -->
+      <div class="view-section" id="boards-section">
+        <div class="recent-section">
+          <div class="empty-state">
+            <div class="empty-state-icon">📝</div>
+            <p>공지사항 관리 기능 준비 중입니다.</p>
+          </div>
+        </div>
+      </div>
+      <div class="view-section" id="portfolios-section">
+        <div class="recent-section">
+          <div class="empty-state">
+            <div class="empty-state-icon">💼</div>
+            <p>포트폴리오 관리 기능 준비 중입니다.</p>
+          </div>
+        </div>
+      </div>
+      <div class="view-section" id="settings-section">
+        <div class="recent-section">
+          <div class="empty-state">
+            <div class="empty-state-icon">⚙️</div>
+            <p>시스템 설정 기능 준비 중입니다.</p>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
+
+  <!-- 문의 사항 상세 보기 모달 -->
+  <div class="modal" id="contactDetailModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">✉️ 문의 사항 상세 정보</h3>
+        <button class="modal-close" onclick="closeContactModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">의뢰인 이름</span>
+            <div class="detail-value" id="detail-name">-</div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">회사명</span>
+            <div class="detail-value" id="detail-company">-</div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">연락처</span>
+            <div class="detail-value" id="detail-phone">-</div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">이메일</span>
+            <div class="detail-value" id="detail-email">-</div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">프로젝트 유형</span>
+            <div class="detail-value" id="detail-project-type">-</div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">의뢰 패키지</span>
+            <div class="detail-value" id="detail-package">-</div>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">필요 서비스</span>
+            <div class="detail-value" id="detail-services">-</div>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">레퍼런스 링크 (참고 사이트)</span>
+            <div class="detail-value" id="detail-reference">-</div>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">현재 웹사이트 URL</span>
+            <div class="detail-value" id="detail-website">-</div>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">의뢰 상세 설명</span>
+            <textarea class="detail-value" id="detail-description" readonly></textarea>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">개인정보 동의 여부</span>
+            <div class="detail-value" id="detail-agree">-</div>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">제출 시각</span>
+            <div class="detail-value" id="detail-date">-</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div>
+          <span class="detail-label" style="display:inline-block; margin-right: 8px; vertical-align: middle;">처리 상태 변경:</span>
+          <select class="status-select" id="detail-status-select" onchange="updateStatusFromModal()">
+            <option value="pending">대기중</option>
+            <option value="processing">처리중</option>
+            <option value="completed">완료</option>
+            <option value="rejected">거부</option>
+          </select>
+        </div>
+        <div>
+          <button class="btn-sm btn-danger" id="detail-delete-btn">
+            <span>🗑️ 삭제</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 현재 선택된 문의 ID 및 검색 필터 정보
+    let activeContactId = null;
+    let currentFilterStatus = 'all';
+    let currentFilterPage = 1;
+
+    // Chart.js 차트 인스턴스 저장용 변수
+    let trendChartInstance = null;
+    let deviceChartInstance = null;
+    let inflowChartInstance = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTabNavigation();
+      initContactsListFilter();
+      loadDashboardStats(); // 최초 대시보드 통계 로딩
+    });
+
+    // 1. 사이드바 및 탭 스위칭 네비게이션
+    function initTabNavigation() {
+      const menuLinks = document.querySelectorAll('.sidebar-menu a');
+      const viewSections = document.querySelectorAll('.view-section');
+      const headerTitle = document.getElementById('main-header-title');
+
+      function switchTab(targetId, hashName) {
+        // 모든 메뉴 클래스 제거 및 대상 활성화
+        menuLinks.forEach(link => {
+          if (link.getAttribute('href') === hashName) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+
+        // 모든 섹션 숨김 및 대상 표시
+        viewSections.forEach(section => {
+          if (section.id === targetId) {
+            section.classList.add('active');
+          } else {
+            section.classList.remove('active');
+          }
+        });
+
+        // 헤더 타이틀 변경
+        const tabNames = {
+          'dashboard-section': '대시보드',
+          'boards-section': '공지사항 관리',
+          'contacts-section': '문의 관리',
+          'portfolios-section': '포트폴리오 관리',
+          'settings-section': '설정'
+        };
+        headerTitle.textContent = tabNames[targetId] || '관리자 콘솔';
+
+        // 대시보드 탭인 경우 통계 데이터 리로드
+        if (targetId === 'dashboard-section') {
+          loadDashboardStats();
+        }
+        // 문의 관리 탭인 경우 목록 로딩
+        if (targetId === 'contacts-section') {
+          loadContacts(currentFilterStatus, currentFilterPage);
+        }
+      }
+
+      menuLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const hash = link.getAttribute('href');
+          if (hash.startsWith('#')) {
+            e.preventDefault();
+            const targetId = link.getAttribute('data-target');
+            switchTab(targetId, hash);
+            window.location.hash = hash;
+          }
+        });
+      });
+
+      // 해시 변경 감지
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash || '#dashboard';
+        const activeLink = document.querySelector(`.sidebar-menu a[href="${hash}"]`);
+        if (activeLink) {
+          const targetId = activeLink.getAttribute('data-target');
+          switchTab(targetId, hash);
+        }
+      });
+
+      // 대시보드 내 "전체 보기" 링크 클릭
+      const viewAllLink = document.getElementById('view-all-contacts-link');
+      if (viewAllLink) {
+        viewAllLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.hash = '#contacts';
+        });
+      }
+
+      // 초기 로딩 시 해시 체크
+      if (window.location.hash) {
+        const hash = window.location.hash;
+        const activeLink = document.querySelector(`.sidebar-menu a[href="${hash}"]`);
+        if (activeLink) {
+          const targetId = activeLink.getAttribute('data-target');
+          switchTab(targetId, hash);
+        }
+      }
+    }
+
+    // 2. 문의 관리 리스트 필터 바 세팅
+    function initContactsListFilter() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          currentFilterStatus = btn.getAttribute('data-status');
+          currentFilterPage = 1;
+          loadContacts(currentFilterStatus, currentFilterPage);
+        });
+      });
+    }
+
+    // 3. 문의 리스트 비동기 조회
+    async function loadContacts(status = 'all', page = 1) {
+      const tableBody = document.getElementById('contacts-table-body');
+      tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 40px;">데이터를 불러오는 중...</td></tr>`;
+
+      try {
+        let url = `/api/contacts?page=${page}&limit=10`;
+        if (status !== 'all') {
+          url += `&status=${status}`;
+        }
+
+        const response = await fetch(url);
+        
+        // 401 미인증 시 로그인 페이지 유도
+        if (response.status === 401) {
+          alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+          window.location.href = '/admin/login';
+          return;
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          renderContactsTable(result.data);
+          renderPagination(result.pagination);
+        } else {
+          tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red; padding: 20px;">데이터 조회 실패: ${result.message}</td></tr>`;
+        }
+      } catch (error) {
+        console.error('API Error:', error);
+        tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red; padding: 20px;">서버와의 통신 오류가 발생했습니다.</td></tr>`;
+      }
+    }
+
+    // 4. 테이블 렌더링
+    function renderContactsTable(contacts) {
+      const tableBody = document.getElementById('contacts-table-body');
+      
+      if (!contacts || contacts.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 60px; color: #888;">접수된 문의 내역이 없습니다.</td></tr>`;
+        return;
+      }
+
+      const statusMap = {
+        'pending': { label: '대기중', class: 'status-pending' },
+        'processing': { label: '처리중', class: 'status-processing' },
+        'completed': { label: '완료', class: 'status-completed' },
+        'rejected': { label: '거부', class: 'status-rejected' }
+      };
+
+      const projectTypeMap = {
+        'new': '신규 제작',
+        'renewal': '리뉴얼'
+      };
+
+      tableBody.innerHTML = '';
+      contacts.forEach(contact => {
+        const statusInfo = statusMap[contact.status] || { label: contact.status, class: '' };
+        const projectTypeLabel = projectTypeMap[contact.project_type] || contact.project_type || '미지정';
+        const dateStr = new Date(contact.created_at).toLocaleDateString('ko-KR');
+
+        const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(contact.name)}</strong></td>
+          <td>${escapeHtml(contact.company_name || '-')}</td>
+          <td>${projectTypeLabel}</td>
+          <td>${dateStr}</td>
+          <td><span class="status-badge ${statusInfo.class}">${statusInfo.label}</span></td>
+          <td style="text-align: center; display: flex; gap: 6px; justify-content: center;" onclick="event.stopPropagation()">
+            <button class="btn-sm btn-primary" onclick="openContactDetail(${contact.id})">🔍 상세</button>
+            <button class="btn-sm btn-danger" onclick="deleteContact(${contact.id})">🗑️ 삭제</button>
+          </td>
+        `;
+        tr.addEventListener('click', () => openContactDetail(contact.id));
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // 5. 페이징네이션 렌더링
+    function renderPagination(pageInfo) {
+      const container = document.getElementById('contacts-pagination');
+      container.innerHTML = '';
+
+      if (pageInfo.totalPages <= 1) return;
+
+      // 이전 버튼
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'page-btn';
+      prevBtn.innerHTML = '‹';
+      prevBtn.disabled = pageInfo.page === 1;
+      prevBtn.addEventListener('click', () => {
+        currentFilterPage = pageInfo.page - 1;
+        loadContacts(currentFilterStatus, currentFilterPage);
+      });
+      container.appendChild(prevBtn);
+
+      // 페이지 숫자 버튼들
+      for (let i = 1; i <= pageInfo.totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = `page-btn ${pageInfo.page === i ? 'active' : ''}`;
+        btn.textContent = i;
+        btn.addEventListener('click', () => {
+          currentFilterPage = i;
+          loadContacts(currentFilterStatus, currentFilterPage);
+        });
+        container.appendChild(btn);
+      }
+
+      // 다음 버튼
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'page-btn';
+      nextBtn.innerHTML = '›';
+      nextBtn.disabled = pageInfo.page === pageInfo.totalPages;
+      nextBtn.addEventListener('click', () => {
+        currentFilterPage = pageInfo.page + 1;
+        loadContacts(currentFilterStatus, currentFilterPage);
+      });
+      container.appendChild(nextBtn);
+    }
+
+    // 6. 상세 보기 모달 오픈
+    async function openContactDetail(id) {
+      activeContactId = id;
+      const modal = document.getElementById('contactDetailModal');
+      
+      try {
+        const response = await fetch(`/api/contacts/${id}`);
+        
+        if (response.status === 401) {
+          alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+          window.location.href = '/admin/login';
+          return;
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          const contact = result.data;
+          
+          document.getElementById('detail-name').textContent = contact.name || '-';
+          document.getElementById('detail-company').textContent = contact.company_name || '-';
+          document.getElementById('detail-phone').textContent = contact.phone || '-';
+          document.getElementById('detail-email').textContent = contact.email || '-';
+          document.getElementById('detail-project-type').textContent = 
+            contact.project_type === 'new' ? '신규 제작' : 
+            contact.project_type === 'renewal' ? '리뉴얼' : contact.project_type || '미지정';
+          
+          document.getElementById('detail-package').textContent = contact.package || '선택 안함';
+          document.getElementById('detail-services').textContent = contact.services || '선택 안함';
+          
+          // 홈페이지 및 레퍼런스 링크 바인딩
+          const refEl = document.getElementById('detail-reference');
+          if (contact.reference) {
+            refEl.innerHTML = `<a href="${escapeHtml(contact.reference)}" target="_blank">${escapeHtml(contact.reference)}</a>`;
+          } else {
+            refEl.textContent = '-';
+          }
+          
+          const webEl = document.getElementById('detail-website');
+          if (contact.website) {
+            webEl.innerHTML = `<a href="${escapeHtml(contact.website)}" target="_blank">${escapeHtml(contact.website)}</a>`;
+          } else {
+            webEl.textContent = '-';
+          }
+
+          document.getElementById('detail-description').value = contact.description || '';
+          document.getElementById('detail-agree').textContent = contact.agree_yn === 'Y' ? '동의함' : '동의 안함';
+          document.getElementById('detail-date').textContent = new Date(contact.created_at).toLocaleString('ko-KR');
+          
+          // 셀렉트 박스 상태 일치
+          document.getElementById('detail-status-select').value = contact.status;
+
+          // 삭제 버튼 이벤트 바인딩
+          const deleteBtn = document.getElementById('detail-delete-btn');
+          deleteBtn.onclick = () => deleteContact(contact.id);
+
+          modal.classList.add('active');
+        } else {
+          alert('상세 정보를 가져오는 데 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('Error fetching detail:', error);
+        alert('서버 오류가 발생했습니다.');
+      }
+    }
+
+    // 7. 모달 닫기
+    function closeContactModal() {
+      const modal = document.getElementById('contactDetailModal');
+      modal.classList.remove('active');
+      activeContactId = null;
+    }
+
+    // 8. 모달창 내 상태 직접 변경 (PUT)
+    async function updateStatusFromModal() {
+      if (!activeContactId) return;
+      const newStatus = document.getElementById('detail-status-select').value;
+
+      try {
+        const response = await fetch(`/api/contacts/${activeContactId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        if (response.status === 401) {
+          alert('세션이 만료되었습니다. 로그인 해주세요.');
+          window.location.href = '/admin/login';
+          return;
+        }
+
+        const result = await response.json();
+        if (result.success) {
+          // 리스트 새로고침
+          loadContacts(currentFilterStatus, currentFilterPage);
+        } else {
+          alert('상태 업데이트 실패: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Error updating status:', error);
+        alert('상태 업데이트 중 서버 통신 오류가 발생했습니다.');
+      }
+    }
+
+    // 9. 문의 데이터 삭제 (DELETE)
+    async function deleteContact(id) {
+      if (!confirm('정말로 이 문의 정보를 삭제하시겠습니까?\n삭제된 정보는 복구할 수 없습니다.')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/contacts/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (response.status === 401) {
+          alert('세션이 만료되었습니다. 로그인 해주세요.');
+          window.location.href = '/admin/login';
+          return;
+        }
+
+        const result = await response.json();
+        if (result.success) {
+          alert('문의가 삭제되었습니다.');
+          closeContactModal();
+          
+          // 리스트 리로딩
+          loadContacts(currentFilterStatus, currentFilterPage);
+          
+          // 만약 대시보드 홈 뷰인 경우 그냥 화면 리프레시
+          if (document.getElementById('dashboard-section').classList.contains('active')) {
+            window.location.reload();
+          }
+        } else {
+          alert('삭제 실패: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Error deleting contact:', error);
+        alert('삭제 중 서버 통신 오류가 발생했습니다.');
+      }
+    }
+
+    /**
+     * 통계 API(/api/admin/stats)를 호출하여 
+     * 일/주/월 요약 카드를 업데이트하고 Chart.js 그래프 3종을 동적으로 바인딩합니다.
+     */
+    async function loadDashboardStats() {
+      try {
+        const response = await fetch('/api/admin/stats');
+        
+        if (response.status === 401) {
+          alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+          window.location.href = '/admin/login';
+          return;
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          // 1. 일일/주간/월간 수치 카드 바인딩
+          document.getElementById('stat-today-visits').textContent = result.summary.today.visits.toLocaleString();
+          document.getElementById('stat-today-contacts').textContent = result.summary.today.contacts.toLocaleString();
+          document.getElementById('stat-weekly-visits').textContent = result.summary.weekly.visits.toLocaleString();
+          document.getElementById('stat-weekly-contacts').textContent = result.summary.weekly.contacts.toLocaleString();
+          document.getElementById('stat-monthly-visits').textContent = result.summary.monthly.visits.toLocaleString();
+          document.getElementById('stat-monthly-contacts').textContent = result.summary.monthly.contacts.toLocaleString();
+
+          // 2. 최근 7일 날짜별 트래픽/문의 추이 차트 (Line Chart)
+          const trendCtx = document.getElementById('trendChart').getContext('2d');
+          if (trendChartInstance) trendChartInstance.destroy();
+          trendChartInstance = new Chart(trendCtx, {
+            type: 'line',
+            data: {
+              labels: result.trends.labels,
+              datasets: [
+                {
+                  label: '순방문자 수 (UV)',
+                  data: result.trends.visits,
+                  borderColor: 'hsl(203.94deg 90.61% 45%)',
+                  backgroundColor: 'rgba(2, 117, 216, 0.05)',
+                  borderWidth: 3,
+                  fill: true,
+                  tension: 0.3,
+                  pointBackgroundColor: 'hsl(203.94deg 90.61% 45%)',
+                  pointHoverRadius: 6
+                },
+                {
+                  label: '문의 접수 수',
+                  data: result.trends.contacts,
+                  borderColor: '#28a745',
+                  backgroundColor: 'rgba(40, 167, 69, 0.05)',
+                  borderWidth: 3,
+                  fill: true,
+                  tension: 0.3,
+                  pointBackgroundColor: '#28a745',
+                  pointHoverRadius: 6
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                  labels: {
+                    boxWidth: 12,
+                    font: { family: 'Pretendard, sans-serif', size: 12 }
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { stepSize: 1 }
+                }
+              }
+            }
+          });
+
+          // 3. 기기 접근 비중 차트 (Doughnut Chart)
+          const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+          if (deviceChartInstance) deviceChartInstance.destroy();
+          
+          const totalDeviceCount = result.deviceRatio.pc + result.deviceRatio.mobile + result.deviceRatio.tablet;
+          
+          deviceChartInstance = new Chart(deviceCtx, {
+            type: 'doughnut',
+            data: {
+              labels: ['PC', '모바일', '태블릿'],
+              datasets: [{
+                data: [result.deviceRatio.pc, result.deviceRatio.mobile, result.deviceRatio.tablet],
+                backgroundColor: [
+                  'hsl(203.94deg 90.61% 35%)',
+                  '#ffc107',
+                  '#17a2b8'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    boxWidth: 10,
+                    font: { family: 'Pretendard, sans-serif', size: 11 }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      const value = context.raw || 0;
+                      const percentage = totalDeviceCount > 0 ? ((value / totalDeviceCount) * 100).toFixed(1) : 0;
+                      return ` ${context.label}: ${value}회 (${percentage}%)`;
+                    }
+                  }
+                }
+              },
+              cutout: '60%'
+            }
+          });
+
+          // 4. 주요 유입 경로 차트 (Doughnut Chart)
+          const inflowCtx = document.getElementById('inflowChart').getContext('2d');
+          if (inflowChartInstance) inflowChartInstance.destroy();
+
+          const inflowLabelsMap = {
+            naver: '네이버',
+            google: '구글',
+            daum: '다음',
+            ad: '광고',
+            sns: 'SNS',
+            direct: '직접유입',
+            etc: '기타외부유입'
+          };
+
+          const inflowKeys = Object.keys(result.inflowRatio);
+          const inflowValues = Object.values(result.inflowRatio);
+          const totalInflowCount = inflowValues.reduce((a, b) => a + b, 0);
+
+          const inflowLabels = inflowKeys.map(key => inflowLabelsMap[key] || key);
+          const inflowColors = inflowKeys.map(key => {
+            const colors = {
+              naver: '#2db400',
+              google: '#4285f4',
+              daum: '#ffeb00',
+              ad: '#dc3545',
+              sns: '#e1306c',
+              direct: '#fd7e14',
+              etc: '#6c757d'
+            };
+            return colors[key] || '#adb5bd';
+          });
+
+          inflowChartInstance = new Chart(inflowCtx, {
+            type: 'doughnut',
+            data: {
+              labels: inflowLabels.length > 0 ? inflowLabels : ['데이터 없음'],
+              datasets: [{
+                data: inflowValues.length > 0 ? inflowValues : [1],
+                backgroundColor: inflowValues.length > 0 ? inflowColors : ['#eeeeee'],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'right',
+                  labels: {
+                    boxWidth: 10,
+                    font: { family: 'Pretendard, sans-serif', size: 11 }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      if (inflowValues.length === 0) return ' 데이터 없음';
+                      const value = context.raw || 0;
+                      const percentage = totalInflowCount > 0 ? ((value / totalInflowCount) * 100).toFixed(1) : 0;
+                      return ` ${context.label}: ${value}회 (${percentage}%)`;
+                    }
+                  }
+                }
+              },
+              cutout: '60%'
+            }
+          });
+        }
+      } catch (error) {
+        console.error('대시보드 통계 로딩 실패:', error);
+      }
+    }
+
+    // XSS 방지용 HTML 이스케이프
+    function escapeHtml(text) {
+      if (!text) return '';
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return String(text).replace(/[&<>"']/g, m => map[m]);
+    }
+  </script>
 </body>
 </html>

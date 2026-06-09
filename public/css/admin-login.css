@@ -56,7 +56,7 @@
   border-radius: 24px;
   padding: 3rem 2.5rem;
   width: 100%;
-  max-width: 450px;
+  max-width: 520px; /* 로그인 카드 최대 가로폭 확장 */
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   animation: slideInUp 0.8s ease-out;
 }
@@ -213,12 +213,12 @@
 /* 로그인 버튼 */
 .btn-login {
   width: 100%;
-  padding: 1rem;
+  padding: 1.1rem; /* 버튼 패딩을 늘려 볼륨감 확대 */
   background: linear-gradient(135deg, var(--accent-blue), #667eea);
   border: none;
   border-radius: 12px;
   color: var(--text-white);
-  font-size: 1.1rem;
+  font-size: 1.15rem; /* 폰트 크기 소폭 확장 */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;

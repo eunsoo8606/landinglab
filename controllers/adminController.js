@@ -163,3 +163,126 @@ exports.showDashboard = async (req, res) => {
 
 // 기존 함수와의 호환성 유지
 exports.getLogin = exports.showLoginPage;
+
+/**
+ * 대시보드 통계 데이터 제공 API
+ * 서비스 활성 상태 파악을 위해 일일/주간/월간 방문자 및 문의 수, 7일 트래픽 추이, 기기 비율, 유입경로 비율을 집계합니다.
+ */
+exports.getDashboardStats = async (req, res) => {
+  try {
+    const { pool } = require('../config/database');
+
+    // 1. 일일/주간/월간 요약 정보 집계 (방문자 수 및 문의 접수량)
+    // 오늘 방문자 및 문의 (CURDATE() 이후)
+    const [todayVisits] = await pool.execute("SELECT COUNT(*) as count FROM visit_logs WHERE created_at >= CURDATE()");
+    const [todayContacts] = await pool.execute("SELECT COUNT(*) as count FROM contacts WHERE created_at >= CURDATE()");
+
+    // 최근 7일(오늘 포함) 방문자 및 문의
+    const [weeklyVisits] = await pool.execute("SELECT COUNT(*) as count FROM visit_logs WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+    const [weeklyContacts] = await pool.execute("SELECT COUNT(*) as count FROM contacts WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+
+    // 최근 30일(오늘 포함) 방문자 및 문의
+    const [monthlyVisits] = await pool.execute("SELECT COUNT(*) as count FROM visit_logs WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 29 DAY)");
+    const [monthlyContacts] = await pool.execute("SELECT COUNT(*) as count FROM contacts WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 29 DAY)");
+
+    // 2. 최근 7일간의 일자별 트래픽 및 문의 트렌드 데이터 구축
+    const dates = [];
+    const visitTrendMap = {};
+    const contactTrendMap = {};
+
+    // 날짜 매핑 맵 초기화 (데이터가 없는 일자의 경우 0으로 출력되도록 보장)
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      // 현지 시간 기준으로 날짜 오프셋을 계산합니다.
+      d.setDate(d.getDate() - i);
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const formattedDate = `${month}-${day}`;
+      dates.push(formattedDate);
+      visitTrendMap[formattedDate] = 0;
+      contactTrendMap[formattedDate] = 0;
+    }
+
+    // 최근 7일 방문자 일별 집계 쿼리 실행
+    const [visitTrends] = await pool.execute(`
+      SELECT DATE_FORMAT(created_at, '%m-%d') as date, COUNT(*) as count 
+      FROM visit_logs 
+      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) 
+      GROUP BY DATE_FORMAT(created_at, '%m-%d')
+    `);
+    visitTrends.forEach(item => {
+      if (visitTrendMap[item.date] !== undefined) {
+        visitTrendMap[item.date] = item.count;
+      }
+    });
+
+    // 최근 7일 문의 일별 집계 쿼리 실행
+    const [contactTrends] = await pool.execute(`
+      SELECT DATE_FORMAT(created_at, '%m-%d') as date, COUNT(*) as count 
+      FROM contacts 
+      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) 
+      GROUP BY DATE_FORMAT(created_at, '%m-%d')
+    `);
+    contactTrends.forEach(item => {
+      if (contactTrendMap[item.date] !== undefined) {
+        contactTrendMap[item.date] = item.count;
+      }
+    });
+
+    // 라벨 순서에 맞춰 배열 데이터로 추출
+    const visitTrendData = dates.map(date => visitTrendMap[date]);
+    const contactTrendData = dates.map(date => contactTrendMap[date]);
+
+    // 3. 기기 접근 비중 집계 (PC vs Mobile vs Tablet)
+    // 디바이스 타입별로 그룹화하여 렌더링에 적절한 데이터를 추출합니다.
+    const [deviceStats] = await pool.execute(`
+      SELECT device_type, COUNT(*) as count 
+      FROM visit_logs 
+      GROUP BY device_type
+    `);
+    const deviceData = { pc: 0, mobile: 0, tablet: 0 };
+    deviceStats.forEach(item => {
+      if (deviceData[item.device_type] !== undefined) {
+        deviceData[item.device_type] = item.count;
+      }
+    });
+
+    // 4. 유입 경로 비중 집계 (naver, google, daum, ad, sns, direct, etc)
+    // 주요 유입 소스별 분석용 통계를 조회합니다.
+    const [inflowStats] = await pool.execute(`
+      SELECT inflow_path, COUNT(*) as count 
+      FROM visit_logs 
+      GROUP BY inflow_path
+      ORDER BY count DESC
+    `);
+    const inflowData = {};
+    inflowStats.forEach(item => {
+      inflowData[item.inflow_path] = item.count;
+    });
+
+    // 성공 응답으로 취합된 통계 JSON 반환
+    return res.json({
+      success: true,
+      summary: {
+        today: { visits: todayVisits[0].count, contacts: todayContacts[0].count },
+        weekly: { visits: weeklyVisits[0].count, contacts: weeklyContacts[0].count },
+        monthly: { visits: monthlyVisits[0].count, contacts: monthlyContacts[0].count }
+      },
+      trends: {
+        labels: dates,
+        visits: visitTrendData,
+        contacts: contactTrendData
+      },
+      deviceRatio: deviceData,
+      inflowRatio: inflowData
+    });
+
+  } catch (error) {
+    // 예외 발생 시 에러 로깅 후 500 응답 반환
+    console.error('대시보드 통계 API 조회 오류:', error);
+    return res.status(500).json({
+      success: false,
+      message: '통계 데이터를 집계하는 중 서버 오류가 발생했습니다.'
+    });
+  }
+};

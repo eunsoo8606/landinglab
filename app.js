@@ -30,6 +30,10 @@ app.use(session({
   }
 }));
 
+// 방문자 분석 로그 수집 미들웨어 전역 적용 (일반 유저의 웹 접근 트래픽 및 유입경로 로깅)
+const visitorTracker = require('./middleware/visitorTracker');
+app.use(visitorTracker);
+
 // 라우트 설정
 const indexRouter = require('./routes/index');
 app.use('/', indexRouter);

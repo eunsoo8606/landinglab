@@ -55,8 +55,24 @@ function redirectIfAuthenticated(req, res, next) {
   return next();
 }
 
+/**
+ * API 요청 로그인 여부 확인 미들웨어 (AJAX 통신용)
+ * 세션에 관리자 정보가 있는지 확인하고, 없는 경우 401 Unauthorized 반환
+ */
+function requireApiAuth(req, res, next) {
+  if (req.session && req.session.admin) {
+    return next();
+  }
+  
+  return res.status(401).json({
+    success: false,
+    message: '인증이 필요합니다. 관리자 로그인 후 다시 시도해 주세요.'
+  });
+}
+
 module.exports = {
   requireAuth,
   requireAdmin,
-  redirectIfAuthenticated
+  redirectIfAuthenticated,
+  requireApiAuth
 };
