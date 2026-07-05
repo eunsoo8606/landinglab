@@ -31,9 +31,11 @@
                       <div class="desktop-view-simple">
                         <img src="<%= portfolio.image %>" alt="<%= portfolio.title %> Desktop" loading="lazy">
                       </div>
+                      <% if (portfolio.mobileImage && portfolio.mobileImage !== portfolio.image) { %>
                       <div class="mobile-view-simple">
                         <img src="<%= portfolio.mobileImage %>" alt="<%= portfolio.title %> Mobile" loading="lazy">
                       </div>
+                      <% } %>
                       <div class="card-overlay">
                         <div class="overlay-content">
                           <span class="category-badge">

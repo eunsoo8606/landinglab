@@ -93,23 +93,53 @@ exports.getPortfolio = (req, res) => {
   const portfolios = [
     {
       id: 1,
-      title: '동진담 (DongJinDam)',
-      category: '웰니스/뷰티',
-      description: '동양의 진귀함과 현대 과학이 만나는 머스크 기반 프리미엄 웰니스 브랜드. 브랜드 포지셔닝, 인테리어 공간, 웰니스 철학을 담은 하이엔드 랜딩페이지.',
-      tech: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
-      image: '/images/portfolio/portfolio-1.jpg',
-      mobileImage: '/images/dg-m.PNG',
-      url: 'https://cmong-portfolio1.netlify.app/'
+      title: '텍사스파파',
+      category: '크레페',
+      description: '캐주얼한 텍사스 스타일 미국식 크레페 전문점 텍사스 파파 랜딩페이지.',
+      tech: ['Node.js', 'EJS', 'CSS3'],
+      image: '/images/portfolio/portfolio1.png',
+      mobileImage: '/images/portfolio/portfolio1.png',
+      url: 'https://texaspapa.co.kr/'
     },
     {
       id: 2,
-      title: '텍사스파파 (Texas Papa)',
-      category: '브랜드 홈페이지',
-      description: '프리미엄 수제 크레페 전문 브랜드의 공식 홈페이지. 브랜드 아이덴티티 정립부터 메뉴 소개, 매장 안내, 프랜차이즈 창업 정보까지 아우르는 고도화된 브랜드 플랫폼입니다.',
-      tech: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
-      image: '/images/texaspapa.webp',
-      mobileImage: '/images/texaspapa_m.webp',
-      url: 'https://texaspapa.co.kr/'
+      title: '카온',
+      category: '신차리스',
+      description: '신차리스 전문기업 카온의 랜딩페이지. 다양한 차종과 맞춤 견적 서비스를 제공합니다.',
+      tech: ['Express', 'Bootstrap', 'JavaScript'],
+      image: '/images/portfolio/portfolio2.png',
+      mobileImage: '/images/portfolio/portfolio2.png',
+      url: 'https://caron.it.kr/'
+    },
+    {
+      id: 3,
+      title: '무드카',
+      category: '중고차 수출',
+      description: '중고차 수출 전문기업 무드카의 랜딩페이지. 차량 정보와 상담 신청 기능을 제공합니다.',
+      tech: ['React', 'Node.js', 'MongoDB'],
+      image: '/images/portfolio/portfolio3.png',
+      mobileImage: '/images/portfolio/portfolio3.png',
+      url: 'https://moodcar.co.kr/'
+    },
+    {
+      id: 4,
+      title: '이모카',
+      category: '중고차 수출',
+      description: '중고차 수출 전문기업 이모카의 랜딩페이지. 차량 정보와 상담 신청 기능을 제공합니다.',
+      tech: ['Vue.js', 'Tailwind CSS', 'Firebase'],
+      image: '/images/portfolio/portfolio4.png',
+      mobileImage: '/images/portfolio/portfolio4.png',
+      url: 'https://emocar.co.kr/'
+    },
+    {
+      id: 5,
+      title: '물고기자리',
+      category: '횟집',
+      description: '필렛시스템을 도입한 횟집 물고기자리 랜딩페이지. 신선한 활어와 특별한 서비스로 최고의 경험을 선사합니다.',
+      tech: ['Next.js', 'TypeScript', 'Prisma'],
+      image: '/images/portfolio/portfolio5.png',
+      mobileImage: '/images/portfolio/portfolio5.png',
+      url: 'https://pisces-kr-landinglab.vercel.app/'
     }
   ];
 

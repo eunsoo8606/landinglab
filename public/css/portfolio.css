@@ -120,9 +120,9 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 500px;
+  width: 420px;
   height: 320px;
-  margin-left: -250px;
+  margin-left: -210px;
   margin-top: -160px;
   transform-style: preserve-3d;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -163,8 +163,8 @@
 .desktop-view-simple img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top;
+  object-fit: contain;
+  object-position: center;
   transition: transform 0.5s ease;
 }
 
@@ -555,10 +555,10 @@
    ============================================ */
 @media (max-width: 1200px) {
   .portfolio-item {
-    width: 450px;
-    height: 315px;
-    margin-left: -225px;
-    margin-top: -157px;
+    width: 395px;
+    height: 300px;
+    margin-left: -198px;
+    margin-top: -150px;
   }
 }
 
@@ -572,10 +572,10 @@
   }
 
   .portfolio-item {
-    width: 400px;
-    height: 280px;
-    margin-left: -200px;
-    margin-top: -140px;
+    width: 355px;
+    height: 270px;
+    margin-left: -178px;
+    margin-top: -135px;
   }
 }
 
@@ -585,10 +585,10 @@
   }
 
   .portfolio-item {
-    width: 320px;
-    height: 224px;
-    margin-left: -160px;
-    margin-top: -112px;
+    width: 290px;
+    height: 220px;
+    margin-left: -145px;
+    margin-top: -110px;
   }
 
   /* 모바일 디바이스 뷰 축소 */
@@ -643,10 +643,10 @@
 
 @media (max-width: 480px) {
   .portfolio-item {
-    width: 260px;
-    height: 182px;
-    margin-left: -130px;
-    margin-top: -91px;
+    width: 240px;
+    height: 180px;
+    margin-left: -120px;
+    margin-top: -90px;
   }
 
   /* 극소형 모바일 디바이스 뷰 축소 */
